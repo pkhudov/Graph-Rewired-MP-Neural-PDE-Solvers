@@ -38,4 +38,4 @@ source activate graph-mp-pde
 # Maximum unrolling: 2
 # Neighbours: 6
 
-python experiments/train.py --device=cuda:0 --neighbors=6 --experiment=E1 --batch_size=16 --lr=1e-4 --unrolling=2 --epochs=25 --log=True
+python experiments/train.py --device=cuda:0 --neighbors=6 --experiment=E1 --batch_size=16 --lr=1e-4 --unrolling=2 --num_epochs=25 --log=True
