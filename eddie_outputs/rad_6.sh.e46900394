@@ -1,0 +1,13 @@
+WARNING: If you use conda to create environments, your home directory may fill up. Please see our documentation at 
+ https://www.wiki.ed.ac.uk/display/ResearchServices/Anaconda for advice.
+usage: train.py [-h] [--device DEVICE] [--experiment EXPERIMENT]
+                [--model MODEL] [--neighbors NEIGHBORS]
+                [--batch_size BATCH_SIZE] [--num_epochs NUM_EPOCHS] [--lr LR]
+                [--lr_decay LR_DECAY]
+                [--parameter_ablation PARAMETER_ABLATION]
+                [--base_resolution BASE_RESOLUTION]
+                [--super_resolution SUPER_RESOLUTION]
+                [--time_window TIME_WINDOW] [--unrolling UNROLLING]
+                [--nr_gt_steps NR_GT_STEPS] [--print_interval PRINT_INTERVAL]
+                [--log LOG]
+train.py: error: unrecognized arguments: --epochs=25
