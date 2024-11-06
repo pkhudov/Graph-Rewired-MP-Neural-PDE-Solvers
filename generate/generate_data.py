@@ -106,7 +106,7 @@ def params(pde: PDE,
     A = torch.rand(batch_size, 1, pde.N) - 0.5
     omega = 0.8 * (torch.rand(batch_size, 1, pde.N) - 0.5)
     phi = 2.0 * np.pi * torch.rand(batch_size, 1, pde.N)
-    l = torch.randint(pde.lmin, pde.lmax, (batch_size, 1, pde.N))
+    l = torch.randint(pde.lmin, pde.lmax + 1, (batch_size, 1, pde.N))
     return A.to(device), omega.to(device), phi.to(device), l.to(device)
 
 
@@ -596,21 +596,21 @@ def main(args):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Generating PDE data')
-    parser.add_argument('--experiment', type=str, default='',
+    parser.add_argument('--experiment', type=str, default='E1',
                         help='Experiment for which data should create for: [E1, E2, E3, WE1, WE2, WE3]')
     parser.add_argument('--device', type=str, default='cpu',
                         help='Used device')
-    parser.add_argument('--train_samples', type=int, default=2 ** 5,
+    parser.add_argument('--train_samples', type=int, default=2096,
                         help='Samples in the training dataset')
-    parser.add_argument('--valid_samples', type=int, default=2 ** 5,
+    parser.add_argument('--valid_samples', type=int, default=128,
                         help='Samples in the validation dataset')
-    parser.add_argument('--test_samples', type=int, default=2 ** 5,
+    parser.add_argument('--test_samples', type=int, default=128,
                         help='Samples in the test dataset')
-    parser.add_argument('--batch_size', type=int, default=4,
+    parser.add_argument('--batch_size', type=int, default=16,
                         help='Batch size used for creating training, val, and test dataset')
     parser.add_argument('--wave_speed', type=float, default=2.,
                         help='Wave speed, only meaningful if set for wave equation experiments (WE1, WE2, WE3)')
-    parser.add_argument('--log', type=eval, default=False,
+    parser.add_argument('--log', type=eval, default=True,
                         help='pip the output to log file')
 
     args = parser.parse_args()

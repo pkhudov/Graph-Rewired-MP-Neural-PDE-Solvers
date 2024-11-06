@@ -220,7 +220,7 @@ def main(args: argparse):
     print(f'Number of parameters: {params}')
 
     # Optimizer
-    optimizer = optim.AdamW(model.parameters(), lr=args.lr)
+    optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-8)
     scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[args.unrolling, 5, 10, 15], gamma=args.lr_decay)
 
     # Training loop
@@ -249,14 +249,18 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Train an PDE solver')
 
     # PDE
-    parser.add_argument('--device', type=str, default='cpu',
+    parser.add_argument('--device', type=str, default='cuda:0',
                         help='Used device')
-    parser.add_argument('--experiment', type=str, default='',
+    parser.add_argument('--experiment', type=str, default='E1',
                         help='Experiment for PDE solver should be trained: [E1, E2, E3, WE1, WE2, WE3]')
 
     # Model
     parser.add_argument('--model', type=str, default='GNN',
                         help='Model used as PDE solver: [GNN, BaseCNN]')
+    
+    # Graph construction
+    parser.add_argument('--neighbors', type=int,
+                        default=3, help="Neighbors to be considered in GNN solver")
 
     # Model parameters
     parser.add_argument('--batch_size', type=int, default=16,
@@ -275,19 +279,18 @@ if __name__ == "__main__":
             default=[250, 100], help="PDE base resolution on which network is applied")
     parser.add_argument('--super_resolution', type=lambda s: [int(item) for item in s.split(',')],
             default=[250, 200], help="PDE super resolution for calculating training and validation loss")
-    parser.add_argument('--neighbors', type=int,
-                        default=3, help="Neighbors to be considered in GNN solver")
+
     parser.add_argument('--time_window', type=int,
                         default=25, help="Time steps to be considered in GNN solver")
     parser.add_argument('--unrolling', type=int,
-                        default=1, help="Unrolling which proceeds with each epoch")
+                        default=2, help="Unrolling which proceeds with each epoch")
     parser.add_argument('--nr_gt_steps', type=int,
                         default=2, help="Number of steps done by numerical solver")
 
     # Misc
-    parser.add_argument('--print_interval', type=int, default=20,
+    parser.add_argument('--print_interval', type=int, default=25,
             help='Interval between print statements')
-    parser.add_argument('--log', type=eval, default=False,
+    parser.add_argument('--log', type=eval, default=True,
             help='pip the output to log file')
 
     args = parser.parse_args()

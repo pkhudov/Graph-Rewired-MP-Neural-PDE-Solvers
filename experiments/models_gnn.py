@@ -91,7 +91,7 @@ class MP_PDE_Solver(torch.nn.Module):
     def __init__(self,
                  pde: PDE,
                  time_window: int = 25,
-                 hidden_features: int = 128,
+                 hidden_features: int = 164,
                  hidden_layer: int = 6,
                  eq_variables: dict = {}
     ):
@@ -149,7 +149,7 @@ class MP_PDE_Solver(torch.nn.Module):
                                             nn.Conv1d(8, 1, 10, stride=1)
                                             )
         if (self.time_window == 25):
-            self.output_mlp = nn.Sequential(nn.Conv1d(1, 8, 16, stride=3),
+            self.output_mlp = nn.Sequential(nn.Conv1d(1, 8, 16, stride=4),
                                             Swish(),
                                             nn.Conv1d(8, 1, 14, stride=1)
                                             )
