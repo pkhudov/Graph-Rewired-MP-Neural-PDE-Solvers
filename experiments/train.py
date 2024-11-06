@@ -3,7 +3,7 @@ import os
 import copy
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import torch
 import random
 import numpy as np
@@ -227,9 +227,16 @@ def main(args: argparse):
     min_val_loss = 10e30
     test_loss = 10e30
     criterion = torch.nn.MSELoss(reduction="sum")
+    total_train_time = timedelta()
+    best_epoch = 0
+    time_upto_best_epoch = timedelta()
+    print(f"Training started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     for epoch in range(args.num_epochs):
         print(f"Epoch {epoch}")
+        train_start_time = datetime.now()
         train(args, pde, epoch, model, optimizer, train_loader, graph_creator, criterion, device=device)
+        train_end_time = datetime.now()
+        total_train_time += train_end_time - train_start_time
         print("Evaluation on validation dataset:")
         val_loss = test(args, pde, model, valid_loader, graph_creator, criterion, device=device)
         if(val_loss < min_val_loss):
@@ -238,11 +245,14 @@ def main(args: argparse):
             # Save model
             torch.save(model.state_dict(), save_path)
             print(f"Saved model at {save_path}\n")
+            print("Training time: ", total_train_time)
+            time_upto_best_epoch = total_train_time
+            best_epoch = epoch
             min_val_loss = val_loss
-
         scheduler.step()
 
     print(f"Test loss: {test_loss}")
+    print(f"Training time (until epoch {best_epoch}): ", {time_upto_best_epoch})
 
 
 if __name__ == "__main__":
