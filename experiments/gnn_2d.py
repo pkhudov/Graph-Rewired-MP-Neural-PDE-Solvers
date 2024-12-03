@@ -129,6 +129,8 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
                                         nn.Conv1d(8, 1, 14, stride=2)
 
                                         )
+    def __repr__(self):
+        return f'GNN'
 
     def forward(self, data):
 

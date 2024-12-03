@@ -81,8 +81,8 @@ def generate_smoke(mode, num_samples, batch_size):
 if __name__ == "__main__":
     print("\nGenerating Smoke Inflow Data...")
     batch_size = 16
-    modes = {("train", 16)}
-             #,("valid", 16), ("test", 16)}
+    modes = {("train", 16)
+            ,("valid", 16), ("test", 16)}
 
     for mode, num_samples in modes:
         t1 = time.time()

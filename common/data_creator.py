@@ -119,7 +119,7 @@ class GraphCreator_FS_2D(nn.Module):
         dy = y[1]-y[0]
 
         radius = self.n * torch.sqrt(dx**2 + dy**2) + 0.0001
-        grid_x, grid_y = torch.meshgrid(x, y)
+        grid_x, grid_y = torch.meshgrid(x, y, indexing='ij')
         grid = torch.stack((grid_x, grid_y), 2).float()
         grid = grid.view(-1, 2)
 
