@@ -11,8 +11,8 @@ math.set_global_precision(64)
 
 
 nt = 100
-nx = 32
-ny = 32
+nx = 64
+ny = 64
 inflow_rate = 0.3
 inflow_size = 1
 
@@ -80,9 +80,9 @@ def generate_smoke(mode, num_samples, batch_size):
 
 if __name__ == "__main__":
     print("\nGenerating Smoke Inflow Data...")
-    batch_size = 16
-    modes = {("train", 16)
-            ,("valid", 16), ("test", 16)}
+    batch_size = 32
+    modes = {("train", 1024)
+            ,("valid", 128), ("test", 128)}
 
     for mode, num_samples in modes:
         t1 = time.time()

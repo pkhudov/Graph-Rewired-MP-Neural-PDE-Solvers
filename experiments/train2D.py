@@ -248,7 +248,7 @@ if __name__ == "__main__":
                         default=0.4, help='multistep lr decay')
     parser.add_argument('--parameter_ablation', type=eval, default=False,
                         help='Flag for ablating MP-PDE solver without equation specific parameters')
-    parser.add_argument('--resolution', type=int, default=32, help='Resolution of the spatial grid')
+    parser.add_argument('--resolution', type=int, default=64, help='Resolution of the spatial grid')
 
     parser.add_argument('--time_window', type=int,
                         default=5, help="Time steps to be considered in GNN solver")
