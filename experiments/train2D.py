@@ -173,7 +173,9 @@ def main(args: argparse):
 
     graph_creator = GraphCreator_FS_2D(pde=pde,
                                  neighbors=args.neighbors,
-                                 time_window=args.time_window).to(device)
+                                 time_window=args.time_window,
+                                 x_resolution=args.resolution,
+                                 y_resolution=args.resolution).to(device)
 
     if args.model == 'GNN':
         model = NPDE_GNN_FS_2D(pde=pde,
