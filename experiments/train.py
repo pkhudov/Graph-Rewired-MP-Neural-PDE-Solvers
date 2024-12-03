@@ -244,8 +244,8 @@ def main(args: argparse):
             test_loss = test(args, pde, model, test_loader, graph_creator, criterion, device=device)
             # Save model
             torch.save(model.state_dict(), save_path)
-            print(f"Saved model at {save_path}\n")
-            print("Training time: ", total_train_time)
+            print(f"Saved model at {save_path}")
+            print("Training time: ", total_train_time, "\n")
             time_upto_best_epoch = total_train_time
             best_epoch = epoch
             min_val_loss = val_loss
