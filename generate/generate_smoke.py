@@ -19,9 +19,8 @@ inflow_size = 1
 print(f"JAX devices: {jax.devices()}")
 
 def random_inflow_loc(batch_size):
-    """Generate random inflow locations for a batch."""
-    x = tensor(np.random.uniform(1, 31, size=batch_size), batch('batch_size'))
-    y = tensor(np.random.uniform(1, 31, size=batch_size), batch('batch_size'))
+    x = tensor(np.random.uniform(0.01, nx-0.01, size=batch_size), batch('batch_size'))
+    y = tensor(np.random.uniform(0.01, ny-0.01, size=batch_size), batch('batch_size'))
     return Sphere(x=x, y=y, radius=inflow_size)
 
 @jit_compile
@@ -33,7 +32,6 @@ def step(v, s, p, dt, inflow):
     return v, s, p
 
 def step_with_inflow(inflow):
-    """Create a function with inflow captured in its scope."""
     def step_fn(v, s, p, dt):
         return step(v, s, p, dt, inflow)
     return step_fn
@@ -42,14 +40,14 @@ def generate_smoke(mode, num_samples, batch_size):
 
     print(f'\nMode: {mode}; Number of samples: {num_samples}')
 
-    domain = Box(x=32, y=32)
+    domain = Box(x=nx, y=ny)
 
     batched_s_trj = []
     for b in range(0, num_samples, batch_size):
         print(f'Batch {int(b/batch_size) + 1}/{int(num_samples/batch_size)}:')
         inflow = random_inflow_loc(batch_size)
-        v0 = StaggeredGrid(0.0, 0.0, domain, x=32, y=32)
-        smoke0 = CenteredGrid(0.0, ZERO_GRADIENT, domain, x=32, y=32)
+        v0 = StaggeredGrid(0.0, 0.0, domain, x=nx, y=ny)
+        smoke0 = CenteredGrid(0.0, ZERO_GRADIENT, domain, x=nx, y=ny)
         step_fn = step_with_inflow(inflow)
         v_trj, s_trj, p_trj = iterate(
             step_fn,
