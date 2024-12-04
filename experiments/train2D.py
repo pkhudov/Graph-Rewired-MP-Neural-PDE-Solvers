@@ -132,19 +132,19 @@ def main(args: argparse):
     valid_string = f'data/fs_2d_pde_valid_dataset.h5'
     test_string = f'data/fs_2d_pde_test_dataset.h5'
     try:
-        train_dataset = HDF5Dataset_FS_2D(train_string, mode='train')
+        train_dataset = HDF5Dataset_FS_2D(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
         train_loader = DataLoader(train_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=True,
                                   num_workers=0)
 
-        valid_dataset = HDF5Dataset_FS_2D(valid_string, mode='valid')
+        valid_dataset = HDF5Dataset_FS_2D(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid')
         valid_loader = DataLoader(valid_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=False,
                                   num_workers=0)
 
-        test_dataset = HDF5Dataset_FS_2D(test_string, mode='test')
+        test_dataset = HDF5Dataset_FS_2D(test_string, resolution=(100, args.resolution, args.resolution), mode='test')
         test_loader = DataLoader(test_dataset,
                                  batch_size=args.batch_size,
                                  shuffle=False,
