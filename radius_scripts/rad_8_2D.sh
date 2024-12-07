@@ -16,7 +16,7 @@
 # Request 32 GB system RAM
 # the total system RAM available to the job is the value specified here multiplied by 
 # the number of requested GPUs (above)
-#$ -l h_vmem=64G
+#$ -l h_vmem=32G
 # Initialise the environment modules and load CUDA version 11.0.2
 . /etc/profile.d/modules.sh
 module load cuda/12.1
@@ -38,4 +38,4 @@ source activate graph-mp-pde
 # Maximum unrolling: 2
 # Neighbours: 6
 
-python experiments/train2D.py --device=cuda:0 --neighbors=8 --resolution=64 --batch_size=4 --lr=1e-4 --unrolling=2 --num_epochs=25 --log=True
+python experiments/train2D.py --device=cuda:0 --neighbors=8 --resolution=32 --batch_size=4 --lr=1e-4 --unrolling=2 --num_epochs=25 --log=True

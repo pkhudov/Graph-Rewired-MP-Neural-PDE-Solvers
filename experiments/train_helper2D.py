@@ -133,10 +133,8 @@ def test_unrolled_losses(model: torch.nn.Module,
         torch.Tensor: valid/test losses
     """
     losses = []
-    losses_base = []
     for u in loader:
         losses_tmp = []
-        # losses_base_tmp = []
         with torch.no_grad():
             same_steps = [graph_creator.tw * nr_gt_steps] * batch_size
             data, labels = graph_creator.create_data(u, same_steps)
@@ -159,7 +157,6 @@ def test_unrolled_losses(model: torch.nn.Module,
         losses.append(torch.sum(torch.stack(losses_tmp)))
 
     losses = torch.stack(losses)
-    losses_base = torch.stack(losses_base)
     print(f'Unrolled forward losses {torch.mean(losses)}')
 
     return losses
