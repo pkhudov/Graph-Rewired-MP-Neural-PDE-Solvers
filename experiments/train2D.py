@@ -131,8 +131,8 @@ def main(args: argparse):
     valid_string = f'data/fs_2d_pde_{args.resolution}_valid_dataset.h5'
     test_string = f'data/fs_2d_pde_{args.resolution}_test_dataset.h5'
     try:
-        # train_dataset = HDF5Dataset_FS_2D(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
-        train_dataset = HDF5Dataset_FS_2D_Normalised(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
+        train_dataset = HDF5Dataset_FS_2D(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
+        # train_dataset = HDF5Dataset_FS_2D_Normalised(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
         train_loader = DataLoader(train_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=True,
@@ -140,15 +140,15 @@ def main(args: argparse):
         train_mean = train_dataset.mean
         train_std = train_dataset.std
 
-        # valid_dataset = HDF5Dataset_FS_2D(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid')
-        valid_dataset = HDF5Dataset_FS_2D_Normalised(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid', mean=train_mean, std=train_std)
+        valid_dataset = HDF5Dataset_FS_2D(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid')
+        # valid_dataset = HDF5Dataset_FS_2D_Normalised(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid', mean=train_mean, std=train_std)
         valid_loader = DataLoader(valid_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=False,
                                   num_workers=1)
 
-        # test_dataset = HDF5Dataset_FS_2D(test_string, resolution=(100, args.resolution, args.resolution), mode='test')
-        test_dataset = HDF5Dataset_FS_2D_Normalised(test_string, resolution=(100, args.resolution, args.resolution), mode='test', mean=train_mean, std=train_std)
+        test_dataset = HDF5Dataset_FS_2D(test_string, resolution=(100, args.resolution, args.resolution), mode='test')
+        # test_dataset = HDF5Dataset_FS_2D_Normalised(test_string, resolution=(100, args.resolution, args.resolution), mode='test', mean=train_mean, std=train_std)
         test_loader = DataLoader(test_dataset,
                                  batch_size=args.batch_size,
                                  shuffle=False,
