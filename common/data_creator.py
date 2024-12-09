@@ -10,6 +10,69 @@ from torch_geometric.data import Data
 from torch_cluster import radius_graph
 # from einops import rearrange
 
+class HDF5Dataset_FS_2D_Normalised(Dataset):
+    """Load samples of an FS 2D PDE Dataset"""
+
+    def __init__(self, path: str, mode: str, dtype=torch.float64, resolution: list=None, load_all: bool=False, mean=None, std=None):
+
+        """Initialize the dataset object
+        Args:
+            path: path to dataset
+            dtype: floating precision of data
+            load_all: load all the data into memory
+        """
+
+        super().__init__()
+        f = h5py.File(path, 'r')
+        self.mode = mode
+        self.dtype = dtype
+        self.data = f[self.mode]
+        self.resolution = (100, 32, 32) if resolution is None else resolution
+        self.dataset = f'pde_{self.resolution[0]}-{self.resolution[1]}-{self.resolution[2]}'
+
+        self.nt = self.data[self.dataset].attrs['nt']
+        self.dx = self.data[self.dataset].attrs['dx']
+        self.dt = self.data[self.dataset].attrs['dt']
+        self.tmin = self.data[self.dataset].attrs['tmin']
+        self.tmax = self.data[self.dataset].attrs['tmax']
+
+        if load_all:
+            data = {self.dataset: self.data[self.dataset][:]}
+            f.close()
+            self.data = data
+        
+        # mean and std
+        if mean is None or std is None:
+            if mode == 'train':
+                self.mean, self.std = self.compute_mean_std()
+        else:
+            self.mean = mean
+            self.std = std
+
+    def compute_mean_std(self):
+        sum_ = 0.0
+        sum_sq = 0.0
+        count = 0
+        for i in range(len(self)):
+            u = self.data[self.dataset][i]
+            sum_ += np.sum(u)
+            sum_sq += np.sum(u ** 2)
+            count += u.size
+
+        mean = sum_ / count
+        std = np.sqrt((sum_sq / count) - (mean ** 2))
+        return mean, std
+
+    def __len__(self):
+        return self.data[self.dataset].shape[0]
+
+    def __getitem__(self, idx):
+        u = self.data[self.dataset][idx]
+        u_normalised = (u - self.mean) / (self.std + 1e-8)
+        return u_normalised
+    
+
+
 class HDF5Dataset_FS_2D(Dataset):
     """Load samples of an FS 2D PDE Dataset"""
 

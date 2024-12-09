@@ -12,7 +12,7 @@ from types import SimpleNamespace
 from torch import nn, optim
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
-from common.data_creator import HDF5Dataset_FS_2D, GraphCreator_FS_2D
+from common.data_creator import HDF5Dataset_FS_2D, GraphCreator_FS_2D, HDF5Dataset_FS_2D_Normalised
 from experiments.gnn_2d import NPDE_GNN_FS_2D
 from experiments.models_cnn import BaseCNN
 from experiments.train_helper2D import *
@@ -126,25 +126,29 @@ def main(args: argparse):
     # base_resolution = args.base_resolution
     # super_resolution = args.super_resolution
 
-
     # Load datasets
     train_string = f'data/fs_2d_pde_{args.resolution}_train_dataset.h5'
     valid_string = f'data/fs_2d_pde_{args.resolution}_valid_dataset.h5'
     test_string = f'data/fs_2d_pde_{args.resolution}_test_dataset.h5'
     try:
-        train_dataset = HDF5Dataset_FS_2D(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
+        # train_dataset = HDF5Dataset_FS_2D(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
+        train_dataset = HDF5Dataset_FS_2D_Normalised(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
         train_loader = DataLoader(train_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=True,
                                   num_workers=1)
+        train_mean = train_dataset.mean
+        train_std = train_dataset.std
 
-        valid_dataset = HDF5Dataset_FS_2D(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid')
+        # valid_dataset = HDF5Dataset_FS_2D(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid')
+        valid_dataset = HDF5Dataset_FS_2D_Normalised(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid', mean=train_mean, std=train_std)
         valid_loader = DataLoader(valid_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=False,
                                   num_workers=1)
 
-        test_dataset = HDF5Dataset_FS_2D(test_string, resolution=(100, args.resolution, args.resolution), mode='test')
+        # test_dataset = HDF5Dataset_FS_2D(test_string, resolution=(100, args.resolution, args.resolution), mode='test')
+        test_dataset = HDF5Dataset_FS_2D_Normalised(test_string, resolution=(100, args.resolution, args.resolution), mode='test', mean=train_mean, std=train_std)
         test_loader = DataLoader(test_dataset,
                                  batch_size=args.batch_size,
                                  shuffle=False,
@@ -250,7 +254,7 @@ if __name__ == "__main__":
                         default=0.4, help='multistep lr decay')
     parser.add_argument('--parameter_ablation', type=eval, default=False,
                         help='Flag for ablating MP-PDE solver without equation specific parameters')
-    parser.add_argument('--resolution', type=int, default=64, help='Resolution of the spatial grid')
+    parser.add_argument('--resolution', type=int, default=32, help='Resolution of the spatial grid')
 
     parser.add_argument('--time_window', type=int,
                         default=5, help="Time steps to be considered in GNN solver")
