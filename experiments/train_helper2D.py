@@ -76,7 +76,7 @@ def training_loop(model: torch.nn.Module,
         optimizer.step()
 
     losses = torch.stack(losses)
-    batch_grads_mean = torch.mean(batch_grads)
+    batch_grads_mean = torch.tensor(batch_grads).mean()
     return losses, batch_grads_mean
 
 def test_timestep_losses(model: torch.nn.Module,

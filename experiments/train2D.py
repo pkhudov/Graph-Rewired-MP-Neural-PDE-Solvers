@@ -137,8 +137,8 @@ def main(args: argparse):
                                   batch_size=args.batch_size,
                                   shuffle=True,
                                   num_workers=1)
-        train_mean = train_dataset.mean
-        train_std = train_dataset.std
+        #train_mean = train_dataset.mean
+        #train_std = train_dataset.std
 
         valid_dataset = HDF5Dataset_FS_2D(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid')
         # valid_dataset = HDF5Dataset_FS_2D_Normalised(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid', mean=train_mean, std=train_std)
