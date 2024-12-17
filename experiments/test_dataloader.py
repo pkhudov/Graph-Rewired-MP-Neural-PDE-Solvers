@@ -13,6 +13,66 @@ from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
+class HDF5Dataset_FS_2D_Normalised(Dataset):
+    """Load samples of an FS 2D PDE Dataset"""
+
+    def __init__(self, path: str, mode: str, dtype=torch.float64, resolution: list=None, load_all: bool=False, mean=None, std=None):
+
+        """Initialize the dataset object
+        Args:
+            path: path to dataset
+            dtype: floating precision of data
+            load_all: load all the data into memory
+        """
+
+        super().__init__()
+        f = h5py.File(path, 'r')
+        self.mode = mode
+        self.dtype = dtype
+        self.data = f[self.mode]
+        self.resolution = (100, 64, 64) if resolution is None else resolution
+        self.dataset = f'pde_{self.resolution[0]}-{self.resolution[1]}-{self.resolution[2]}'
+
+        self.nt = self.data[self.dataset].attrs['nt']
+        self.dx = self.data[self.dataset].attrs['dx']
+        self.dt = self.data[self.dataset].attrs['dt']
+        self.tmin = self.data[self.dataset].attrs['tmin']
+        self.tmax = self.data[self.dataset].attrs['tmax']
+
+        if load_all:
+            data = {self.dataset: self.data[self.dataset][:]}
+            f.close()
+            self.data = data
+        
+        # mean and std
+        if mean is None or std is None:
+            if mode == 'train':
+                self.mean, self.std = self.compute_mean_std()
+        else:
+            self.mean = mean
+            self.std = std
+
+    def compute_mean_std(self):
+        sum_ = 0.0
+        sum_sq = 0.0
+        count = 0
+        for i in range(len(self)):
+            u = self.data[self.dataset][i]
+            sum_ += np.sum(u)
+            sum_sq += np.sum(u ** 2)
+            count += u.size
+
+        mean = sum_ / count
+        std = np.sqrt((sum_sq / count) - (mean ** 2))
+        return mean, std
+
+    def __len__(self):
+        return self.data[self.dataset].shape[0]
+
+    def __getitem__(self, idx):
+        u = self.data[self.dataset][idx]
+        u_normalised = (u - self.mean) / (self.std + 1e-8)
+        return u_normalised
 
 class HDF5Dataset_FS_2D(Dataset):
     """Load samples of an FS 2D PDE Dataset"""
@@ -31,7 +91,7 @@ class HDF5Dataset_FS_2D(Dataset):
         self.mode = mode
         self.dtype = dtype
         self.data = f[self.mode]
-        self.resolution = (100, 32, 32) if resolution is None else resolution
+        self.resolution = (100, 64, 64) if resolution is None else resolution
         self.dataset = f'pde_{self.resolution[0]}-{self.resolution[1]}-{self.resolution[2]}'
 
         self.nt = self.data[self.dataset].attrs['nt']
@@ -53,15 +113,18 @@ class HDF5Dataset_FS_2D(Dataset):
         return u
 
 
-train_string = "data/fs_2d_pde_train_dataset.h5"
-train_dataset = HDF5Dataset_FS_2D(train_string, mode='train')
+train_string = "data/fs_2d_pde_64_test_dataset.h5"
+# train_string = 'data/test_boyancy_fs_2d_pde_64_train_dataset.h5'
+# train_dataset = HDF5Dataset_FS_2D_Normalised(train_string, mode='train')
+train_dataset = HDF5Dataset_FS_2D(train_string, mode='test')
 
 train_loader = DataLoader(train_dataset,
-                            batch_size=8,
+                            batch_size=64,
                             shuffle=False,
                             num_workers=0)
 
 
+n = 0
 for i, batch in enumerate(train_loader):
     print(f"Batch {i}:")
     print(f"Shape: {batch.shape}")
@@ -69,12 +132,14 @@ for i, batch in enumerate(train_loader):
     # print(batch[0])
 
     # sample = batch[1].numpy()
-    break
+    if n == 1:
+        break
+    n+=1
 
-
-fig, axes = plt.subplots(2, 4, figsize=(12, 6))
+fig, axes = plt.subplots(4, 4, figsize=(12, 9))
 axes = axes.flatten()
 
+print('Largest Value: ', batch.max().item())
 caxs = []
 for i, ax in enumerate(axes):
     cax = ax.imshow(batch[i][0].numpy(), origin='lower', cmap='viridis', animated=True, vmin=0, vmax=batch.max())
@@ -95,7 +160,7 @@ def update(frame):
 anim = FuncAnimation(fig, update, frames=batch.shape[1], interval=100, blit=True)
 
 # Save the animation
-anim.save("smoke_simulation_8_samples.mp4", fps=10)
+anim.save("smoke_simulation_16_samples_64_test.mp4", fps=10)
 
 plt.show()
 

@@ -13,20 +13,25 @@ math.set_global_precision(64)
 nt = 100
 nx = 64
 ny = 64
-inflow_rate = 0.3
-inflow_size = 1
-
+inflow_rate = 0.3 #0.2
+inflow_size = 2.05
+buoyancy_force = 0.5
+# nx = 32
+# ny = 32
+# inflow_rate = 0.3 #0.2
+# inflow_size = 1.05
+# buoyancy_force = 0.5
 print(f"JAX devices: {jax.devices()}")
 
 def random_inflow_loc(batch_size):
-    x = tensor(np.random.uniform(0.01, nx-0.01, size=batch_size), batch('batch_size'))
-    y = tensor(np.random.uniform(0.01, ny-0.01, size=batch_size), batch('batch_size'))
+    x = tensor(np.random.uniform(inflow_size+1, nx-inflow_size-1, size=batch_size), batch('batch_size'))
+    y = tensor(np.random.uniform(inflow_size+1, ny-inflow_size-1, size=batch_size), batch('batch_size'))
     return Sphere(x=x, y=y, radius=inflow_size)
 
 @jit_compile
 def step(v, s, p, dt, inflow):
     s = advect.mac_cormack(s, v, dt) + inflow_rate * resample(inflow, to=s, soft=True)
-    buoyancy = resample(s * (0, 0.1), to=v)
+    buoyancy = resample(s * (0, buoyancy_force), to=v)
     v = advect.semi_lagrangian(v, v, dt) + buoyancy * dt
     v, p = fluid.make_incompressible(v, (), Solve(x0=p))
     return v, s, p
@@ -46,6 +51,7 @@ def generate_smoke(mode, num_samples, batch_size):
     for b in range(0, num_samples, batch_size):
         print(f'Batch {int(b/batch_size) + 1}/{int(num_samples/batch_size)}:')
         inflow = random_inflow_loc(batch_size)
+        # print(inflow._center)
         v0 = StaggeredGrid(0.0, 0.0, domain, x=nx, y=ny)
         smoke0 = CenteredGrid(0.0, ZERO_GRADIENT, domain, x=nx, y=ny)
         step_fn = step_with_inflow(inflow)
@@ -61,7 +67,7 @@ def generate_smoke(mode, num_samples, batch_size):
     all_s_trj = np.concatenate(batched_s_trj, axis=0) 
     print('dtype: ', all_s_trj.dtype) #Should be float64
 
-    output_path = f"data/fs_2d_pde_{mode}_dataset.h5"
+    output_path = f"data/fs_2d_pde_{nx}_{mode}_dataset.h5"
     with h5py.File(output_path, 'w') as f:
         group = f.create_group(mode)
 
@@ -78,9 +84,9 @@ def generate_smoke(mode, num_samples, batch_size):
 
 if __name__ == "__main__":
     print("\nGenerating Smoke Inflow Data...")
-    batch_size = 32
-    modes = {("train", 1024)
-            ,("valid", 128), ("test", 128)}
+    batch_size = 128
+    modes = {("train", 2048)} #,("valid", 128), ("test", 128)}
+    # modes = {('train', 16)}
 
     for mode, num_samples in modes:
         t1 = time.time()
