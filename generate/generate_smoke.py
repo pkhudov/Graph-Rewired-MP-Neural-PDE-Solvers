@@ -1,5 +1,5 @@
 import jax
-jax.config.update("jax_platform_name", "cpu")
+# jax.config.update("jax_platform_name", "cpu")
 from phi.flow import math
 from phi.jax.flow import *
 from tqdm import trange
@@ -7,15 +7,24 @@ import numpy as np
 import h5py
 import jax.numpy as jnp
 import time
-math.set_global_precision(64) 
+# math.set_global_precision(32) 
 
+
+# nt = 100
+# nx = 128
+# ny = 128
+# inflow_rate = 0.3 #0.2
+# inflow_size = 8
+# buoyancy_force = 0.7
 
 nt = 100
-nx = 64
-ny = 64
+nx = 32
+ny = 32
 inflow_rate = 0.3 #0.2
-inflow_size = 2.05
-buoyancy_force = 0.5
+inflow_size = 2
+buoyancy_force = 0.7/4
+
+
 # nx = 32
 # ny = 32
 # inflow_rate = 0.3 #0.2
@@ -23,10 +32,22 @@ buoyancy_force = 0.5
 # buoyancy_force = 0.5
 print(f"JAX devices: {jax.devices()}")
 
-def random_inflow_loc(batch_size):
-    x = tensor(np.random.uniform(inflow_size+1, nx-inflow_size-1, size=batch_size), batch('batch_size'))
-    y = tensor(np.random.uniform(inflow_size+1, ny-inflow_size-1, size=batch_size), batch('batch_size'))
-    return Sphere(x=x, y=y, radius=inflow_size)
+
+def random_inflow_loc(batch_size, inflow_loc_set):
+    # batch_x = []
+    # batch_y = []
+    # while len(batch_x) < batch_size:
+    #     x = np.float32(np.random.randint(inflow_size+1, nx-inflow_size))
+    #     y = np.float32(np.random.randint(inflow_size+1, ny-inflow_size))
+    #     if (x, y) not in inflow_loc_set:
+    #         inflow_loc_set.add((x, y))
+    #         batch_x.append(x)
+    #         batch_y.append(y)
+    
+    # rand_x = tensor(batch_x, batch('batch_size'))
+    # rand_y = tensor(batch_y, batch('batch_size'))
+    # return Sphere(x=rand_x, y=rand_y, radius=inflow_size)
+    return Sphere(x=16, y=16, radius=inflow_size)
 
 @jit_compile
 def step(v, s, p, dt, inflow):
@@ -41,19 +62,20 @@ def step_with_inflow(inflow):
         return step(v, s, p, dt, inflow)
     return step_fn
 
-def generate_smoke(mode, num_samples, batch_size):
-
+def generate_smoke(mode, num_samples, batch_size, inflow_loc_set=None):
     print(f'\nMode: {mode}; Number of samples: {num_samples}')
 
     domain = Box(x=nx, y=ny)
+    if inflow_loc_set is None:
+        inflow_loc_set = set()
 
     batched_s_trj = []
     for b in range(0, num_samples, batch_size):
         print(f'Batch {int(b/batch_size) + 1}/{int(num_samples/batch_size)}:')
-        inflow = random_inflow_loc(batch_size)
+        inflow = random_inflow_loc(batch_size, inflow_loc_set)
         # print(inflow._center)
-        v0 = StaggeredGrid(0.0, 0.0, domain, x=nx, y=ny)
-        smoke0 = CenteredGrid(0.0, ZERO_GRADIENT, domain, x=nx, y=ny)
+        v0 = StaggeredGrid(np.float32(0.0), np.float32(0.0), domain, x=nx, y=ny)
+        smoke0 = CenteredGrid(np.float32(0.0), ZERO_GRADIENT, domain, x=nx, y=ny)
         step_fn = step_with_inflow(inflow)
         v_trj, s_trj, p_trj = iterate(
             step_fn,
@@ -81,20 +103,18 @@ def generate_smoke(mode, num_samples, batch_size):
         dset.attrs['tmin'] = 0.0 
         dset.attrs['tmax'] = 100.0
 
+def main():
+    inflow_loc_set = set()
+    batch_size = 1
+    # modes = {("train", 2048) ,("valid", 128), ("test", 128)}
+    modes = {("train", 1)}
 
-if __name__ == "__main__":
     print("\nGenerating Smoke Inflow Data...")
-    batch_size = 128
-    modes = {("train", 2048)} #,("valid", 128), ("test", 128)}
-    # modes = {('train', 16)}
-
     for mode, num_samples in modes:
         t1 = time.time()
-        generate_smoke(mode, num_samples, batch_size)
+        generate_smoke(mode, num_samples, batch_size, inflow_loc_set=inflow_loc_set)
         print(f'Took {time.time()-t1} seconds')
-
-    # t1 = time.time()
-    # generate_smoke('train', 2, 2)
-    # print(f'Took {time.time()-t1} seconds')
-
     print('\nData generation completed!')
+
+if __name__ == "__main__":
+    main()

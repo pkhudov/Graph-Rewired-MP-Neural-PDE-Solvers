@@ -91,7 +91,7 @@ class HDF5Dataset_FS_2D(Dataset):
         self.mode = mode
         self.dtype = dtype
         self.data = f[self.mode]
-        self.resolution = (100, 64, 64) if resolution is None else resolution
+        self.resolution = (100, 128, 128) if resolution is None else resolution
         self.dataset = f'pde_{self.resolution[0]}-{self.resolution[1]}-{self.resolution[2]}'
 
         self.nt = self.data[self.dataset].attrs['nt']
@@ -110,16 +110,19 @@ class HDF5Dataset_FS_2D(Dataset):
 
     def __getitem__(self, idx):
         u = self.data[self.dataset][idx]
+        # n_time, Y, X = u.shape
+        # u = u.reshape(n_time, Y//4, 4, X//4, 4)
+        # u = u.mean(axis=(2, 4))
         return u
 
 
-train_string = "data/fs_2d_pde_64_test_dataset.h5"
+train_string = "data/fs_2d_pde_128_train_dataset.h5"
 # train_string = 'data/test_boyancy_fs_2d_pde_64_train_dataset.h5'
 # train_dataset = HDF5Dataset_FS_2D_Normalised(train_string, mode='train')
-train_dataset = HDF5Dataset_FS_2D(train_string, mode='test')
+train_dataset = HDF5Dataset_FS_2D(train_string, mode='train')
 
 train_loader = DataLoader(train_dataset,
-                            batch_size=64,
+                            batch_size=4,
                             shuffle=False,
                             num_workers=0)
 
@@ -136,7 +139,7 @@ for i, batch in enumerate(train_loader):
         break
     n+=1
 
-fig, axes = plt.subplots(4, 4, figsize=(12, 9))
+fig, axes = plt.subplots(2, 2, figsize=(12, 9))
 axes = axes.flatten()
 
 print('Largest Value: ', batch.max().item())
@@ -160,7 +163,7 @@ def update(frame):
 anim = FuncAnimation(fig, update, frames=batch.shape[1], interval=100, blit=True)
 
 # Save the animation
-anim.save("smoke_simulation_16_samples_64_test.mp4", fps=10)
+anim.save("not_downsampled_smoke_simulation_4_samples_128.mp4", fps=10)
 
 plt.show()
 
