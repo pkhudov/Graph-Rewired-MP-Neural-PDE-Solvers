@@ -13,7 +13,7 @@ from torch_cluster import radius_graph
 class HDF5Dataset_FS_2D(Dataset):
     """Load samples of an FS 2D PDE Dataset"""
 
-    def __init__(self, path: str, mode: str, dtype=torch.float64, resolution: list=None, load_all: bool=False, downsample: bool=False, normalise: bool=False):  
+    def __init__(self, path: str, mode: str, dtype=torch.float64, super_resolution: list=None, load_all: bool=False, downsample: bool=False, normalise: bool=False):  
 
         """Initialize the dataset object
         Args:
@@ -27,7 +27,7 @@ class HDF5Dataset_FS_2D(Dataset):
         self.mode = mode
         self.dtype = dtype
         self.data = f[self.mode]
-        self.resolution = (100, 32, 32) if resolution is None else resolution
+        self.resolution = (100, 128, 128) if super_resolution is None else super_resolution
         self.dataset = f'pde_{self.resolution[0]}-{self.resolution[1]}-{self.resolution[2]}'
 
         self.nt = self.data[self.dataset].attrs['nt']

@@ -109,7 +109,7 @@ def test(args: argparse,
                                   steps=steps,
                                   batch_size=args.batch_size,
                                   nr_gt_steps=args.nr_gt_steps,
-                                  nx_base_resolution=args.resolution,
+                                  nx_base_resolution=args.resolution[1],
                                   loader=loader,
                                   graph_creator=graph_creator,
                                   criterion=criterion,
@@ -127,28 +127,23 @@ def main(args: argparse):
     # super_resolution = args.super_resolution
 
     # Load datasets
-    train_string = f'data/fs_2d_pde_{args.resolution}_train_dataset.h5'
-    valid_string = f'data/fs_2d_pde_{args.resolution}_valid_dataset.h5'
-    test_string = f'data/fs_2d_pde_{args.resolution}_test_dataset.h5'
+    train_string = f'data/fs_2d_pde_{args.resolution[1]}_train_dataset.h5'
+    valid_string = f'data/fs_2d_pde_{args.resolution[1]}_valid_dataset.h5'
+    test_string = f'data/fs_2d_pde_{args.resolution[1]}_test_dataset.h5'
     try:
-        train_dataset = HDF5Dataset_FS_2D(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
-        # train_dataset = HDF5Dataset_FS_2D_Normalised(train_string, resolution=(100, args.resolution, args.resolution), mode='train')
+        train_dataset = HDF5Dataset_FS_2D(train_string, mode='train', downsample=True)
         train_loader = DataLoader(train_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=True,
                                   num_workers=1)
-        #train_mean = train_dataset.mean
-        #train_std = train_dataset.std
 
-        valid_dataset = HDF5Dataset_FS_2D(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid')
-        # valid_dataset = HDF5Dataset_FS_2D_Normalised(valid_string, resolution=(100, args.resolution, args.resolution), mode='valid', mean=train_mean, std=train_std)
+        valid_dataset = HDF5Dataset_FS_2D(valid_string, mode='valid', downsample=True)
         valid_loader = DataLoader(valid_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=False,
                                   num_workers=1)
 
-        test_dataset = HDF5Dataset_FS_2D(test_string, resolution=(100, args.resolution, args.resolution), mode='test')
-        # test_dataset = HDF5Dataset_FS_2D_Normalised(test_string, resolution=(100, args.resolution, args.resolution), mode='test', mean=train_mean, std=train_std)
+        test_dataset = HDF5Dataset_FS_2D(test_string, mode='test', downsample=True)
         test_loader = DataLoader(test_dataset,
                                  batch_size=args.batch_size,
                                  shuffle=False,
@@ -161,25 +156,25 @@ def main(args: argparse):
     timestring = f'{dateTimeObj.date().month}{dateTimeObj.date().day}{dateTimeObj.time().hour}{dateTimeObj.time().minute}'
 
     if(args.log):
-        logfile = f'experiments/log/{args.model}_FS_{args.experiment}_resolution{args.resolution}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.csv'
+        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.csv'
         print(f'Writing to log file {logfile}')
         sys.stdout = open(logfile, 'w')
 
-    save_path = f'models/GNN_FS_{args.experiment}_resolution{args.resolution}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.pt'
+    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.pt'
     print(f'Training on dataset {train_string}')
     print(device)
     print(save_path)
     
 
-    pde = SimpleNamespace(Lx=args.resolution, Ly=args.resolution, dt=1.0, grid_size=(100,args.resolution,args.resolution), tmin=0.0, tmax=100.0)
+    pde = SimpleNamespace(Lx=args.resolution[1], Ly=args.resolution[2], dt=1.0, grid_size=args.resolution, tmin=0.0, tmax=100.0)
 
     eq_variables={}
 
     graph_creator = GraphCreator_FS_2D(pde=pde,
                                  neighbors=args.neighbors,
                                  time_window=args.time_window,
-                                 x_resolution=args.resolution,
-                                 y_resolution=args.resolution).to(device)
+                                 x_resolution=args.resolution[1],
+                                 y_resolution=args.resolution[2]).to(device)
 
     if args.model == 'GNN':
         model = NPDE_GNN_FS_2D(pde=pde,
@@ -254,7 +249,7 @@ if __name__ == "__main__":
                         default=0.4, help='multistep lr decay')
     parser.add_argument('--parameter_ablation', type=eval, default=False,
                         help='Flag for ablating MP-PDE solver without equation specific parameters')
-    parser.add_argument('--resolution', type=int, default=32, help='Resolution of the spatial grid')
+    parser.add_argument('--resolution', type=int, default=(100, 32, 32), help='Downsampled resolution (nt, nx, ny)')
 
     parser.add_argument('--time_window', type=int,
                         default=5, help="Time steps to be considered in GNN solver")
