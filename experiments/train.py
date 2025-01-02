@@ -63,9 +63,9 @@ def train(args: argparse,
     # Since the starting point is randomly drawn, this in expectation has every possible starting point/sample combination of the training data.
     # Therefore in expectation the whole available training information is covered.
     for i in range(graph_creator.t_res):
-        losses = training_loop(model, unrolling, args.batch_size, optimizer, loader, graph_creator, criterion, device)
+        losses, batch_grads_mean = training_loop(model, unrolling, args.batch_size, optimizer, loader, graph_creator, criterion, device)
         if(i % args.print_interval == 0):
-            print(f'Training Loss (progress: {i / graph_creator.t_res:.2f}): {torch.mean(losses)}')
+            print(f'Training Loss (progress: {i / graph_creator.t_res:.2f}): {torch.mean(losses)}; Norm Grads: {batch_grads_mean}')
 
 def test(args: argparse,
          pde: PDE,

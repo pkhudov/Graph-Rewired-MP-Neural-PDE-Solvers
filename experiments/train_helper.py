@@ -29,6 +29,7 @@ def training_loop(model: torch.nn.Module,
     """
 
     losses = []
+    batch_grads = []
     for (u_base, u_super, x, variables) in loader:
         optimizer.zero_grad()
         # Randomly choose number of unrollings
@@ -66,10 +67,21 @@ def training_loop(model: torch.nn.Module,
         loss = torch.sqrt(loss)
         loss.backward()
         losses.append(loss.detach() / batch_size)
+
+        # Save grads
+        grads = []
+        for n, params in model.named_parameters():
+            if params.grad is not None and 'bias' not in n:
+                grads.append(params.grad.view(-1))
+
+        batch_grad = torch.norm(torch.cat(grads), p=2).item()
+        batch_grads.append(batch_grad)
+
         optimizer.step()
 
     losses = torch.stack(losses)
-    return losses
+    batch_grads_mean = torch.tensor(batch_grads).mean()
+    return losses, batch_grads_mean
 
 def test_timestep_losses(model: torch.nn.Module,
                          steps: list,
