@@ -166,7 +166,7 @@ def main(args: argparse):
     print(save_path)
     
 
-    pde = SimpleNamespace(Lx=args.resolution[1], Ly=args.resolution[2], dt=1.0, grid_size=args.resolution, tmin=0.0, tmax=100.0)
+    pde = SimpleNamespace(Lx=args.resolution[1], Ly=args.resolution[2], dt=1.0, grid_size=tuple(args.resolution), tmin=0.0, tmax=100.0)
 
     eq_variables={}
 
@@ -249,7 +249,7 @@ if __name__ == "__main__":
                         default=0.4, help='multistep lr decay')
     parser.add_argument('--parameter_ablation', type=eval, default=False,
                         help='Flag for ablating MP-PDE solver without equation specific parameters')
-    parser.add_argument('--resolution', type=int, default=(100, 32, 32), help='Downsampled resolution (nt, nx, ny)')
+    parser.add_argument('--resolution', type=int, nargs=3, default=(100, 32, 32), help='Downsampled resolution nt nx ny')
 
     parser.add_argument('--time_window', type=int,
                         default=5, help="Time steps to be considered in GNN solver")
