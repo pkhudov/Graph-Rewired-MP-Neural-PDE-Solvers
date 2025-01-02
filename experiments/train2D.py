@@ -12,7 +12,7 @@ from types import SimpleNamespace
 from torch import nn, optim
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
-from common.data_creator import HDF5Dataset_FS_2D, GraphCreator_FS_2D, HDF5Dataset_FS_2D_Normalised
+from common.data_creator import HDF5Dataset_FS_2D, GraphCreator_FS_2D
 from experiments.gnn_2d import NPDE_GNN_FS_2D
 from experiments.models_cnn import BaseCNN
 from experiments.train_helper2D import *
@@ -127,9 +127,9 @@ def main(args: argparse):
     # super_resolution = args.super_resolution
 
     # Load datasets
-    train_string = f'data/fs_2d_pde_{args.resolution[1]}_train_dataset.h5'
-    valid_string = f'data/fs_2d_pde_{args.resolution[1]}_valid_dataset.h5'
-    test_string = f'data/fs_2d_pde_{args.resolution[1]}_test_dataset.h5'
+    train_string = f'data/fs_2d_pde_128_train_dataset.h5'
+    valid_string = f'data/fs_2d_pde_128_valid_dataset.h5'
+    test_string = f'data/fs_2d_pde_128_test_dataset.h5'
     try:
         train_dataset = HDF5Dataset_FS_2D(train_string, mode='train', downsample=True)
         train_loader = DataLoader(train_dataset,
@@ -156,11 +156,11 @@ def main(args: argparse):
     timestring = f'{dateTimeObj.date().month}{dateTimeObj.date().day}{dateTimeObj.time().hour}{dateTimeObj.time().minute}'
 
     if(args.log):
-        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.csv'
+        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.csv'
         print(f'Writing to log file {logfile}')
         sys.stdout = open(logfile, 'w')
 
-    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.pt'
+    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.pt'
     print(f'Training on dataset {train_string}')
     print(device)
     print(save_path)

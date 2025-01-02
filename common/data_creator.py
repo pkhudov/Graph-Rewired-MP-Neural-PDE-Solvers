@@ -26,6 +26,8 @@ class HDF5Dataset_FS_2D(Dataset):
         f = h5py.File(path, 'r')
         self.mode = mode
         self.dtype = dtype
+        self.downsample=downsample
+        self.normalise=normalise
         self.data = f[self.mode]
         self.resolution = (100, 128, 128) if super_resolution is None else super_resolution
         self.dataset = f'pde_{self.resolution[0]}-{self.resolution[1]}-{self.resolution[2]}'

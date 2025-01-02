@@ -1,0 +1,9 @@
+Training on dataset data/fs_2d_pde_128_train_dataset.h5
+cuda:0
+models/GNN_FS_resolution(100, 32, 32)_n4_tw5_unrolling2_time12169.pt
+Number of parameters: 619769
+Training started at: 2025-01-02 16:09:40
+Epoch 0
+Starting epoch 0...
+Training Loss (progress: 0.00): 5.622190112694722; Norm Grads: 17.20576576629018
+Training Loss (progress: 0.10): 4.513947941675168; Norm Grads: 25.436843838114022

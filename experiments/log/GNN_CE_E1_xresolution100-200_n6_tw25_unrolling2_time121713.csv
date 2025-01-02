@@ -1,0 +1,13 @@
+Training on dataset data/CE_train_E1.h5
+cuda:0
+models/GNN_CE_E1_xresolution100-200_n6_tw25_unrolling2_time121713.pt
+Number of parameters: 1031645
+Training started at: 2025-01-02 17:13:19
+Epoch 0
+Starting epoch 0...
+Training Loss (progress: 0.00): 1.3216421135051342; Norm Grads: 31.388066985443167
+Training Loss (progress: 0.10): 0.2694856915805152; Norm Grads: 200.25799748429552
+Training Loss (progress: 0.20): 0.21515737523310446; Norm Grads: 160.07839300649852
+Training Loss (progress: 0.30): 0.17924179943679597; Norm Grads: 166.51682490497072
+Training Loss (progress: 0.40): 0.16394536010314295; Norm Grads: 148.80758936736453
+Training Loss (progress: 0.50): 0.1354727997459161; Norm Grads: 127.53830672998653

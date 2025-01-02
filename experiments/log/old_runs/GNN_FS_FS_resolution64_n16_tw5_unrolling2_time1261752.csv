@@ -1,0 +1,31 @@
+Training on dataset data/fs_2d_pde_train_dataset.h5
+cuda:0
+models/GNN_FS_FS_resolution64_n16_tw5_unrolling2_time1261752.pt
+Number of parameters: 619769
+Training started at: 2024-12-06 17:52:25
+Epoch 0
+Starting epoch 0...
+Training Loss (progress: 0.00): 5.5818223601184185
+Training Loss (progress: 0.25): 4.0300080402025715
+Training Loss (progress: 0.50): 3.3961247133716923
+Training Loss (progress: 0.75): 3.4403622644418013
+Evaluation on validation dataset:
+Step 5, mean loss 8.258996502195208
+Step 10, mean loss 15.7077250084623
+Step 15, mean loss 21.316342007381206
+Step 20, mean loss 28.629303080536722
+Step 25, mean loss 40.80368061868563
+Step 30, mean loss 84.68748816163065
+Step 35, mean loss 142.62032091504355
+Step 40, mean loss 214.2329495508229
+Step 45, mean loss 345.7908882286008
+Step 50, mean loss 481.8606563293512
+Step 55, mean loss 565.9802148772818
+Step 60, mean loss 753.4926987478542
+Step 65, mean loss 981.9137123338661
+Step 70, mean loss 1298.4934022470925
+Step 75, mean loss 2070.3600897889355
+Step 80, mean loss 2198.6714840487457
+Step 85, mean loss 2242.873118256146
+Step 90, mean loss 2051.5586985283735
+Step 95, mean loss 1640.7104500456767

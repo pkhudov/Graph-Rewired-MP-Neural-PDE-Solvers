@@ -165,6 +165,7 @@ def test_unrolled_losses(model: torch.nn.Module,
                     graph = graph_creator.create_next_graph(graph, pred, labels, same_steps).to(device)
                     pred = model(graph)
                     loss = criterion(pred, graph.y) / nx_base_resolution
+                losses_tmp.append(loss / batch_size)
 
         losses.append(torch.sum(torch.stack(losses_tmp)))
 
