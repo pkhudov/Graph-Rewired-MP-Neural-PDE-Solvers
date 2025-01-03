@@ -272,8 +272,8 @@ if __name__ == "__main__":
     # Graph construction
     parser.add_argument('--neighbors', type=int,
                         default=3, help="Neighbors to be considered in GNN solver")
-    parser.add_argument('--edge_prob', type=int,
-                        default=0, help="Probability with which an edge is added to the graph according to Erdos-Renyi model")
+    parser.add_argument('--edge_prob', type=float,
+                        default=0.0, help="Probability with which an edge is added to the graph according to Erdos-Renyi model")
 
     # Model parameters
     parser.add_argument('--batch_size', type=int, default=16,

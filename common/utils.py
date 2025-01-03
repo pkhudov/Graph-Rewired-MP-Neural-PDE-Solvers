@@ -129,7 +129,7 @@ class GraphCreator(nn.Module):
                  time_window: int = 5,
                  t_resolution: int = 250,
                  x_resolution: int = 100,
-                 edge_prob: int = 0
+                 edge_prob: float = 0.0
                  ) -> None:
         """
         Initialize GraphCreator class
