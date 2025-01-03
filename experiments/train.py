@@ -174,11 +174,11 @@ def main(args: argparse):
     timestring = f'{dateTimeObj.date().month}{dateTimeObj.date().day}{dateTimeObj.time().hour}{dateTimeObj.time().minute}'
 
     if(args.log):
-        logfile = f'experiments/log/{args.model}_{pde}_{args.experiment}_xresolution{args.base_resolution[1]}-{args.super_resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.csv'
+        logfile = f'experiments/log/{args.model}_{pde}_{args.experiment}_xresolution{args.base_resolution[1]}-{args.super_resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.csv'
         print(f'Writing to log file {logfile}')
         sys.stdout = open(logfile, 'w')
 
-    save_path = f'models/GNN_{pde}_{args.experiment}_xresolution{args.base_resolution[1]}-{args.super_resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.pt'
+    save_path = f'models/GNN_{pde}_{args.experiment}_xresolution{args.base_resolution[1]}-{args.super_resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.pt'
     print(f'Training on dataset {train_string}')
     print(device)
     print(save_path)
@@ -203,7 +203,8 @@ def main(args: argparse):
                                  neighbors=args.neighbors,
                                  time_window=args.time_window,
                                  t_resolution=args.base_resolution[0],
-                                 x_resolution=args.base_resolution[1]).to(device)
+                                 x_resolution=args.base_resolution[1],
+                                 edge_prob=args.edge_prob).to(device)
 
     if args.model == 'GNN':
         model = MP_PDE_Solver(pde=pde,
@@ -271,6 +272,8 @@ if __name__ == "__main__":
     # Graph construction
     parser.add_argument('--neighbors', type=int,
                         default=3, help="Neighbors to be considered in GNN solver")
+    parser.add_argument('--edge_prob', type=int,
+                        default=0, help="Probability with which an edge is added to the graph according to Erdos-Renyi model")
 
     # Model parameters
     parser.add_argument('--batch_size', type=int, default=16,

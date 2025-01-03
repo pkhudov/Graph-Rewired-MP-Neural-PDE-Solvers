@@ -9,6 +9,8 @@ from typing import Tuple
 from torch_geometric.data import Data
 from torch_cluster import radius_graph, knn_graph
 from equations.PDEs import *
+from torch_geometric.utils.random import erdos_renyi_graph
+from torch_geometric.utils import coalesce
 
 
 class HDF5Dataset(Dataset):
@@ -126,7 +128,8 @@ class GraphCreator(nn.Module):
                  neighbors: int = 2,
                  time_window: int = 5,
                  t_resolution: int = 250,
-                 x_resolution: int =100
+                 x_resolution: int = 100,
+                 edge_prob: int = 0
                  ) -> None:
         """
         Initialize GraphCreator class
@@ -145,6 +148,9 @@ class GraphCreator(nn.Module):
         self.tw = time_window
         self.t_res = t_resolution
         self.x_res = x_resolution
+
+        self.edge_prob = edge_prob
+        self.random_edge_index = None
 
         assert isinstance(self.n, int)
         assert isinstance(self.tw, int)
@@ -204,6 +210,13 @@ class GraphCreator(nn.Module):
             dx = x[0][1] - x[0][0]
             radius = self.n * dx + 0.0001
             edge_index = radius_graph(x_pos, r=radius, batch=batch.long(), loop=False)
+
+            if self.edge_prob > 0:
+                if self.random_edge_index is None:
+                    self.random_edge_index = erdos_renyi_graph(self.x_res, self.edge_prob)
+                edge_index = torch.cat((edge_index, self.random_edge_index), 1)
+                edge_index = coalesce(edge_index)
+
         elif f'{self.pde}' == 'WE':
             edge_index = knn_graph(x_pos, k=self.n, batch=batch.long(), loop=False)
 
