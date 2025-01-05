@@ -6,10 +6,12 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from experiments.gnn_2d import NPDE_GNN_FS_2D
 
+mode = 'test'
+sample_no = 5
 
 
-model_path = 'models/GNN_FS_FS_resolution32_n8_tw5_unrolling2_time1210175.pt'
-data_path = 'data/not_downsampled/fs_2d_pde_32_train_dataset.h5'
+model_path = 'models/GNN_FS_resolution32_n4_tw5_unrolling2_time121734.pt'
+data_path = f'data/fs_2d_pde_128_{mode}_dataset.h5'
 neighbors = 4
 batch_size = 1
 nr_gt_steps = 2
@@ -40,8 +42,10 @@ def test_unrolled_losses(model: torch.nn.Module,
         torch.Tensor: valid/test losses
     """
     losses = []
-    trajectory = []
+    n=0
     for u in loader:
+        trajectory = []
+        true_traj = []
         u = u.float()
         losses_tmp = []
         with torch.no_grad():
@@ -50,6 +54,7 @@ def test_unrolled_losses(model: torch.nn.Module,
             graph = graph_creator.create_graph(data, labels, same_steps).to(device)
             pred = model(graph)
             trajectory.append(pred)
+            true_traj.append(graph.y)
             loss = criterion(pred, graph.y) / nx_base_resolution
             losses_tmp.append(loss / batch_size)
 
@@ -60,17 +65,22 @@ def test_unrolled_losses(model: torch.nn.Module,
                 graph = graph_creator.create_next_graph(graph, pred, labels, same_steps).to(device)
                 pred = model(graph)
                 trajectory.append(pred)
+                true_traj.append(graph.y)
                 loss = criterion(pred, graph.y) / nx_base_resolution
                 losses_tmp.append(loss / batch_size)
         losses.append(torch.sum(torch.stack(losses_tmp)))
-        break
+
+        if n == sample_no:
+            break
+        n+=1
 
     losses = torch.stack(losses)
     trajectory = torch.stack(trajectory)
-
+    true_traj = torch.stack(true_traj)
     trajectory = trajectory.permute(0, 2, 1).reshape(90, 32, 32)
+    true_traj = true_traj.permute(0, 2, 1).reshape(90, 32, 32)
     print(f'Unrolled forward losses {torch.mean(losses)}')
-    return losses, trajectory
+    return losses, trajectory, true_traj
 
 
 pde = SimpleNamespace(Lx=32, Ly=32, dt=1.0, grid_size=(100,32,32), tmin=0.0, tmax=100.0)
@@ -87,13 +97,13 @@ model = NPDE_GNN_FS_2D(pde=pde,
 
 model.load_state_dict(torch.load(model_path, map_location=device))
 
-dataset = HDF5Dataset_FS_2D(data_path, mode='train', super_resolution=(100,32,32))
+dataset = HDF5Dataset_FS_2D(data_path, mode=mode, super_resolution=(100,128,128), downsample=True)
 loader = DataLoader(dataset,
-                    batch_size=4,
+                    batch_size=1,
                     shuffle=False,
                     num_workers=0)
 
-_, traj = test_unrolled_losses(model=model,
+_, traj, true_traj = test_unrolled_losses(model=model,
                         steps=[0],
                         batch_size=batch_size,
                         nr_gt_steps=nr_gt_steps,
@@ -103,28 +113,31 @@ _, traj = test_unrolled_losses(model=model,
                         criterion=criterion,
                         device=device)
 
-fig, axes = plt.subplots(1, 1, figsize=(12, 9))
+fig, axes = plt.subplots(1, 2, figsize=(8, 4))
 traj = traj.unsqueeze(0)
-axes = [axes]
-# axes = axes.flatten()
+true_traj = true_traj.unsqueeze(0)
+gnn_ax = axes[0]
+true_ax = axes[1]
+
 
 print('Largest Value: ', traj.max().item())
 caxs = []
-for i, ax in enumerate(axes):
-    cax = ax.imshow(traj[i][0].numpy(), origin='lower', cmap='viridis', animated=True, vmin=0, vmax=traj.max())
-    caxs.append(cax)
-    ax.set_title(f"Sample {i+1}")
-    fig.colorbar(cax, ax=ax, label='Smoke Intensity')
+cax_gnn = gnn_ax.imshow(traj[0][0].numpy(), origin='lower', cmap='viridis', animated=True, vmin=0, vmax=traj.max())
+cax_true = true_ax.imshow(true_traj[0][0].numpy(), origin='lower', cmap='viridis', animated=True, vmin=0, vmax=traj.max())
+caxs.append(cax_gnn)
+caxs.append(cax_true)
+gnn_ax.set_title('GNN')
+true_ax.set_title('Solver')
 
 plt.tight_layout(rect=[0, 0, 1, 0.95])
 
 suptitle = fig.suptitle(f"Time Step: 1", fontsize=16)
-
 def update(frame):
-    for i, cax in enumerate(caxs):
-        suptitle.set_text(f"Time Step: {frame+1}")
-        cax.set_array(traj[i][frame].numpy()) 
+    suptitle.set_text(f"Time Step: {frame+1}")
+    cax_gnn.set_array(traj[0][frame].numpy())
+    cax_true.set_array(true_traj[0][frame].numpy())
     return caxs
+
 
 anim = FuncAnimation(fig, update, frames=traj.shape[1], interval=100, blit=True)
 
