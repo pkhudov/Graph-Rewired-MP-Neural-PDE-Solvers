@@ -8,6 +8,8 @@ from torch import nn
 from torch.nn import functional as F
 from torch_geometric.data import Data
 from torch_cluster import radius_graph
+from torch_geometric.utils.random import erdos_renyi_graph
+from torch_geometric.utils import coalesce
 # from einops import rearrange
 
 class HDF5Dataset_FS_2D(Dataset):
@@ -90,8 +92,9 @@ class GraphCreator_FS_2D(nn.Module):
                  time_window: int=10,
                  t_resolution: int=100,
                  x_resolution: int=32,
-                 y_resolution: int=32
-
+                 y_resolution: int=32,
+                 edge_prob: float = 0.0,
+                 edge_path: str = None,
                  ):
 
         super().__init__()
@@ -101,10 +104,15 @@ class GraphCreator_FS_2D(nn.Module):
         self.t_res = t_resolution
         self.x_res = x_resolution
         self.y_res = y_resolution
+        self.edge_prob = edge_prob
+        self.random_edge_index = None
+        self.edge_path = edge_path
 
         assert isinstance(self.n, int)
         assert isinstance(self.tw, int)
-
+    
+    def save_edge_index(self, path):
+        torch.save(self.random_edge_index, path)
 
     def create_data(self, datapoints, steps):
         """
@@ -170,6 +178,22 @@ class GraphCreator_FS_2D(nn.Module):
         # calculating the edge_index
         edge_index_new = radius_graph(x_new, r=radius, batch=batch.long(), loop=False)
 
+        if self.edge_prob > 0:
+            if self.edge_path is not None:
+                self.random_edge_index = torch.load(self.edge_path)
+
+            if self.random_edge_index is None:
+                    batch_size = int(batch.max()) + 1
+                    all_random_edges = []
+                    for sample in range(batch_size):
+                        random_edges = erdos_renyi_graph(self.x_res * self.y_res, self.edge_prob)
+                        offset = sample * self.x_res * self.y_res
+                        random_edges += offset
+                        all_random_edges.append(random_edges)
+                    self.random_edge_index = torch.cat(all_random_edges, dim=1)
+                    print('Generated random edges')
+            edge_index_new = coalesce(torch.cat((edge_index_new, self.random_edge_index), 1))
+    
         graph = Data(x=u_new, edge_index=edge_index_new)
         graph.y = y_new
 
@@ -178,7 +202,7 @@ class GraphCreator_FS_2D(nn.Module):
 
         return graph
     
-
+    
     def create_next_graph(self, graph, pred, labels, steps):
 
         """
