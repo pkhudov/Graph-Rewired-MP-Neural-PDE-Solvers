@@ -213,7 +213,16 @@ class GraphCreator(nn.Module):
 
             if self.edge_prob > 0:
                 if self.random_edge_index is None:
-                    self.random_edge_index = erdos_renyi_graph(x_pos.shape[0], self.edge_prob)
+                    batch_size = int(batch.max()) + 1
+                    all_random_edges = []
+                    for sample in range(batch_size):
+                        random_edges = erdos_renyi_graph(self.x_res, self.edge_prob)
+                        offset = sample * self.x_res
+                        random_edges += offset
+                        all_random_edges.append(random_edges)
+                    
+                    self.random_edge_index = torch.cat(all_random_edges, dim=1)
+
                 edge_index = torch.cat((edge_index, self.random_edge_index), 1)
                 edge_index = coalesce(edge_index)
 
