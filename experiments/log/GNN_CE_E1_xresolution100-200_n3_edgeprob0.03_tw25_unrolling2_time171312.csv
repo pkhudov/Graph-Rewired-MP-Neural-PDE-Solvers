@@ -838,3 +838,25 @@ Epoch 24
 Starting epoch 24...
 Training Loss (progress: 0.00): 0.13708557122326287; Norm Grads: 45.42473168091891
 Training Loss (progress: 0.10): 0.1511666189863524; Norm Grads: 48.92014474480472
+Training Loss (progress: 0.20): 0.1473155837792999; Norm Grads: 45.72347525706315
+Training Loss (progress: 0.30): 0.14101329169030752; Norm Grads: 47.853790796641654
+Training Loss (progress: 0.40): 0.14814347224594698; Norm Grads: 46.01452105468436
+Training Loss (progress: 0.50): 0.15493356081600182; Norm Grads: 46.070122741868836
+Training Loss (progress: 0.60): 0.13838908907543324; Norm Grads: 47.34835179258519
+Training Loss (progress: 0.70): 0.13807140241423538; Norm Grads: 42.52246903429873
+Training Loss (progress: 0.80): 0.15518510429898685; Norm Grads: 47.60529529165014
+Training Loss (progress: 0.90): 0.14562445345353917; Norm Grads: 43.91031464889934
+Evaluation on validation dataset:
+Step 25, mean loss 0.042830146552717614
+Step 50, mean loss 0.039090424111103084
+Step 75, mean loss 0.048204041761461786
+Step 100, mean loss 0.04833131345249288
+Step 125, mean loss 0.05576935044362208
+Step 150, mean loss 0.06307524809670711
+Step 175, mean loss 0.09335532585213796
+Step 200, mean loss 0.10810314544194832
+Step 225, mean loss 0.1848250110625025
+Unrolled forward losses 1.636720526400729
+Unrolled forward base losses 3.1708552948699085
+Test loss: 1.7994170752143641
+Training time (until epoch 21):  {datetime.timedelta(days=1, seconds=52252, microseconds=615767)}
