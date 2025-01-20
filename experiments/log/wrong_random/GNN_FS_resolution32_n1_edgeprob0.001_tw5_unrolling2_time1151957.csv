@@ -1,0 +1,60 @@
+Training on dataset data/fs_2d_pde_128_train_dataset.h5
+cuda:0
+models/GNN_FS_resolution32_n1_edgeprob0.001_tw5_unrolling2_time1151957.pt
+Number of parameters: 619769
+Training started at: 2025-01-15 19:57:09
+Epoch 0
+Starting epoch 0...
+Generated random edges
+Training Loss (progress: 0.00): 5.602564890996964; Norm Grads: 15.446418043963302
+Training Loss (progress: 0.10): 3.81381148345181; Norm Grads: 30.033517843203988
+Training Loss (progress: 0.20): 3.4733613981775946; Norm Grads: 31.842443686789245
+Training Loss (progress: 0.30): 3.3277940885042585; Norm Grads: 32.81634322197318
+Training Loss (progress: 0.40): 3.3441789670650612; Norm Grads: 31.031731167276376
+Training Loss (progress: 0.50): 3.2651879145370004; Norm Grads: 33.5879715437719
+Training Loss (progress: 0.60): 3.234260228437994; Norm Grads: 30.26537442857647
+Training Loss (progress: 0.70): 3.057299866878505; Norm Grads: 30.18495454210165
+Training Loss (progress: 0.80): 3.041507439477622; Norm Grads: 32.16942377044392
+Training Loss (progress: 0.90): 3.094538348366847; Norm Grads: 31.421431763965757
+Evaluation on validation dataset:
+Step 5, mean loss 6.6057192767786574
+Step 10, mean loss 9.694166025618324
+Step 15, mean loss 11.467962106883288
+Step 20, mean loss 14.831179189018243
+Step 25, mean loss 21.97881701966172
+Step 30, mean loss 28.643181930377455
+Step 35, mean loss 33.73182706395628
+Step 40, mean loss 40.27101227740038
+Step 45, mean loss 48.72801019706785
+Step 50, mean loss 49.651696075430294
+Step 55, mean loss 47.95422437224289
+Step 60, mean loss 47.33151727970532
+Step 65, mean loss 46.752612553224736
+Step 70, mean loss 45.657564263352356
+Step 75, mean loss 43.9103510078551
+Step 80, mean loss 43.49124077456783
+Step 85, mean loss 44.899694879747145
+Step 90, mean loss 48.23421518964831
+Step 95, mean loss 49.93219775304941
+Unrolled forward losses 282.89627447780316
+Evaluation on test dataset:
+Step 5, mean loss 6.5714499685306595
+Step 10, mean loss 9.327552499327924
+Step 15, mean loss 12.760810200045233
+Step 20, mean loss 17.416507349539103
+Step 25, mean loss 26.200720580652167
+Step 30, mean loss 31.56859178110353
+Step 35, mean loss 38.4534097165254
+Step 40, mean loss 48.353700774660325
+Step 45, mean loss 53.78217863833453
+Step 50, mean loss 53.979711353959104
+Step 55, mean loss 50.43548259163764
+Step 60, mean loss 47.9705786069957
+Step 65, mean loss 47.4923911429689
+Step 70, mean loss 45.61288723224426
+Step 75, mean loss 43.632916230327446
+Step 80, mean loss 44.54967221509243
+Step 85, mean loss 47.23670203555318
+Step 90, mean loss 52.14685640538242
+Step 95, mean loss 56.29086173474481
+Unrolled forward losses 284.566470235271
