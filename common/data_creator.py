@@ -11,6 +11,8 @@ from torch_cluster import radius_graph
 from torch_geometric.utils.random import erdos_renyi_graph
 from torch_geometric.utils import coalesce, to_undirected
 import random
+import networkx as nx
+
 # from einops import rearrange
 
 class HDF5Dataset_FS_2D(Dataset):
@@ -186,7 +188,7 @@ class GraphCreator_FS_2D(nn.Module):
         if self.edge_path is not None:
             self.random_edge_index = torch.load(self.edge_path)
 
-        if self.random_edge_index is None and self.edge_mode != 'radiusonly':
+        if self.random_edge_index is None and self.edge_mode != 'radiusonly': # to ensure that the random edges are only generated once
             batch_size = int(batch.max()) + 1
             all_random_edges = []
             n_nodes = self.x_res * self.y_res
@@ -205,6 +207,9 @@ class GraphCreator_FS_2D(nn.Module):
                             random_edges.append([node_i, nb])
                     random_edges = torch.tensor(random_edges).t()
                     random_edges = to_undirected(random_edges, num_nodes=n_nodes)
+                elif self.edge_mode == 'random_regular':
+                    rnd_reg_graph = nx.random_regular_graph(self.rand_edges_per_node, n_nodes)
+                    random_edges = torch.tensor(list(rnd_reg_graph.edges)).t()
                 else:
                     raise ValueError(f'Unknown edge mode: {self.edge_mode}')
                 

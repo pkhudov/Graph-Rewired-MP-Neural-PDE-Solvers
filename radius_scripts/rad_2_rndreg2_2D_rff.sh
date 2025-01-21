@@ -38,4 +38,4 @@ source activate graph-mp-pde
 # Maximum unrolling: 2
 # Neighbours: 6
 
-python experiments/train2D.py --device=cuda:0 --neighbors=2 --fourier_features=True --edge_mode=AugmentRnd --n_augment_rnd=2 --batch_size=4 --lr=1e-4 --unrolling=2 --num_epochs=25 --log=True
+python experiments/train2D.py --device=cuda:0 --neighbors=2 --fourier_features=True --edge_mode=RandomRegular --n_random_edges_per_node=2 --batch_size=4 --lr=1e-4 --unrolling=2 --num_epochs=25 --log=True

@@ -158,7 +158,9 @@ def main(args: argparse):
     if args.edge_mode == 'ErdosRenyi':
         edge_mode_string = f'_edgeprob{args.edge_prob}'
     elif args.edge_mode == 'AugmentNode':
-        edge_mode_string = f'_augment{args.n_augment_rnd}'
+        edge_mode_string = f'_augment{args.n_random_edges_per_node}'
+    elif args.edge_mode == 'RandomRegular':
+        edge_mode_string = f'_randomregdeg{args.n_random_edges_per_node}'
     elif args.edge_mode == 'RadiusOnly':
         edge_mode_string = ''
     else:
@@ -187,7 +189,7 @@ def main(args: argparse):
                                  y_resolution=args.resolution[2],
                                  edge_prob=args.edge_prob,
                                  edge_mode=args.edge_mode,
-                                 rand_edges_per_node=args.n_augment_rnd).to(device)
+                                 rand_edges_per_node=args.n_random_edges_per_node).to(device)
 
     if args.model == 'GNN':
         model = NPDE_GNN_FS_2D(pde=pde,
@@ -256,8 +258,8 @@ if __name__ == "__main__":
     parser.add_argument('--edge_prob', type=float,
                         default=0.0, help="Probability with which an edge is added to the graph according to Erdos-Renyi model")
     parser.add_argument('--edge_mode', type=str, default='RadiusOnly',
-                        help='Mode for edge creation: [RadiusOnly, ErdosRenyi, AugmentRnd]')
-    parser.add_argument('--n_augment_rnd', type=int, default=2,
+                        help='Mode for edge creation: [RadiusOnly, ErdosRenyi, AugmentRnd, RandomRegular]')
+    parser.add_argument('--n_random_edges_per_node', type=int, default=2,
                         help='Fixed number of random edges per node')
 
     # Model parameters
