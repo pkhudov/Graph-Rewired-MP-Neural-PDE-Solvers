@@ -155,13 +155,22 @@ def main(args: argparse):
     dateTimeObj = datetime.now()
     timestring = f'{dateTimeObj.date().month}{dateTimeObj.date().day}{dateTimeObj.time().hour}{dateTimeObj.time().minute}'
 
+    if args.edge_mode == 'ErdosRenyi':
+        edge_mode_string = f'_edgeprob{args.edge_prob}'
+    elif args.edge_mode == 'AugmentNode':
+        edge_mode_string = f'_augment{args.n_augment_rnd}'
+    elif args.edge_mode == 'RadiusOnly':
+        edge_mode_string = ''
+    else:
+        raise Exception("Edge mode not implemented")
+
     if(args.log):
-        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}.csv'
+        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_{args.edge_mode}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}.csv'
         print(f'Writing to log file {logfile}')
         sys.stdout = open(logfile, 'w')
 
-    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}.pt'
-    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}.pt'
+    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}_{edge_mode_string}.pt'
+    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}.pt'
     print(f'Training on dataset {train_string}')
     print(device)
     print(save_path)
@@ -176,7 +185,9 @@ def main(args: argparse):
                                  time_window=args.time_window,
                                  x_resolution=args.resolution[1],
                                  y_resolution=args.resolution[2],
-                                 edge_prob=args.edge_prob).to(device)
+                                 edge_prob=args.edge_prob,
+                                 edge_mode=args.edge_mode,
+                                 rand_edges_per_node=args.n_augment_rnd).to(device)
 
     if args.model == 'GNN':
         model = NPDE_GNN_FS_2D(pde=pde,
@@ -244,6 +255,10 @@ if __name__ == "__main__":
                         default=8, help="Neighbors to be considered in GNN solver")
     parser.add_argument('--edge_prob', type=float,
                         default=0.0, help="Probability with which an edge is added to the graph according to Erdos-Renyi model")
+    parser.add_argument('--edge_mode', type=str, default='RadiusOnly',
+                        help='Mode for edge creation: [RadiusOnly, ErdosRenyi, AugmentRnd]')
+    parser.add_argument('--n_augment_rnd', type=int, default=2,
+                        help='Fixed number of random edges per node')
 
     # Model parameters
     parser.add_argument('--batch_size', type=int, default=4,

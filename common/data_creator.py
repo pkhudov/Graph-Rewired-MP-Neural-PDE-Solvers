@@ -9,7 +9,8 @@ from torch.nn import functional as F
 from torch_geometric.data import Data
 from torch_cluster import radius_graph
 from torch_geometric.utils.random import erdos_renyi_graph
-from torch_geometric.utils import coalesce
+from torch_geometric.utils import coalesce, to_undirected
+import random
 # from einops import rearrange
 
 class HDF5Dataset_FS_2D(Dataset):
@@ -95,6 +96,8 @@ class GraphCreator_FS_2D(nn.Module):
                  y_resolution: int=32,
                  edge_prob: float = 0.0,
                  edge_path: str = None,
+                 edge_mode: str = 'Radius_only',
+                 rand_edges_per_node: int = 2,
                  ):
 
         super().__init__()
@@ -107,6 +110,8 @@ class GraphCreator_FS_2D(nn.Module):
         self.edge_prob = edge_prob
         self.random_edge_index = None
         self.edge_path = edge_path
+        self.edge_mode = edge_mode.lower()
+        self.random_edges_per_node = rand_edges_per_node
 
         assert isinstance(self.n, int)
         assert isinstance(self.tw, int)
@@ -177,21 +182,36 @@ class GraphCreator_FS_2D(nn.Module):
 
         # calculating the edge_index
         edge_index_new = radius_graph(x_new, r=radius, batch=batch.long(), loop=False)
+  
+        if self.edge_path is not None:
+            self.random_edge_index = torch.load(self.edge_path)
 
-        if self.edge_prob > 0:
-            if self.edge_path is not None:
-                self.random_edge_index = torch.load(self.edge_path)
+        if self.random_edge_index is None and self.edge_mode != 'radiusonly':
+            batch_size = int(batch.max()) + 1
+            all_random_edges = []
+            n_nodes = self.x_res * self.y_res
+            for sample in range(batch_size):
+                offset = sample * n_nodes
 
-            if self.random_edge_index is None:
-                    batch_size = int(batch.max()) + 1
-                    all_random_edges = []
-                    for sample in range(batch_size):
-                        random_edges = erdos_renyi_graph(self.x_res * self.y_res, self.edge_prob)
-                        offset = sample * self.x_res * self.y_res
-                        random_edges += offset
-                        all_random_edges.append(random_edges)
-                    self.random_edge_index = torch.cat(all_random_edges, dim=1)
-                    print('Generated random edges')
+                if self.edge_mode == 'erdosrenyi':
+                    random_edges = erdos_renyi_graph(n_nodes, self.edge_prob)
+                elif self.edge_mode == 'augmentnode':
+                    random_edges = []
+                    for node_i in range(self.x_res * self.y_res):
+                        possible_neighbors = list(range(n_nodes))
+                        possible_neighbors.remove(node_i)
+                        neighbors = random.sample(possible_neighbors, self.rand_edges_per_node)
+                        for nb in neighbors:
+                            random_edges.append([node_i, nb])
+                    random_edges = torch.tensor(random_edges).t()
+                    random_edges = to_undirected(random_edges, num_nodes=n_nodes)
+                else:
+                    raise ValueError(f'Unknown edge mode: {self.edge_mode}')
+                
+                random_edges += offset
+                all_random_edges.append(random_edges)
+            self.random_edge_index = torch.cat(all_random_edges, dim=1)
+            print('Generated random edges')
             edge_index_new = coalesce(torch.cat((edge_index_new, self.random_edge_index), 1))
     
         graph = Data(x=u_new, edge_index=edge_index_new)

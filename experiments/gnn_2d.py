@@ -20,7 +20,7 @@ class FourierFeatures(nn.Module):
 
     def forward(self, x):
         x_proj = x @ self.B # [N, number_features]
-        return torch.cat([torch.cos(2*torch.pi*x_proj), torch.sin(2*torch.pi*x_proj)], dim=-1) # [N, number_features*2]
+        return torch.cat([torch.cos(2*torch.pi*x_proj), torch.sin(2*torch.pi*x_proj)], dim=-1) # [N, number_features * 2]
 
 
 class Swish(nn.Module):
@@ -94,11 +94,10 @@ class GNN_Layer_FS_2D(MessagePassing):
 
         if self.rff_message is not None:
             rel_pos_rff = self.rff_message(rel_pos)
+            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, dx, dy, rel_pos_rff, variables_i), dim=-1))
         else:
-            rel_pos_rff = rel_pos
+            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, dx, dy, variables_i), dim=-1))
 
-        message = self.message_net_1(torch.cat(
-            (x_i, x_j, u_i - u_j, dx, dy, rel_pos_rff, variables_i), dim=-1))
         message = self.message_net_2(message)
 
         return message
