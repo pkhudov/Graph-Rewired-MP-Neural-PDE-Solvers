@@ -1,0 +1,1072 @@
+Training on dataset data/fs_2d_pde_128_train_dataset.h5
+cuda:0
+models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+Number of parameters: 619769
+Training started at: 2025-01-22 21:47:12
+Epoch 0
+Starting epoch 0...
+Training Loss (progress: 0.00): 5.561248682583356; Norm Grads: 13.7975627649885
+Training Loss (progress: 0.10): 3.820516862595296; Norm Grads: 31.272675706036193
+Training Loss (progress: 0.20): 3.546800033007137; Norm Grads: 32.91394822068389
+Training Loss (progress: 0.30): 3.486484429482301; Norm Grads: 35.17230057792666
+Training Loss (progress: 0.40): 3.2371275965049877; Norm Grads: 32.51661160062848
+Training Loss (progress: 0.50): 3.247305434767979; Norm Grads: 33.88959486801955
+Training Loss (progress: 0.60): 3.2494000949289776; Norm Grads: 32.73769263852533
+Training Loss (progress: 0.70): 3.0687665762694345; Norm Grads: 32.60632593809942
+Training Loss (progress: 0.80): 3.008895666673915; Norm Grads: 34.32781337695391
+Training Loss (progress: 0.90): 3.0874627426942367; Norm Grads: 33.91324508030239
+Evaluation on validation dataset:
+Step 5, mean loss 9.98625351804737
+Step 10, mean loss 7.443069413040906
+Step 15, mean loss 9.313403282702744
+Step 20, mean loss 13.134636876197005
+Step 25, mean loss 20.366423142065713
+Step 30, mean loss 26.291788097145993
+Step 35, mean loss 32.099957741353585
+Step 40, mean loss 39.050803271246394
+Step 45, mean loss 47.58827426029725
+Step 50, mean loss 49.605724131777414
+Step 55, mean loss 48.74500042156581
+Step 60, mean loss 49.00514471115879
+Step 65, mean loss 48.77018366748054
+Step 70, mean loss 47.24008398969261
+Step 75, mean loss 44.25436782705415
+Step 80, mean loss 43.710397427544365
+Step 85, mean loss 44.60188040901123
+Step 90, mean loss 47.12617454349227
+Step 95, mean loss 47.855802968943095
+Unrolled forward losses 345.1431144825337
+Evaluation on test dataset:
+Step 5, mean loss 10.45657128211273
+Step 10, mean loss 7.247301292132244
+Step 15, mean loss 10.783908109603768
+Step 20, mean loss 15.969497677374681
+Step 25, mean loss 24.024196252129165
+Step 30, mean loss 30.324457163041306
+Step 35, mean loss 36.85159660434773
+Step 40, mean loss 47.21779130356375
+Step 45, mean loss 53.18996010174113
+Step 50, mean loss 53.667921791457815
+Step 55, mean loss 49.76817002302749
+Step 60, mean loss 49.19822957984131
+Step 65, mean loss 48.16474853991758
+Step 70, mean loss 46.4197068712986
+Step 75, mean loss 44.81514244402887
+Step 80, mean loss 44.36281580324256
+Step 85, mean loss 46.21077362616779
+Step 90, mean loss 50.105694171964835
+Step 95, mean loss 53.66913881523537
+Unrolled forward losses 339.4421521978185
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  0:32:39.397057
+Epoch 1
+Starting epoch 1...
+Training Loss (progress: 0.00): 3.9965659096620443; Norm Grads: 34.16224231694827
+Training Loss (progress: 0.10): 3.9793055288692654; Norm Grads: 28.631879464945712
+Training Loss (progress: 0.20): 3.9096949283379026; Norm Grads: 29.525667930187183
+Training Loss (progress: 0.30): 3.830885987338296; Norm Grads: 26.91528106010731
+Training Loss (progress: 0.40): 3.8120896553011563; Norm Grads: 27.262018961773354
+Training Loss (progress: 0.50): 3.6313281727418634; Norm Grads: 27.056448527974013
+Training Loss (progress: 0.60): 3.7483017834403607; Norm Grads: 29.487156146915765
+Training Loss (progress: 0.70): 3.563533709591046; Norm Grads: 28.18720624016833
+Training Loss (progress: 0.80): 3.83890006782711; Norm Grads: 25.390264701426588
+Training Loss (progress: 0.90): 3.634736190861024; Norm Grads: 26.21958603592469
+Evaluation on validation dataset:
+Step 5, mean loss 3.864992847624972
+Step 10, mean loss 6.4006804635368635
+Step 15, mean loss 6.894940241278361
+Step 20, mean loss 9.851029301890858
+Step 25, mean loss 15.828139711212202
+Step 30, mean loss 22.427163199500782
+Step 35, mean loss 29.089842874017926
+Step 40, mean loss 34.708672901377724
+Step 45, mean loss 43.06793618999133
+Step 50, mean loss 45.07461107909634
+Step 55, mean loss 44.99358778531594
+Step 60, mean loss 45.13196185102305
+Step 65, mean loss 44.921489818976355
+Step 70, mean loss 44.06512632037229
+Step 75, mean loss 40.64321228868967
+Step 80, mean loss 39.87478916188144
+Step 85, mean loss 40.120463160042085
+Step 90, mean loss 41.60769215523058
+Step 95, mean loss 42.4697993937322
+Unrolled forward losses 144.93975269450243
+Evaluation on test dataset:
+Step 5, mean loss 4.139824408040875
+Step 10, mean loss 6.052373015770374
+Step 15, mean loss 8.604986246666911
+Step 20, mean loss 11.795583728203923
+Step 25, mean loss 18.451113556179433
+Step 30, mean loss 25.85078572871545
+Step 35, mean loss 33.43678959696129
+Step 40, mean loss 42.18222756723347
+Step 45, mean loss 48.299760754215384
+Step 50, mean loss 48.547371875231164
+Step 55, mean loss 46.52323693206476
+Step 60, mean loss 45.37204970095488
+Step 65, mean loss 44.69744957477863
+Step 70, mean loss 42.89720557995289
+Step 75, mean loss 40.824141449283104
+Step 80, mean loss 40.146010011838186
+Step 85, mean loss 41.845788197118935
+Step 90, mean loss 45.256716001223126
+Step 95, mean loss 48.097199571804026
+Unrolled forward losses 158.02914414081613
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  1:02:27.742539
+Epoch 2
+Starting epoch 2...
+Training Loss (progress: 0.00): 4.1300134341685935; Norm Grads: 24.197246418312655
+Training Loss (progress: 0.10): 4.154469426731378; Norm Grads: 25.73097124800928
+Training Loss (progress: 0.20): 4.043000464934789; Norm Grads: 26.33273338734259
+Training Loss (progress: 0.30): 4.0991798630363; Norm Grads: 26.135672778843002
+Training Loss (progress: 0.40): 3.921012909684519; Norm Grads: 27.39866737569826
+Training Loss (progress: 0.50): 4.023244125432407; Norm Grads: 27.106861650702395
+Training Loss (progress: 0.60): 4.090468713885873; Norm Grads: 27.449273340808165
+Training Loss (progress: 0.70): 3.9679152971657423; Norm Grads: 28.399251136011152
+Training Loss (progress: 0.80): 3.991643342285911; Norm Grads: 27.18378405757938
+Training Loss (progress: 0.90): 4.058953956071982; Norm Grads: 28.71651879472809
+Evaluation on validation dataset:
+Step 5, mean loss 4.137181738787633
+Step 10, mean loss 4.934272674745781
+Step 15, mean loss 5.902721877686751
+Step 20, mean loss 8.421353727793798
+Step 25, mean loss 13.81563922765101
+Step 30, mean loss 20.01740809275319
+Step 35, mean loss 27.14528592140919
+Step 40, mean loss 32.491817589059515
+Step 45, mean loss 41.23034111085304
+Step 50, mean loss 44.62454710912258
+Step 55, mean loss 44.27150167803077
+Step 60, mean loss 44.75439913139982
+Step 65, mean loss 44.064190090895806
+Step 70, mean loss 43.58889490518155
+Step 75, mean loss 40.25756935751055
+Step 80, mean loss 39.25770828279495
+Step 85, mean loss 39.6411734410402
+Step 90, mean loss 40.809744943015914
+Step 95, mean loss 41.52450702574024
+Unrolled forward losses 108.77547352507362
+Evaluation on test dataset:
+Step 5, mean loss 4.48292931179895
+Step 10, mean loss 4.678699266740141
+Step 15, mean loss 7.395028875450191
+Step 20, mean loss 10.43970588628056
+Step 25, mean loss 16.55292726406671
+Step 30, mean loss 23.13562346971083
+Step 35, mean loss 31.832849089808402
+Step 40, mean loss 39.996457881161604
+Step 45, mean loss 46.40889442860461
+Step 50, mean loss 47.7397797778645
+Step 55, mean loss 45.66356775770139
+Step 60, mean loss 44.41026233040722
+Step 65, mean loss 43.82340735738188
+Step 70, mean loss 42.59896195148988
+Step 75, mean loss 40.33161859815351
+Step 80, mean loss 39.40372812854333
+Step 85, mean loss 41.11603428005602
+Step 90, mean loss 44.078738989311645
+Step 95, mean loss 47.02050646224836
+Unrolled forward losses 113.96385993039127
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  1:31:45.939576
+Epoch 3
+Starting epoch 3...
+Training Loss (progress: 0.00): 4.004467950124882; Norm Grads: 28.504768661188965
+Training Loss (progress: 0.10): 3.6942136236683503; Norm Grads: 27.757760262575854
+Training Loss (progress: 0.20): 3.9383622038359345; Norm Grads: 28.281662397800766
+Training Loss (progress: 0.30): 3.780410330085383; Norm Grads: 28.445471309976394
+Training Loss (progress: 0.40): 3.828507438230627; Norm Grads: 29.21212363892123
+Training Loss (progress: 0.50): 3.6917907835894486; Norm Grads: 28.817909770223505
+Training Loss (progress: 0.60): 3.839828057228891; Norm Grads: 30.050130173932647
+Training Loss (progress: 0.70): 3.7237269359970284; Norm Grads: 30.08353099925629
+Training Loss (progress: 0.80): 3.912318546653494; Norm Grads: 28.74171623646796
+Training Loss (progress: 0.90): 3.9358108882435263; Norm Grads: 29.548043195603853
+Evaluation on validation dataset:
+Step 5, mean loss 4.703331696358985
+Step 10, mean loss 4.463382660759301
+Step 15, mean loss 5.37723395755965
+Step 20, mean loss 7.384393158558394
+Step 25, mean loss 12.325062407800111
+Step 30, mean loss 18.49336087375517
+Step 35, mean loss 25.042243725781358
+Step 40, mean loss 31.14221550712156
+Step 45, mean loss 39.94725952247022
+Step 50, mean loss 42.95368959642775
+Step 55, mean loss 42.77123245929471
+Step 60, mean loss 43.4424588657881
+Step 65, mean loss 43.23226528521509
+Step 70, mean loss 42.61899937325471
+Step 75, mean loss 39.09564145370699
+Step 80, mean loss 38.12388058478017
+Step 85, mean loss 38.83814135928763
+Step 90, mean loss 40.21781219548352
+Step 95, mean loss 41.00236691403738
+Unrolled forward losses 101.07039316379829
+Evaluation on test dataset:
+Step 5, mean loss 4.760118595944299
+Step 10, mean loss 4.269349455033657
+Step 15, mean loss 6.6288235807543705
+Step 20, mean loss 9.297274781795366
+Step 25, mean loss 14.678467254743131
+Step 30, mean loss 21.92812149571153
+Step 35, mean loss 30.036367913323378
+Step 40, mean loss 38.30550122152218
+Step 45, mean loss 45.192887030484734
+Step 50, mean loss 46.20559162094507
+Step 55, mean loss 44.322027009057166
+Step 60, mean loss 43.00541754599787
+Step 65, mean loss 42.781338402061806
+Step 70, mean loss 41.354117849475664
+Step 75, mean loss 39.15084296009452
+Step 80, mean loss 38.62028327865698
+Step 85, mean loss 40.39029887373256
+Step 90, mean loss 43.329208101846035
+Step 95, mean loss 46.62007951180611
+Unrolled forward losses 109.10477481665764
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  2:00:40.772985
+Epoch 4
+Starting epoch 4...
+Training Loss (progress: 0.00): 3.796329903969508; Norm Grads: 30.790803786726773
+Training Loss (progress: 0.10): 3.937579357457377; Norm Grads: 30.311834818405757
+Training Loss (progress: 0.20): 3.721718781949663; Norm Grads: 31.72373202743774
+Training Loss (progress: 0.30): 3.67955390679189; Norm Grads: 30.838549794650735
+Training Loss (progress: 0.40): 3.9307480792868916; Norm Grads: 31.43003314678097
+Training Loss (progress: 0.50): 3.756380670019748; Norm Grads: 28.604405302612747
+Training Loss (progress: 0.60): 3.7376235155184734; Norm Grads: 31.00341365220467
+Training Loss (progress: 0.70): 3.874976763688252; Norm Grads: 31.464489829257335
+Training Loss (progress: 0.80): 3.5835116665427433; Norm Grads: 28.89323459434317
+Training Loss (progress: 0.90): 3.801329930095354; Norm Grads: 32.03917589571828
+Evaluation on validation dataset:
+Step 5, mean loss 5.162800111504927
+Step 10, mean loss 4.196576326197576
+Step 15, mean loss 5.1449344735555185
+Step 20, mean loss 7.202517867466783
+Step 25, mean loss 11.821664724011429
+Step 30, mean loss 17.452071239140757
+Step 35, mean loss 24.523478877266484
+Step 40, mean loss 30.300690347143956
+Step 45, mean loss 38.99724617522526
+Step 50, mean loss 42.57795037601722
+Step 55, mean loss 42.096987301098686
+Step 60, mean loss 42.87871615968716
+Step 65, mean loss 42.64306814330851
+Step 70, mean loss 42.15168423308171
+Step 75, mean loss 38.86342399122434
+Step 80, mean loss 37.95980605532577
+Step 85, mean loss 38.286226560984005
+Step 90, mean loss 39.46414837536699
+Step 95, mean loss 40.22647397678426
+Unrolled forward losses 86.75565724264317
+Evaluation on test dataset:
+Step 5, mean loss 5.021536255619212
+Step 10, mean loss 3.939790852634915
+Step 15, mean loss 6.336105035540685
+Step 20, mean loss 8.99511971878637
+Step 25, mean loss 14.18324384594743
+Step 30, mean loss 20.926641006754764
+Step 35, mean loss 29.414598264854753
+Step 40, mean loss 37.73333905694979
+Step 45, mean loss 44.3959172944641
+Step 50, mean loss 45.975086911958385
+Step 55, mean loss 43.70823279553852
+Step 60, mean loss 42.12496359635555
+Step 65, mean loss 42.09709456654734
+Step 70, mean loss 41.01478002652022
+Step 75, mean loss 38.989481404475356
+Step 80, mean loss 38.17009071785817
+Step 85, mean loss 40.03562927849386
+Step 90, mean loss 42.71254653967729
+Step 95, mean loss 46.133981500005575
+Unrolled forward losses 98.58319129825651
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  2:29:51.254820
+Epoch 5
+Starting epoch 5...
+Training Loss (progress: 0.00): 3.778282886384454; Norm Grads: 29.9875924951495
+Training Loss (progress: 0.10): 3.7213400844850915; Norm Grads: 31.371743847536084
+Training Loss (progress: 0.20): 3.6909540293389633; Norm Grads: 30.40866794197237
+Training Loss (progress: 0.30): 3.780548355324508; Norm Grads: 30.783790422511096
+Training Loss (progress: 0.40): 3.6048502307194203; Norm Grads: 31.57002381441232
+Training Loss (progress: 0.50): 3.5844065861861027; Norm Grads: 31.40929992032792
+Training Loss (progress: 0.60): 3.572177475145904; Norm Grads: 30.98357482452928
+Training Loss (progress: 0.70): 3.721955660784617; Norm Grads: 32.05436247080365
+Training Loss (progress: 0.80): 3.617872342014492; Norm Grads: 31.800222946512342
+Training Loss (progress: 0.90): 3.611594425170437; Norm Grads: 31.720980527935076
+Evaluation on validation dataset:
+Step 5, mean loss 3.393444269136353
+Step 10, mean loss 3.594076375975714
+Step 15, mean loss 4.742334055394623
+Step 20, mean loss 6.313196346027681
+Step 25, mean loss 11.377141929781043
+Step 30, mean loss 16.60235406593051
+Step 35, mean loss 23.48287621058637
+Step 40, mean loss 29.279807831046085
+Step 45, mean loss 38.00109398560747
+Step 50, mean loss 41.3707535685332
+Step 55, mean loss 41.239551123843334
+Step 60, mean loss 42.34709105894779
+Step 65, mean loss 42.399585545836615
+Step 70, mean loss 41.78546144504856
+Step 75, mean loss 38.62217203569048
+Step 80, mean loss 37.61811416452046
+Step 85, mean loss 38.07339426991516
+Step 90, mean loss 39.438392795661144
+Step 95, mean loss 40.37396825897903
+Unrolled forward losses 80.98062748269852
+Evaluation on test dataset:
+Step 5, mean loss 3.400248131499769
+Step 10, mean loss 3.394899759346828
+Step 15, mean loss 5.920901356353877
+Step 20, mean loss 8.276130838273527
+Step 25, mean loss 13.500753621064689
+Step 30, mean loss 20.11183140967632
+Step 35, mean loss 28.40110308484202
+Step 40, mean loss 36.39081967791958
+Step 45, mean loss 43.24231871679183
+Step 50, mean loss 44.66403243512832
+Step 55, mean loss 43.0793344931262
+Step 60, mean loss 41.62924005559181
+Step 65, mean loss 41.70484783261475
+Step 70, mean loss 40.8383800952378
+Step 75, mean loss 38.658846548765254
+Step 80, mean loss 38.15241108697997
+Step 85, mean loss 39.87789308923463
+Step 90, mean loss 42.69226274157304
+Step 95, mean loss 46.206596969159065
+Unrolled forward losses 93.5578359370712
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  2:58:33.188483
+Epoch 6
+Starting epoch 6...
+Training Loss (progress: 0.00): 3.6936097720458143; Norm Grads: 32.057417322239424
+Training Loss (progress: 0.10): 3.7733405319999607; Norm Grads: 33.0687342715069
+Training Loss (progress: 0.20): 3.664166683833285; Norm Grads: 33.673795407224965
+Training Loss (progress: 0.30): 3.4751507929835492; Norm Grads: 29.013362393804126
+Training Loss (progress: 0.40): 3.6680831075141356; Norm Grads: 32.129453563146384
+Training Loss (progress: 0.50): 3.672607133934935; Norm Grads: 33.57055517413066
+Training Loss (progress: 0.60): 3.546839221234453; Norm Grads: 31.792741420127832
+Training Loss (progress: 0.70): 3.5504671889688595; Norm Grads: 32.23054196386256
+Training Loss (progress: 0.80): 3.6439025434574086; Norm Grads: 32.75602196905351
+Training Loss (progress: 0.90): 3.719065452471217; Norm Grads: 32.96751224172998
+Evaluation on validation dataset:
+Step 5, mean loss 3.9981755784821558
+Step 10, mean loss 3.7389493626784365
+Step 15, mean loss 4.792160908328327
+Step 20, mean loss 7.006783202287737
+Step 25, mean loss 11.24668324518537
+Step 30, mean loss 16.928647094481903
+Step 35, mean loss 23.32758335003124
+Step 40, mean loss 29.4277455626856
+Step 45, mean loss 38.22174474060883
+Step 50, mean loss 41.91267434977281
+Step 55, mean loss 41.83889698427387
+Step 60, mean loss 42.51633166337172
+Step 65, mean loss 42.57572937886826
+Step 70, mean loss 41.97811293580631
+Step 75, mean loss 38.703626855291134
+Step 80, mean loss 37.854440872103936
+Step 85, mean loss 38.226634000630575
+Step 90, mean loss 39.23196338095316
+Step 95, mean loss 40.2610827522817
+Unrolled forward losses 100.04384237612044
+Epoch 7
+Starting epoch 7...
+Training Loss (progress: 0.00): 3.6064079870480263; Norm Grads: 35.13938876554862
+Training Loss (progress: 0.10): 3.5493188411078544; Norm Grads: 33.3307346378582
+Training Loss (progress: 0.20): 3.6630213382504486; Norm Grads: 33.19043279340476
+Training Loss (progress: 0.30): 3.818235165853775; Norm Grads: 34.29791716706242
+Training Loss (progress: 0.40): 3.623305738419694; Norm Grads: 35.21916686885353
+Training Loss (progress: 0.50): 3.5468946029057227; Norm Grads: 33.312571252859556
+Training Loss (progress: 0.60): 3.5754900131385985; Norm Grads: 35.51390038738374
+Training Loss (progress: 0.70): 3.5784274976381805; Norm Grads: 32.94758397556348
+Training Loss (progress: 0.80): 3.6773407031085283; Norm Grads: 35.28959178745531
+Training Loss (progress: 0.90): 3.6710941321268615; Norm Grads: 34.902872381048425
+Evaluation on validation dataset:
+Step 5, mean loss 3.35102563135598
+Step 10, mean loss 3.323466771416798
+Step 15, mean loss 4.323442597099492
+Step 20, mean loss 6.178043765875904
+Step 25, mean loss 10.544469252891215
+Step 30, mean loss 16.295282831406062
+Step 35, mean loss 23.062009177228692
+Step 40, mean loss 29.256801378908204
+Step 45, mean loss 37.827392080338896
+Step 50, mean loss 41.56117097341357
+Step 55, mean loss 41.47231558324542
+Step 60, mean loss 42.84095981468744
+Step 65, mean loss 42.93578036768089
+Step 70, mean loss 41.977588328819536
+Step 75, mean loss 38.86353091339438
+Step 80, mean loss 37.86472109690613
+Step 85, mean loss 38.302074259924986
+Step 90, mean loss 39.7549035087298
+Step 95, mean loss 41.103157192812596
+Unrolled forward losses 72.7893457452576
+Evaluation on test dataset:
+Step 5, mean loss 3.44852705212465
+Step 10, mean loss 3.2950035447536212
+Step 15, mean loss 5.584568456381527
+Step 20, mean loss 8.165974037571097
+Step 25, mean loss 12.97736842459083
+Step 30, mean loss 19.32943337182212
+Step 35, mean loss 27.827503861528836
+Step 40, mean loss 36.2460358793336
+Step 45, mean loss 43.39276616772089
+Step 50, mean loss 44.860559838406175
+Step 55, mean loss 43.47722358938266
+Step 60, mean loss 41.95667630330786
+Step 65, mean loss 42.35097652646876
+Step 70, mean loss 41.07103794846528
+Step 75, mean loss 38.83208958081352
+Step 80, mean loss 38.327377316856385
+Step 85, mean loss 40.01247871945051
+Step 90, mean loss 43.092082381340475
+Step 95, mean loss 47.065469835447274
+Unrolled forward losses 83.95365753364524
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  3:56:14.060154
+Epoch 8
+Starting epoch 8...
+Training Loss (progress: 0.00): 3.661527077018289; Norm Grads: 33.33094867470073
+Training Loss (progress: 0.10): 3.588817791588546; Norm Grads: 34.33703722040798
+Training Loss (progress: 0.20): 3.683911910639361; Norm Grads: 33.80061574847467
+Training Loss (progress: 0.30): 3.566929995391323; Norm Grads: 33.49253871312838
+Training Loss (progress: 0.40): 3.5614633094414923; Norm Grads: 33.675929865164754
+Training Loss (progress: 0.50): 3.5437683351365203; Norm Grads: 34.30135277481427
+Training Loss (progress: 0.60): 3.4785770442307786; Norm Grads: 33.992727782703724
+Training Loss (progress: 0.70): 3.5576933338902026; Norm Grads: 34.661270771941375
+Training Loss (progress: 0.80): 3.607382063402871; Norm Grads: 35.413948756053564
+Training Loss (progress: 0.90): 3.402919286657691; Norm Grads: 34.69149727587265
+Evaluation on validation dataset:
+Step 5, mean loss 3.563713359734101
+Step 10, mean loss 3.1267096859182164
+Step 15, mean loss 4.08786452672513
+Step 20, mean loss 6.085527081659816
+Step 25, mean loss 10.068614135973904
+Step 30, mean loss 15.741062897816198
+Step 35, mean loss 23.033448013691753
+Step 40, mean loss 29.26828985023602
+Step 45, mean loss 37.44244058192832
+Step 50, mean loss 41.49935687573536
+Step 55, mean loss 41.09482339732601
+Step 60, mean loss 42.22389680433891
+Step 65, mean loss 42.34358462600832
+Step 70, mean loss 41.481448136171814
+Step 75, mean loss 38.52456032023295
+Step 80, mean loss 37.646718366385635
+Step 85, mean loss 38.01725746233048
+Step 90, mean loss 39.20357914258987
+Step 95, mean loss 40.32279178571933
+Unrolled forward losses 95.76486499252435
+Epoch 9
+Starting epoch 9...
+Training Loss (progress: 0.00): 3.530092701980742; Norm Grads: 35.622486947189444
+Training Loss (progress: 0.10): 3.618655020165108; Norm Grads: 36.440876343141035
+Training Loss (progress: 0.20): 3.4895840371220617; Norm Grads: 34.979175153777696
+Training Loss (progress: 0.30): 3.5137222142767075; Norm Grads: 34.25840180751329
+Training Loss (progress: 0.40): 3.6602616485569226; Norm Grads: 35.85245513861806
+Training Loss (progress: 0.50): 3.5481093293224055; Norm Grads: 34.74184334371174
+Training Loss (progress: 0.60): 3.4710046002308177; Norm Grads: 35.91138398117729
+Training Loss (progress: 0.70): 3.5355947535457726; Norm Grads: 34.98029322234096
+Training Loss (progress: 0.80): 3.543423672659973; Norm Grads: 34.33445275214974
+Training Loss (progress: 0.90): 3.516558212874141; Norm Grads: 34.2195408161467
+Evaluation on validation dataset:
+Step 5, mean loss 3.372913332451903
+Step 10, mean loss 3.2203234214391854
+Step 15, mean loss 4.205674053220017
+Step 20, mean loss 6.06145594260604
+Step 25, mean loss 10.022496202907634
+Step 30, mean loss 15.782783362572758
+Step 35, mean loss 22.524820947793522
+Step 40, mean loss 28.387221734320395
+Step 45, mean loss 36.78947773866177
+Step 50, mean loss 40.37464603638277
+Step 55, mean loss 39.922400224937604
+Step 60, mean loss 40.965613475660476
+Step 65, mean loss 41.163666671392754
+Step 70, mean loss 40.27829217318521
+Step 75, mean loss 37.4485785836035
+Step 80, mean loss 36.550082713967015
+Step 85, mean loss 36.97534614149657
+Step 90, mean loss 38.199526142621195
+Step 95, mean loss 39.10412859492834
+Unrolled forward losses 92.71634336498286
+Epoch 10
+Starting epoch 10...
+Training Loss (progress: 0.00): 3.6123774426727278; Norm Grads: 32.8370387190512
+Training Loss (progress: 0.10): 3.5193231211517833; Norm Grads: 34.622707255191315
+Training Loss (progress: 0.20): 3.561873531271827; Norm Grads: 35.17294150594273
+Training Loss (progress: 0.30): 3.62923888469999; Norm Grads: 36.159973344729565
+Training Loss (progress: 0.40): 3.4787372762680233; Norm Grads: 35.34444535285126
+Training Loss (progress: 0.50): 3.482894109053502; Norm Grads: 34.90764425166693
+Training Loss (progress: 0.60): 3.6330606272505563; Norm Grads: 35.91428392454391
+Training Loss (progress: 0.70): 3.425832927495042; Norm Grads: 36.083854798664944
+Training Loss (progress: 0.80): 3.4582614476321236; Norm Grads: 36.30129721840911
+Training Loss (progress: 0.90): 3.526911317041141; Norm Grads: 35.74832545736811
+Evaluation on validation dataset:
+Step 5, mean loss 3.4123031149062193
+Step 10, mean loss 3.0022938469021234
+Step 15, mean loss 4.116209199454464
+Step 20, mean loss 5.6437724575071435
+Step 25, mean loss 9.837925816009816
+Step 30, mean loss 15.42926333494345
+Step 35, mean loss 22.118085859062703
+Step 40, mean loss 28.052113169164127
+Step 45, mean loss 36.59528149670028
+Step 50, mean loss 40.156249670509325
+Step 55, mean loss 40.00086805147948
+Step 60, mean loss 41.14926678343568
+Step 65, mean loss 41.451283103547524
+Step 70, mean loss 40.63515426884467
+Step 75, mean loss 37.903078023135706
+Step 80, mean loss 37.031628710461945
+Step 85, mean loss 37.37969552580252
+Step 90, mean loss 38.4918610749766
+Step 95, mean loss 39.51591134054962
+Unrolled forward losses 79.80362053051226
+Epoch 11
+Starting epoch 11...
+Training Loss (progress: 0.00): 3.431855712874165; Norm Grads: 34.7586154137129
+Training Loss (progress: 0.10): 3.552142806299989; Norm Grads: 35.74158837714847
+Training Loss (progress: 0.20): 3.6299539837805885; Norm Grads: 36.60176041433089
+Training Loss (progress: 0.30): 3.5390755843857167; Norm Grads: 36.851618835931504
+Training Loss (progress: 0.40): 3.317899952341202; Norm Grads: 34.39353432546694
+Training Loss (progress: 0.50): 3.4367504761737404; Norm Grads: 36.30379169874823
+Training Loss (progress: 0.60): 3.7221987355705175; Norm Grads: 36.22248046531877
+Training Loss (progress: 0.70): 3.616197077484429; Norm Grads: 36.60743425291877
+Training Loss (progress: 0.80): 3.6047912840624106; Norm Grads: 36.46737288735402
+Training Loss (progress: 0.90): 3.4574889242506703; Norm Grads: 36.1941038569567
+Evaluation on validation dataset:
+Step 5, mean loss 3.284401494621836
+Step 10, mean loss 2.7964801015075755
+Step 15, mean loss 3.977077898266577
+Step 20, mean loss 5.614125443522964
+Step 25, mean loss 9.755489261560223
+Step 30, mean loss 15.215883212127416
+Step 35, mean loss 21.955387066797
+Step 40, mean loss 27.912457299998273
+Step 45, mean loss 36.24187687095545
+Step 50, mean loss 39.87565936770868
+Step 55, mean loss 39.76009284762498
+Step 60, mean loss 40.736875715349086
+Step 65, mean loss 40.85218032207982
+Step 70, mean loss 39.99510845299764
+Step 75, mean loss 37.175523746605705
+Step 80, mean loss 36.41261334875196
+Step 85, mean loss 36.84894906073852
+Step 90, mean loss 38.05355067292987
+Step 95, mean loss 39.078958086496726
+Unrolled forward losses 92.95273393303097
+Epoch 12
+Starting epoch 12...
+Training Loss (progress: 0.00): 3.478735074001315; Norm Grads: 36.128529144244744
+Training Loss (progress: 0.10): 3.469054282624912; Norm Grads: 35.9552808725761
+Training Loss (progress: 0.20): 3.5194813462455263; Norm Grads: 35.75340185532266
+Training Loss (progress: 0.30): 3.529177642800374; Norm Grads: 38.221880931715866
+Training Loss (progress: 0.40): 3.648551773910818; Norm Grads: 37.20216118567598
+Training Loss (progress: 0.50): 3.287446607843303; Norm Grads: 35.72947173013942
+Training Loss (progress: 0.60): 3.3845839941155376; Norm Grads: 34.18136581473294
+Training Loss (progress: 0.70): 3.5950671438182265; Norm Grads: 37.69108952441089
+Training Loss (progress: 0.80): 3.630131556003837; Norm Grads: 37.324289559215025
+Training Loss (progress: 0.90): 3.349189458118424; Norm Grads: 35.70360070262418
+Evaluation on validation dataset:
+Step 5, mean loss 2.999724669316312
+Step 10, mean loss 2.665153654737134
+Step 15, mean loss 3.8264419960379747
+Step 20, mean loss 5.389416172689803
+Step 25, mean loss 9.315618121353388
+Step 30, mean loss 14.592191156835499
+Step 35, mean loss 21.39345918850207
+Step 40, mean loss 27.399622435553688
+Step 45, mean loss 35.716865252278865
+Step 50, mean loss 39.5726853532429
+Step 55, mean loss 39.31611657575799
+Step 60, mean loss 40.46718915142351
+Step 65, mean loss 40.692393157685174
+Step 70, mean loss 39.89221890741084
+Step 75, mean loss 37.103659089765806
+Step 80, mean loss 36.34312035786951
+Step 85, mean loss 36.665437412203296
+Step 90, mean loss 37.96391170313642
+Step 95, mean loss 38.90364178243382
+Unrolled forward losses 72.79011234286132
+Epoch 13
+Starting epoch 13...
+Training Loss (progress: 0.00): 3.5950796005860393; Norm Grads: 37.93426933689318
+Training Loss (progress: 0.10): 3.5097296891574485; Norm Grads: 37.14798702958446
+Training Loss (progress: 0.20): 3.5152250881440112; Norm Grads: 39.07923608554367
+Training Loss (progress: 0.30): 3.588891512657062; Norm Grads: 36.82764193966926
+Training Loss (progress: 0.40): 3.3732958442508267; Norm Grads: 37.63862805722486
+Training Loss (progress: 0.50): 3.591969003997262; Norm Grads: 37.22485196711257
+Training Loss (progress: 0.60): 3.5216745177816797; Norm Grads: 36.86198786200561
+Training Loss (progress: 0.70): 3.321884398216372; Norm Grads: 35.54165934420641
+Training Loss (progress: 0.80): 3.5017319938459495; Norm Grads: 36.97354210274995
+Training Loss (progress: 0.90): 3.5131345118278383; Norm Grads: 36.206887359193345
+Evaluation on validation dataset:
+Step 5, mean loss 2.87262699219834
+Step 10, mean loss 2.6882998173551584
+Step 15, mean loss 3.840224462831705
+Step 20, mean loss 5.488972267088657
+Step 25, mean loss 9.456075832392923
+Step 30, mean loss 14.844444937588067
+Step 35, mean loss 21.4016829710867
+Step 40, mean loss 27.399436034064223
+Step 45, mean loss 35.84789717801824
+Step 50, mean loss 39.49744276215839
+Step 55, mean loss 39.18328253875143
+Step 60, mean loss 40.29520709511187
+Step 65, mean loss 40.63623782830364
+Step 70, mean loss 39.82813591709941
+Step 75, mean loss 37.01335214597728
+Step 80, mean loss 36.22905809947887
+Step 85, mean loss 36.75955180296222
+Step 90, mean loss 38.211962132946105
+Step 95, mean loss 39.463471235425615
+Unrolled forward losses 75.81695386485553
+Epoch 14
+Starting epoch 14...
+Training Loss (progress: 0.00): 3.420702183548112; Norm Grads: 37.16119302985365
+Training Loss (progress: 0.10): 3.5253644813739524; Norm Grads: 37.22233241639876
+Training Loss (progress: 0.20): 3.29827529654109; Norm Grads: 36.92377310998638
+Training Loss (progress: 0.30): 3.5844150964923878; Norm Grads: 37.5050761037518
+Training Loss (progress: 0.40): 3.403929664809236; Norm Grads: 38.14484722095798
+Training Loss (progress: 0.50): 3.3714379576926117; Norm Grads: 36.88830610625885
+Training Loss (progress: 0.60): 3.4291507010204056; Norm Grads: 37.339743552785414
+Training Loss (progress: 0.70): 3.5398011177229733; Norm Grads: 37.52885435433718
+Training Loss (progress: 0.80): 3.5867189700135516; Norm Grads: 38.18415849958352
+Training Loss (progress: 0.90): 3.6116620929433823; Norm Grads: 38.0804444493728
+Evaluation on validation dataset:
+Step 5, mean loss 3.367486587277076
+Step 10, mean loss 2.8330489630003957
+Step 15, mean loss 3.8831702985715144
+Step 20, mean loss 5.403135398442094
+Step 25, mean loss 9.365790437741278
+Step 30, mean loss 14.658380636088118
+Step 35, mean loss 21.420369662644838
+Step 40, mean loss 27.380185091557568
+Step 45, mean loss 35.812726071859
+Step 50, mean loss 39.35346867538417
+Step 55, mean loss 38.918363305416214
+Step 60, mean loss 40.27533939900191
+Step 65, mean loss 40.556285478774406
+Step 70, mean loss 39.64654320329781
+Step 75, mean loss 36.90928100280073
+Step 80, mean loss 36.17727940969594
+Step 85, mean loss 36.53000544495197
+Step 90, mean loss 37.748493502994165
+Step 95, mean loss 38.881676489716114
+Unrolled forward losses 78.05089952031271
+Epoch 15
+Starting epoch 15...
+Training Loss (progress: 0.00): 3.4042685007123157; Norm Grads: 38.329121245786396
+Training Loss (progress: 0.10): 3.42604946062697; Norm Grads: 35.79307130474471
+Training Loss (progress: 0.20): 3.54216802930598; Norm Grads: 37.01195495079815
+Training Loss (progress: 0.30): 3.3726643727255117; Norm Grads: 36.870866330915675
+Training Loss (progress: 0.40): 3.456872380623197; Norm Grads: 37.52626459130255
+Training Loss (progress: 0.50): 3.3982821851195215; Norm Grads: 36.42102610309512
+Training Loss (progress: 0.60): 3.458456005314296; Norm Grads: 38.810022591205176
+Training Loss (progress: 0.70): 3.4740069556105033; Norm Grads: 37.77272114023654
+Training Loss (progress: 0.80): 3.6084754986384917; Norm Grads: 37.87716132591878
+Training Loss (progress: 0.90): 3.388958691838047; Norm Grads: 37.3812761290826
+Evaluation on validation dataset:
+Step 5, mean loss 3.37726576239172
+Step 10, mean loss 2.825237437782677
+Step 15, mean loss 3.881360032262813
+Step 20, mean loss 5.578249781431534
+Step 25, mean loss 9.661554009094655
+Step 30, mean loss 15.098584830379146
+Step 35, mean loss 21.775591994420736
+Step 40, mean loss 27.718515803363882
+Step 45, mean loss 36.18000408905981
+Step 50, mean loss 39.79761901688193
+Step 55, mean loss 39.67813745912271
+Step 60, mean loss 41.003391821635
+Step 65, mean loss 41.253579781671704
+Step 70, mean loss 40.228277629117045
+Step 75, mean loss 37.51382759961425
+Step 80, mean loss 36.81264955472483
+Step 85, mean loss 37.15745529362642
+Step 90, mean loss 38.39442571913401
+Step 95, mean loss 39.865972145216844
+Unrolled forward losses 70.09065235953716
+Evaluation on test dataset:
+Step 5, mean loss 3.3108279439905672
+Step 10, mean loss 2.7613095998286816
+Step 15, mean loss 5.075951485765176
+Step 20, mean loss 7.497818243039513
+Step 25, mean loss 11.847326419222396
+Step 30, mean loss 18.225642630409155
+Step 35, mean loss 26.275102895539888
+Step 40, mean loss 34.01030502302634
+Step 45, mean loss 40.945685106589565
+Step 50, mean loss 42.80948940060075
+Step 55, mean loss 41.48650532256755
+Step 60, mean loss 40.04193394191015
+Step 65, mean loss 40.57764644421918
+Step 70, mean loss 39.43964296158346
+Step 75, mean loss 37.851131379641686
+Step 80, mean loss 37.54580427192015
+Step 85, mean loss 38.70234727016371
+Step 90, mean loss 41.56335701903717
+Step 95, mean loss 45.67031534384829
+Unrolled forward losses 76.68794068092774
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  7:42:55.495372
+Epoch 16
+Starting epoch 16...
+Training Loss (progress: 0.00): 3.438188497285004; Norm Grads: 37.77001971273242
+Training Loss (progress: 0.10): 3.4582756534915275; Norm Grads: 39.32709332366979
+Training Loss (progress: 0.20): 3.44042945276151; Norm Grads: 39.90269980982086
+Training Loss (progress: 0.30): 3.476546705830769; Norm Grads: 38.16535358000619
+Training Loss (progress: 0.40): 3.5403584984758454; Norm Grads: 38.27123753910773
+Training Loss (progress: 0.50): 3.545272582749208; Norm Grads: 38.89675943269432
+Training Loss (progress: 0.60): 3.4079526361841825; Norm Grads: 38.10653670040856
+Training Loss (progress: 0.70): 3.355968257286452; Norm Grads: 36.457643869271415
+Training Loss (progress: 0.80): 3.551101210209847; Norm Grads: 39.35244936051391
+Training Loss (progress: 0.90): 3.574287845184092; Norm Grads: 38.04218975725061
+Evaluation on validation dataset:
+Step 5, mean loss 3.098654733305323
+Step 10, mean loss 2.582780535533703
+Step 15, mean loss 3.7348894638198082
+Step 20, mean loss 5.232651321595311
+Step 25, mean loss 9.198520282484733
+Step 30, mean loss 14.510243280729178
+Step 35, mean loss 21.299447951601287
+Step 40, mean loss 27.30344811757241
+Step 45, mean loss 35.57899672329462
+Step 50, mean loss 39.45213273925867
+Step 55, mean loss 39.18110366215072
+Step 60, mean loss 40.48322159098517
+Step 65, mean loss 40.742099768212995
+Step 70, mean loss 39.841040125614455
+Step 75, mean loss 37.13968716637622
+Step 80, mean loss 36.33763878956629
+Step 85, mean loss 36.75453297126232
+Step 90, mean loss 37.954265800818234
+Step 95, mean loss 39.178633462921184
+Unrolled forward losses 65.54354340593724
+Evaluation on test dataset:
+Step 5, mean loss 3.0321169679244493
+Step 10, mean loss 2.5197377307583966
+Step 15, mean loss 4.948613790795729
+Step 20, mean loss 7.002657973742556
+Step 25, mean loss 11.086470105320345
+Step 30, mean loss 17.60800585434805
+Step 35, mean loss 25.82332507973603
+Step 40, mean loss 33.528450738363645
+Step 45, mean loss 40.443134628510144
+Step 50, mean loss 42.53004775267621
+Step 55, mean loss 41.22167669419947
+Step 60, mean loss 39.62617751907502
+Step 65, mean loss 40.07489844429965
+Step 70, mean loss 39.028920688733244
+Step 75, mean loss 37.32653373637264
+Step 80, mean loss 37.072111304445784
+Step 85, mean loss 38.37638633590324
+Step 90, mean loss 41.2062310159667
+Step 95, mean loss 45.0821090093002
+Unrolled forward losses 73.13887001647579
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  8:11:12.960785
+Epoch 17
+Starting epoch 17...
+Training Loss (progress: 0.00): 3.469044667689223; Norm Grads: 38.88751875099694
+Training Loss (progress: 0.10): 3.583647725935685; Norm Grads: 38.54004938301671
+Training Loss (progress: 0.20): 3.3615245081712404; Norm Grads: 37.67192825251892
+Training Loss (progress: 0.30): 3.2708757115609695; Norm Grads: 37.08619938162865
+Training Loss (progress: 0.40): 3.3344161364063094; Norm Grads: 36.90859758313174
+Training Loss (progress: 0.50): 3.649008548803492; Norm Grads: 39.35221533933075
+Training Loss (progress: 0.60): 3.4165700757124893; Norm Grads: 36.73546587164467
+Training Loss (progress: 0.70): 3.499980011169146; Norm Grads: 39.334118240092025
+Training Loss (progress: 0.80): 3.41904047499773; Norm Grads: 38.288209559587436
+Training Loss (progress: 0.90): 3.258462613921045; Norm Grads: 37.350443883044974
+Evaluation on validation dataset:
+Step 5, mean loss 2.9769806824187652
+Step 10, mean loss 2.6199470639296933
+Step 15, mean loss 3.7415432052270714
+Step 20, mean loss 5.323677717133238
+Step 25, mean loss 9.271881475004061
+Step 30, mean loss 14.709381198468106
+Step 35, mean loss 21.43381717469542
+Step 40, mean loss 27.470992953493607
+Step 45, mean loss 35.915621635093714
+Step 50, mean loss 39.8668787430764
+Step 55, mean loss 39.69871190506104
+Step 60, mean loss 41.230604403174056
+Step 65, mean loss 41.400318059502396
+Step 70, mean loss 40.48346956962147
+Step 75, mean loss 37.75107290848801
+Step 80, mean loss 36.84184172065655
+Step 85, mean loss 37.33270674111844
+Step 90, mean loss 38.78291062308702
+Step 95, mean loss 40.314624640008674
+Unrolled forward losses 66.78066650569568
+Epoch 18
+Starting epoch 18...
+Training Loss (progress: 0.00): 3.5720493701082483; Norm Grads: 39.148083298096296
+Training Loss (progress: 0.10): 3.5930450819016273; Norm Grads: 38.12966581065999
+Training Loss (progress: 0.20): 3.5126232051871193; Norm Grads: 36.922864179001515
+Training Loss (progress: 0.30): 3.475684608579428; Norm Grads: 39.533046927808684
+Training Loss (progress: 0.40): 3.4097459706132316; Norm Grads: 38.26462632258824
+Training Loss (progress: 0.50): 3.591269617157273; Norm Grads: 39.58344594274701
+Training Loss (progress: 0.60): 3.499091080799415; Norm Grads: 39.761563181387395
+Training Loss (progress: 0.70): 3.5920637692227744; Norm Grads: 38.20290507300344
+Training Loss (progress: 0.80): 3.418776263879088; Norm Grads: 37.745175659226696
+Training Loss (progress: 0.90): 3.4648969594432493; Norm Grads: 39.97543310546769
+Evaluation on validation dataset:
+Step 5, mean loss 3.1678849432194016
+Step 10, mean loss 2.675150744734026
+Step 15, mean loss 3.741952726457263
+Step 20, mean loss 5.384600637363677
+Step 25, mean loss 9.103043212811421
+Step 30, mean loss 14.433553250626522
+Step 35, mean loss 21.194952878389863
+Step 40, mean loss 27.13458936976012
+Step 45, mean loss 35.43217007200906
+Step 50, mean loss 39.28670266962695
+Step 55, mean loss 39.15930469641697
+Step 60, mean loss 40.372267134960424
+Step 65, mean loss 40.701210896625795
+Step 70, mean loss 39.866695532630075
+Step 75, mean loss 37.064445821601964
+Step 80, mean loss 36.35308381827805
+Step 85, mean loss 36.60288769494303
+Step 90, mean loss 37.59179966797367
+Step 95, mean loss 38.591931850847956
+Unrolled forward losses 70.34153663935967
+Epoch 19
+Starting epoch 19...
+Training Loss (progress: 0.00): 3.236441201207504; Norm Grads: 36.870749339496506
+Training Loss (progress: 0.10): 3.6120580805799927; Norm Grads: 39.41906838839953
+Training Loss (progress: 0.20): 3.3807645024002047; Norm Grads: 38.06904385427767
+Training Loss (progress: 0.30): 3.395234243301076; Norm Grads: 37.86747713070186
+Training Loss (progress: 0.40): 3.4828149419558176; Norm Grads: 39.192444126427915
+Training Loss (progress: 0.50): 3.4614677219841448; Norm Grads: 39.41352726256139
+Training Loss (progress: 0.60): 3.3541090239329368; Norm Grads: 37.35743584227881
+Training Loss (progress: 0.70): 3.526275191969595; Norm Grads: 39.22770346879999
+Training Loss (progress: 0.80): 3.546255617594664; Norm Grads: 41.49074589127814
+Training Loss (progress: 0.90): 3.2720165616802; Norm Grads: 37.90988929509988
+Evaluation on validation dataset:
+Step 5, mean loss 2.8637392691290464
+Step 10, mean loss 2.6626140715735467
+Step 15, mean loss 3.7665371565488455
+Step 20, mean loss 5.4008156969084276
+Step 25, mean loss 9.131908739783666
+Step 30, mean loss 14.552856107137778
+Step 35, mean loss 21.299129782703176
+Step 40, mean loss 27.23102309958613
+Step 45, mean loss 35.73422574167179
+Step 50, mean loss 39.734196962876894
+Step 55, mean loss 39.48598814585762
+Step 60, mean loss 40.89585713754657
+Step 65, mean loss 41.253605833898575
+Step 70, mean loss 40.2911396905075
+Step 75, mean loss 37.47348906892384
+Step 80, mean loss 36.79615770209066
+Step 85, mean loss 37.083855070152566
+Step 90, mean loss 38.33222032642391
+Step 95, mean loss 39.564707210458096
+Unrolled forward losses 65.69930246398769
+Epoch 20
+Starting epoch 20...
+Training Loss (progress: 0.00): 3.468666738558296; Norm Grads: 40.35854935267506
+Training Loss (progress: 0.10): 3.2546787734815394; Norm Grads: 36.61156229713549
+Training Loss (progress: 0.20): 3.4047863405589767; Norm Grads: 39.33295030423544
+Training Loss (progress: 0.30): 3.363991438946675; Norm Grads: 39.36775218211821
+Training Loss (progress: 0.40): 3.3841400355116673; Norm Grads: 38.0799743647908
+Training Loss (progress: 0.50): 3.3468672181533026; Norm Grads: 39.17433135418915
+Training Loss (progress: 0.60): 3.3851160204815947; Norm Grads: 37.68713278177018
+Training Loss (progress: 0.70): 3.4531228229455344; Norm Grads: 38.51056606480173
+Training Loss (progress: 0.80): 3.5060993146121207; Norm Grads: 37.39123720413964
+Training Loss (progress: 0.90): 3.3295017570112964; Norm Grads: 40.08437062904186
+Evaluation on validation dataset:
+Step 5, mean loss 3.439096740606813
+Step 10, mean loss 2.7043843962082867
+Step 15, mean loss 3.751088218509721
+Step 20, mean loss 5.376481317467929
+Step 25, mean loss 9.401537154435738
+Step 30, mean loss 14.69914651714977
+Step 35, mean loss 21.48389211551422
+Step 40, mean loss 27.492537241361926
+Step 45, mean loss 35.91743054975594
+Step 50, mean loss 39.67046957679033
+Step 55, mean loss 39.42223491557857
+Step 60, mean loss 40.91731473819476
+Step 65, mean loss 41.35120031457079
+Step 70, mean loss 40.30793238398601
+Step 75, mean loss 37.65711755384038
+Step 80, mean loss 36.95433506140086
+Step 85, mean loss 37.36060834809943
+Step 90, mean loss 38.62186175929486
+Step 95, mean loss 40.11657536896645
+Unrolled forward losses 63.675591652594164
+Evaluation on test dataset:
+Step 5, mean loss 3.3913338339309576
+Step 10, mean loss 2.625494523461689
+Step 15, mean loss 4.869154749208165
+Step 20, mean loss 7.249941073407713
+Step 25, mean loss 11.388539997517546
+Step 30, mean loss 17.882282748505244
+Step 35, mean loss 26.00945554563964
+Step 40, mean loss 33.78074641756872
+Step 45, mean loss 40.71816845799251
+Step 50, mean loss 42.77611333443371
+Step 55, mean loss 41.445957347821476
+Step 60, mean loss 40.05082790085751
+Step 65, mean loss 40.60862993721072
+Step 70, mean loss 39.66341263389161
+Step 75, mean loss 37.96248072515323
+Step 80, mean loss 37.755807344550156
+Step 85, mean loss 39.00261656916878
+Step 90, mean loss 41.96958468597011
+Step 95, mean loss 46.06497711015568
+Unrolled forward losses 70.45231617096317
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time1222147_rffsFalse_.pt
+
+Training time:  10:04:23.577212
+Epoch 21
+Starting epoch 21...
+Training Loss (progress: 0.00): 3.5162872680481847; Norm Grads: 40.45811220630242
+Training Loss (progress: 0.10): 3.489289296606559; Norm Grads: 39.19995598535544
+Training Loss (progress: 0.20): 3.5199298912824837; Norm Grads: 38.43561530977799
+Training Loss (progress: 0.30): 3.428824804180963; Norm Grads: 39.17029518433545
+Training Loss (progress: 0.40): 3.5111785027952025; Norm Grads: 39.49635552017715
+Training Loss (progress: 0.50): 3.4770088004843074; Norm Grads: 40.178376594374335
+Training Loss (progress: 0.60): 3.407069070536886; Norm Grads: 38.431533310579034
+Training Loss (progress: 0.70): 3.5730444624134505; Norm Grads: 38.07992794398057
+Training Loss (progress: 0.80): 3.555228536464976; Norm Grads: 38.42708199624814
+Training Loss (progress: 0.90): 3.563190825405311; Norm Grads: 41.40675306115936
+Evaluation on validation dataset:
+Step 5, mean loss 3.8126641804749575
+Step 10, mean loss 2.900453871443653
+Step 15, mean loss 3.880878366979033
+Step 20, mean loss 5.658128690401056
+Step 25, mean loss 9.54544271500325
+Step 30, mean loss 15.033675395750098
+Step 35, mean loss 21.731690825296766
+Step 40, mean loss 27.744241036461098
+Step 45, mean loss 36.057781797600725
+Step 50, mean loss 39.9406109358913
+Step 55, mean loss 39.7411833129061
+Step 60, mean loss 41.129274024682175
+Step 65, mean loss 41.26633282510177
+Step 70, mean loss 40.31184019972593
+Step 75, mean loss 37.63249029247754
+Step 80, mean loss 36.94170282118368
+Step 85, mean loss 37.24666478885549
+Step 90, mean loss 38.48670809700377
+Step 95, mean loss 39.88279191340773
+Unrolled forward losses 72.79554964341223
+Epoch 22
+Starting epoch 22...
+Training Loss (progress: 0.00): 3.485178346794438; Norm Grads: 40.557564295954954
+Training Loss (progress: 0.10): 3.3962853858084263; Norm Grads: 39.400636227647986
+Training Loss (progress: 0.20): 3.5046038018793664; Norm Grads: 39.90004892061713
+Training Loss (progress: 0.30): 3.5682145442990634; Norm Grads: 39.26373435629201
+Training Loss (progress: 0.40): 3.483435470863388; Norm Grads: 39.202585561100534
+Training Loss (progress: 0.50): 3.3854545855645966; Norm Grads: 38.48469538215477
+Training Loss (progress: 0.60): 3.4885409996514887; Norm Grads: 39.755668783624294
+Training Loss (progress: 0.70): 3.282804121431297; Norm Grads: 41.740519706370165
+Training Loss (progress: 0.80): 3.4752081048498193; Norm Grads: 38.39844925599084
+Training Loss (progress: 0.90): 3.5425914918637154; Norm Grads: 39.719230885464526
+Evaluation on validation dataset:
+Step 5, mean loss 3.303990001356253
+Step 10, mean loss 2.7072796844352722
+Step 15, mean loss 3.7880802171353913
+Step 20, mean loss 5.3138347123429615
+Step 25, mean loss 9.129461994195385
+Step 30, mean loss 14.452571875707793
+Step 35, mean loss 21.287742103274837
+Step 40, mean loss 27.206991003388296
+Step 45, mean loss 35.466119686823156
+Step 50, mean loss 39.31221085393866
+Step 55, mean loss 39.0385251931224
+Step 60, mean loss 40.37518343956693
+Step 65, mean loss 40.61895976287332
+Step 70, mean loss 39.78057193971238
+Step 75, mean loss 37.15789404031697
+Step 80, mean loss 36.39960050795602
+Step 85, mean loss 36.751107330975415
+Step 90, mean loss 38.02246236964671
+Step 95, mean loss 39.2326401530606
+Unrolled forward losses 75.21178901928282
+Epoch 23
+Starting epoch 23...
+Training Loss (progress: 0.00): 3.555417670994514; Norm Grads: 40.28743809790635
+Training Loss (progress: 0.10): 3.3954232755888274; Norm Grads: 39.300725737137775
+Training Loss (progress: 0.20): 3.387399901487076; Norm Grads: 39.47897229978687
+Training Loss (progress: 0.30): 3.3404400092248423; Norm Grads: 39.56729343594423
+Training Loss (progress: 0.40): 3.528473569017318; Norm Grads: 40.38895346971282
+Training Loss (progress: 0.50): 3.3993300359871643; Norm Grads: 39.33072305087342
+Training Loss (progress: 0.60): 3.3936214634029414; Norm Grads: 41.07893400920604
+Training Loss (progress: 0.70): 3.52119820722205; Norm Grads: 42.00630342793606
+Training Loss (progress: 0.80): 3.495022000000456; Norm Grads: 40.351310103267956
+Training Loss (progress: 0.90): 3.509278354681936; Norm Grads: 40.44737831919569
+Evaluation on validation dataset:
+Step 5, mean loss 3.013204059705729
+Step 10, mean loss 2.561421561537082
+Step 15, mean loss 3.6337355831973914
+Step 20, mean loss 5.21951556981769
+Step 25, mean loss 9.102143731945258
+Step 30, mean loss 14.249742762743288
+Step 35, mean loss 21.00759043128646
+Step 40, mean loss 26.936099321350373
+Step 45, mean loss 35.28779420353712
+Step 50, mean loss 39.20514771623515
+Step 55, mean loss 38.87723093390572
+Step 60, mean loss 40.256550961784484
+Step 65, mean loss 40.51485358968528
+Step 70, mean loss 39.58142086190277
+Step 75, mean loss 36.891964057256
+Step 80, mean loss 36.04783723212169
+Step 85, mean loss 36.58289557552239
+Step 90, mean loss 37.930115772118356
+Step 95, mean loss 39.18714436786277
+Unrolled forward losses 67.33932395152816
+Epoch 24
+Starting epoch 24...
+Training Loss (progress: 0.00): 3.602236515792969; Norm Grads: 41.670549394265656
+Training Loss (progress: 0.10): 3.4594721802894837; Norm Grads: 40.5029113828967
+Training Loss (progress: 0.20): 3.498009527663341; Norm Grads: 41.06866247557314
+Training Loss (progress: 0.30): 3.398688601268824; Norm Grads: 38.35686562365226
+Training Loss (progress: 0.40): 3.4907298645502425; Norm Grads: 40.59083952465914
+Training Loss (progress: 0.50): 3.3916373478563493; Norm Grads: 39.2873643766755
+Training Loss (progress: 0.60): 3.4314109391079404; Norm Grads: 39.89192770097506
+Training Loss (progress: 0.70): 3.377691115104755; Norm Grads: 40.688634430437936
+Training Loss (progress: 0.80): 3.4846607884582985; Norm Grads: 41.37622068705547
+Training Loss (progress: 0.90): 3.5388060831966985; Norm Grads: 41.09006328281791
+Evaluation on validation dataset:
+Step 5, mean loss 3.2947477195475168
+Step 10, mean loss 2.6284789974799665
+Step 15, mean loss 3.665965573665032
+Step 20, mean loss 5.317733242780337
+Step 25, mean loss 9.094504601765387
+Step 30, mean loss 14.357537524061026
+Step 35, mean loss 21.219544283924947
+Step 40, mean loss 27.14069951801726
+Step 45, mean loss 35.53427107080592
+Step 50, mean loss 39.38620275819617
+Step 55, mean loss 39.0655506408247
+Step 60, mean loss 40.56834978362694
+Step 65, mean loss 40.9339514090352
+Step 70, mean loss 39.955630584921096
+Step 75, mean loss 37.33275247172193
+Step 80, mean loss 36.52973779447501
+Step 85, mean loss 36.82285768366046
+Step 90, mean loss 37.99049436059238
+Step 95, mean loss 39.1327594250568
+Unrolled forward losses 73.39936604931705
+Test loss: 70.45231617096317
+Training time (until epoch 20):  {datetime.timedelta(seconds=36263, microseconds=577212)}

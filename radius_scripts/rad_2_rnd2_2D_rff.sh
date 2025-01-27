@@ -2,7 +2,7 @@
 
 # Grid Engine options (lines prefixed with #$)
 # Runtime limit of 48 hours:
-#$ -l h_rt=47:59:59
+#$ -l h_rt=16:00:00
 #
 # Set working directory to the directory where the job is submitted from:
 #$ -cwd

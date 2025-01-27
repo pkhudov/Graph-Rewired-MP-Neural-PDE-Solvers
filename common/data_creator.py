@@ -11,7 +11,7 @@ from torch_cluster import radius_graph
 from torch_geometric.utils.random import erdos_renyi_graph
 from torch_geometric.utils import coalesce, to_undirected
 import random
-import networkx as nx
+import networkx
 
 # from einops import rearrange
 
@@ -113,7 +113,7 @@ class GraphCreator_FS_2D(nn.Module):
         self.random_edge_index = None
         self.edge_path = edge_path
         self.edge_mode = edge_mode.lower()
-        self.random_edges_per_node = rand_edges_per_node
+        self.rand_edges_per_node = rand_edges_per_node
 
         assert isinstance(self.n, int)
         assert isinstance(self.tw, int)
@@ -207,8 +207,8 @@ class GraphCreator_FS_2D(nn.Module):
                             random_edges.append([node_i, nb])
                     random_edges = torch.tensor(random_edges).t()
                     random_edges = to_undirected(random_edges, num_nodes=n_nodes)
-                elif self.edge_mode == 'random_regular':
-                    rnd_reg_graph = nx.random_regular_graph(self.rand_edges_per_node, n_nodes)
+                elif self.edge_mode == 'randomregular':
+                    rnd_reg_graph = networkx.random_regular_graph(self.rand_edges_per_node, n_nodes)
                     random_edges = torch.tensor(list(rnd_reg_graph.edges)).t()
                 else:
                     raise ValueError(f'Unknown edge mode: {self.edge_mode}')
