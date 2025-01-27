@@ -57,7 +57,7 @@ class GNN_Layer_FS_2D(MessagePassing):
         self.rff_message = rff_message
         self.rff_dim = 0 if rff_message is None else rff_message.out_features
 
-        mn1_input_dim = 2 * in_features + time_window + 2 + self.rff_dim + n_variables
+        mn1_input_dim = 2 * in_features + time_window + self.rff_dim + n_variables
         self.message_net_1 = nn.Sequential(nn.Linear(mn1_input_dim, hidden_features),
                                            nn.ReLU()
                                            )
@@ -94,9 +94,9 @@ class GNN_Layer_FS_2D(MessagePassing):
 
         if self.rff_message is not None:
             rel_pos_rff = self.rff_message(rel_pos)
-            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, dx, dy, rel_pos_rff, variables_i), dim=-1))
+            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, rel_pos_rff, variables_i), dim=-1))
         else:
-            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, dx, dy, variables_i), dim=-1))
+            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, variables_i), dim=-1))
 
         message = self.message_net_2(message)
 
@@ -153,7 +153,7 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             rff_message=self.rff_message
         ) for _ in range(self.hidden_layer)))
 
-        embedding_input_dim = self.time_window + 3 + (2 * self.rff_number_features) + len(self.eq_variables)
+        embedding_input_dim = self.time_window + 1 + (2 * self.rff_number_features) + len(self.eq_variables)
         self.embedding_mlp = nn.Sequential(
             nn.Linear(embedding_input_dim, self.hidden_features),
             nn.BatchNorm1d(self.hidden_features),
@@ -186,9 +186,9 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
 
         if self.rff_node:
             coord_rff = self.rff_node(torch.cat([pos_x, pos_y, pos_t], dim=-1))
-            node_input = torch.cat((u, pos_x, pos_y, coord_rff, variables), -1)
+            node_input = torch.cat((u, coord_rff, variables), -1)
         else:
-            node_input = torch.cat((u, pos_x, pos_y, variables), -1)
+            node_input = torch.cat((u, variables), -1)
 
         h = self.embedding_mlp(node_input)
 
