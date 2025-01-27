@@ -135,8 +135,8 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
 
         if random_ff:
             self.rff_number_features = rff_number_features
-            self.rff_node = FourierFeatures(3, rff_number_features, sigma=rff_sigma)
-            self.rff_message = FourierFeatures(2, rff_number_features, sigma=rff_sigma)
+            self.rff_node = FourierFeatures(3, rff_number_features, sigma=rff_sigma, trainable=True)
+            self.rff_message = FourierFeatures(2, rff_number_features, sigma=rff_sigma, trainable=True)
         else:
             self.rff_number_features = 0
             self.rff_node = None
