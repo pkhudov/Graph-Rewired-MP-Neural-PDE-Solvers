@@ -51,13 +51,17 @@ class GNN_Layer_FS_2D(MessagePassing):
                  hidden_features,
                  time_window,
                  n_variables,
-                 rff_message=None):
+                 rff_message_coord=None,
+                 rff_message_sol=None
+                 ):
 
         super(GNN_Layer_FS_2D, self).__init__(node_dim=-2, aggr='mean')
-        self.rff_message = rff_message
-        self.rff_dim = 0 if rff_message is None else rff_message.out_features
+        self.rff_message_coord = rff_message_coord
+        self.rff_message_sol = rff_message_sol
+        self.rff_dim_coord = 0 if rff_message_coord is None else rff_message_coord.out_features
+        self.rff_dim_sol = 0 if rff_message_sol is None else rff_message_sol.out_features
 
-        mn1_input_dim = 2 * in_features + time_window + 2 + self.rff_dim + n_variables
+        mn1_input_dim = 2 * in_features + time_window + 2 + n_variables + self.rff_dim_coord + self.rff_dim_sol
         self.message_net_1 = nn.Sequential(nn.Linear(mn1_input_dim, hidden_features),
                                            nn.ReLU()
                                            )
@@ -92,14 +96,20 @@ class GNN_Layer_FS_2D(MessagePassing):
         dy = pos_y_i - pos_y_j
         rel_pos = torch.cat([dx, dy], dim=-1)
 
-        if self.rff_message is not None:
-            rel_pos_rff = self.rff_message(rel_pos)
-            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, dx, dy, rel_pos_rff, variables_i), dim=-1))
-        else:
-            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, dx, dy, variables_i), dim=-1))
+        message_input = [x_i, x_j, u_i - u_j, rel_pos, variables_i]
 
+        if self.rff_message_coord is not None:
+            rel_pos_rff = self.rff_message_coord(rel_pos)
+            message_input.append(rel_pos_rff)
+
+        if self.rff_message_sol is not None:
+            sol_rff = self.rff_message_sol(u_i - u_j)
+            message_input.append(sol_rff)
+
+        message_input = torch.cat(message_input, dim=-1)
+
+        message = self.message_net_1(message_input)
         message = self.message_net_2(message)
-
         return message
 
     def update(self, message, x, variables):
@@ -135,12 +145,16 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
 
         if random_ff:
             self.rff_number_features = rff_number_features
-            self.rff_node = FourierFeatures(3, rff_number_features, sigma=rff_sigma, trainable=True)
-            self.rff_message = FourierFeatures(2, rff_number_features, sigma=rff_sigma, trainable=True)
+            self.rff_node_coord = FourierFeatures(3, rff_number_features, sigma=rff_sigma)
+            self.rff_node_sol = FourierFeatures(self.time_window, rff_number_features, sigma=rff_sigma)
+            self.rff_message_coord = FourierFeatures(2, rff_number_features, sigma=rff_sigma)
+            self.rff_message_sol = FourierFeatures(self.time_window, rff_number_features, sigma=rff_sigma)
         else:
             self.rff_number_features = 0
-            self.rff_node = None
-            self.rff_message = None
+            self.rff_node_coord = None
+            self.rff_node_sol = None
+            self.rff_message_coord = None
+            self.rff_message_sol = None
         # in_features have to be of the same size as out_features for the time being
 
         self.gnn_layers = torch.nn.ModuleList(modules=(GNN_Layer_FS_2D(
@@ -150,10 +164,11 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             time_window=self.time_window,
             # variables = eq_variables + time
             n_variables=len(self.eq_variables) + 1,
-            rff_message=self.rff_message
+            rff_message_coord=self.rff_message_coord,
+            rff_message_sol=self.rff_message_sol
         ) for _ in range(self.hidden_layer)))
 
-        embedding_input_dim = self.time_window + 3 + (2 * self.rff_number_features) + len(self.eq_variables)
+        embedding_input_dim = self.time_window + 3 + len(self.eq_variables) + (self.rff_number_features * 2) + (self.rff_number_features * 2)
         self.embedding_mlp = nn.Sequential(
             nn.Linear(embedding_input_dim, self.hidden_features),
             nn.BatchNorm1d(self.hidden_features),
@@ -184,12 +199,16 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         batch = data.batch
         variables = pos_t    # we put the time as equation variable
 
-        if self.rff_node:
-            coord_rff = self.rff_node(torch.cat([pos_x, pos_y, pos_t], dim=-1))
-            node_input = torch.cat((u, pos_x, pos_y, coord_rff, variables), -1)
-        else:
-            node_input = torch.cat((u, pos_x, pos_y, variables), -1)
+        node_input = [u, pos_x, pos_y, variables]
+        if self.rff_node_coord is not None:
+            coord_rff = self.rff_node_coord(torch.cat([pos_x, pos_y, pos_t], dim=-1))
+            node_input.append(coord_rff)
+        
+        if self.rff_node_sol is not None:
+            sol_rff = self.rff_node_sol(u)
+            node_input.append(sol_rff)
 
+        node_input = torch.cat(node_input, dim=-1)
         h = self.embedding_mlp(node_input)
 
         for i in range(self.hidden_layer):
