@@ -6,6 +6,9 @@ from torch_cluster import radius_graph
 from torch_geometric.nn import MessagePassing, global_mean_pool, InstanceNorm, avg_pool_x, BatchNorm
 # from einops import rearrange
 
+def gaussian_function(x, sigma, a=1.0):
+    return a*torch.exp(-(x**2./sigma))
+
 class FourierFeatures(nn.Module):
     def __init__(self, in_features, number_features, trainable=False, sigma=1.0):
         super(FourierFeatures, self).__init__()
@@ -51,11 +54,19 @@ class GNN_Layer_FS_2D(MessagePassing):
                  hidden_features,
                  time_window,
                  n_variables,
-                 rff_message=None):
+                 rff_message=None,
+                 gaussian_sigma=0.0):
 
         super(GNN_Layer_FS_2D, self).__init__(node_dim=-2, aggr='mean')
         self.rff_message = rff_message
         self.rff_dim = 0 if rff_message is None else rff_message.out_features
+
+        if gaussian_sigma != 0.0:
+            self.gaussian_sigma = nn.Parameter(torch.tensor(gaussian_sigma), requires_grad=True)
+            self.gaussian_coeff = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        else:
+            self.gaussian_sigma = None
+            self.gaussian_coeff = None
 
         mn1_input_dim = 2 * in_features + time_window + 2 + self.rff_dim + n_variables
         self.message_net_1 = nn.Sequential(nn.Linear(mn1_input_dim, hidden_features),
@@ -100,6 +111,9 @@ class GNN_Layer_FS_2D(MessagePassing):
 
         message = self.message_net_2(message)
 
+        if self.gaussian_sigma is not None:
+            message *= gaussian_function(torch.norm(rel_pos, p=2., dim=-1), sigma=self.gaussian_sigma, a=self.gaussian_coeff).unsqueeze(-1)
+
         return message
 
     def update(self, message, x, variables):
@@ -122,7 +136,8 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             eq_variables={},
             random_ff=False,
             rff_number_features=8,
-            rff_sigma=1.0
+            rff_sigma=1.0,
+            gaussian_sigma=0.0
     ):
         super(NPDE_GNN_FS_2D, self).__init__()
 
@@ -132,7 +147,6 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         self.hidden_layer = hidden_layer
         self.time_window = time_window
         self.eq_variables = eq_variables
-
         if random_ff:
             self.rff_number_features = rff_number_features
             self.rff_node = FourierFeatures(3, rff_number_features, sigma=rff_sigma, trainable=True)
@@ -150,7 +164,8 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             time_window=self.time_window,
             # variables = eq_variables + time
             n_variables=len(self.eq_variables) + 1,
-            rff_message=self.rff_message
+            rff_message=self.rff_message,
+            gaussian_sigma=gaussian_sigma
         ) for _ in range(self.hidden_layer)))
 
         embedding_input_dim = self.time_window + 3 + (2 * self.rff_number_features) + len(self.eq_variables)

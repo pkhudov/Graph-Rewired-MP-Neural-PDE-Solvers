@@ -66,7 +66,9 @@ def train(args: argparse,
     for i in range(graph_creator.t_res):
         losses, batch_grads_mean = training_loop(model, unrolling, args.batch_size, optimizer, loader, graph_creator, criterion, device)
         if(i % args.print_interval == 0):
-            print(f'Training Loss (progress: {i / graph_creator.t_res:.2f}): {torch.mean(losses)}; Norm Grads: {batch_grads_mean}')
+            sigmas = [layer.gaussian_sigma.item() if hasattr(layer.gaussian_sigma, 'item') else layer.gaussian_sigma for layer in model.gnn_layers]
+            g_coeffs = [layer.gaussian_coeff.item() if hasattr(layer.gaussian_coeff, 'item') else layer.gaussian_coeff for layer in model.gnn_layers]
+            print(f'Training Loss (progress: {i / graph_creator.t_res:.2f}): {torch.mean(losses)}; Norm Grads: {batch_grads_mean}; Sigmas: {sigmas}; Coeffs: {g_coeffs}')
 
 def test(args: argparse,
          pde: PDE,
@@ -189,13 +191,14 @@ def main(args: argparse):
                                  y_resolution=args.resolution[2],
                                  edge_prob=args.edge_prob,
                                  edge_mode=args.edge_mode,
-                                 rand_edges_per_node=args.n_random_edges_per_node).to(device)
+                                 rand_edges_per_node=args.n_random_edges_per_node,).to(device)
 
     if args.model == 'GNN':
         model = NPDE_GNN_FS_2D(pde=pde,
                               time_window=graph_creator.tw,
                               eq_variables=eq_variables,
-                              random_ff=args.fourier_features).to(device)
+                              random_ff=args.fourier_features,
+                              gaussian_sigma=args.gaussian_sigma).to(device)
 
     model_parameters = filter(lambda p: p.requires_grad, model.parameters())
     params = sum([np.prod(p.size()) for p in model_parameters])
@@ -282,6 +285,7 @@ if __name__ == "__main__":
     parser.add_argument('--nr_gt_steps', type=int,
                         default=2, help="Number of steps done by numerical solver")
     parser.add_argument('--fourier_features', type=eval, default=False, help='Whether to use fourier features')
+    parser.add_argument('--gaussian_sigma', type=float, default=0.0, help='Sigma for gaussian kernel that weights the neighbours. 0.0 means not active')
 
     # Misc
     parser.add_argument('--print_interval', type=int, default=10,
