@@ -98,7 +98,7 @@ class GraphCreator_FS_2D(nn.Module):
                  y_resolution: int=32,
                  edge_prob: float = 0.0,
                  edge_path: str = None,
-                 edge_mode: str = 'Radius_only',
+                 edge_mode: str = 'Radiusonly',
                  rand_edges_per_node: int = 2,
                  ):
 
