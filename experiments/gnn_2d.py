@@ -149,7 +149,7 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         self.eq_variables = eq_variables
         if random_ff:
             self.rff_number_features = rff_number_features
-            self.rff_node = FourierFeatures(3, rff_number_features, sigma=rff_sigma, trainable=True)
+            self.rff_node = FourierFeatures(2, rff_number_features, sigma=rff_sigma, trainable=True)
             self.rff_message = FourierFeatures(2, rff_number_features, sigma=rff_sigma, trainable=True)
         else:
             self.rff_number_features = 0
@@ -200,7 +200,7 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         variables = pos_t    # we put the time as equation variable
 
         if self.rff_node:
-            coord_rff = self.rff_node(torch.cat([pos_x, pos_y, pos_t], dim=-1))
+            coord_rff = self.rff_node(torch.cat([pos_x, pos_y], dim=-1))
             node_input = torch.cat((u, pos_x, pos_y, coord_rff, variables), -1)
         else:
             node_input = torch.cat((u, pos_x, pos_y, variables), -1)
