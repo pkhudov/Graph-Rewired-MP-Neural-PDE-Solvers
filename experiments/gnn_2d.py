@@ -112,7 +112,7 @@ class GNN_Layer_FS_2D(MessagePassing):
         message = self.message_net_2(message)
 
         if self.gaussian_sigma is not None:
-            message *= gaussian_function(torch.norm(rel_pos, p=2., dim=-1), sigma=self.gaussian_sigma, a=self.gaussian_coeff).unsqueeze(-1)
+            message = message * gaussian_function(torch.norm(rel_pos, p=2., dim=-1), sigma=self.gaussian_sigma, a=self.gaussian_coeff).unsqueeze(-1)
 
         return message
 

@@ -168,6 +168,9 @@ def main(args: argparse):
     else:
         raise Exception("Edge mode not implemented")
 
+    if args.gaussian_sigma != 0.0:
+       edge_mode_string += f'KernelSigma{args.gaussian_sigma}'
+
     if(args.log):
         logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}Trainable{edge_mode_string}.csv'
         print(f'Writing to log file {logfile}')
