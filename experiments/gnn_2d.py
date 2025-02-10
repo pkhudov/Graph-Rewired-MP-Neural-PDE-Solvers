@@ -23,7 +23,8 @@ class FourierFeatures(nn.Module):
 
     def forward(self, x):
         x_proj = x @ self.B # [N, number_features]
-        return torch.cat([torch.cos(2*torch.pi*x_proj), torch.sin(2*torch.pi*x_proj)], dim=-1) # [N, number_features * 2]
+        # return torch.cat([torch.cos(2*torch.pi*x_proj), torch.sin(2*torch.pi*x_proj)], dim=-1) # [N, number_features * 2]
+        return torch.cat([x_proj, x_proj], dim=-1) # [N, number_features * 2]
 
 
 class Swish(nn.Module):
@@ -149,12 +150,14 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         self.eq_variables = eq_variables
         if random_ff:
             self.rff_number_features = rff_number_features
-            self.rff_node = FourierFeatures(2, rff_number_features, sigma=rff_sigma, trainable=True)
+            self.rff_node = FourierFeatures(3, rff_number_features, sigma=rff_sigma, trainable=True)
             self.rff_message = FourierFeatures(2, rff_number_features, sigma=rff_sigma, trainable=True)
         else:
             self.rff_number_features = 0
             self.rff_node = None
             self.rff_message = None
+
+
         # in_features have to be of the same size as out_features for the time being
 
         self.gnn_layers = torch.nn.ModuleList(modules=(GNN_Layer_FS_2D(
@@ -200,7 +203,7 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         variables = pos_t    # we put the time as equation variable
 
         if self.rff_node:
-            coord_rff = self.rff_node(torch.cat([pos_x, pos_y], dim=-1))
+            coord_rff = self.rff_node(torch.cat([pos_x, pos_y, pos_t], dim=-1))
             node_input = torch.cat((u, pos_x, pos_y, coord_rff, variables), -1)
         else:
             node_input = torch.cat((u, pos_x, pos_y, variables), -1)
