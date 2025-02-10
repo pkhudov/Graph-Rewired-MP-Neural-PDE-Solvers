@@ -172,12 +172,12 @@ def main(args: argparse):
        edge_mode_string += f'KernelSigma{args.gaussian_sigma}'
 
     if(args.log):
-        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}Trainable{edge_mode_string}.csv'
+        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}NoTime{edge_mode_string}.csv'
         print(f'Writing to log file {logfile}')
         sys.stdout = open(logfile, 'w')
 
-    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}Trainable{edge_mode_string}.pt'
-    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}Trainable{edge_mode_string}.pt'
+    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}NoTime{edge_mode_string}.pt'
+    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}NoTime{edge_mode_string}.pt'
     print(f'Training on dataset {train_string}')
     print(device)
     print(save_path)
