@@ -23,8 +23,8 @@ class FourierFeatures(nn.Module):
 
     def forward(self, x):
         x_proj = x @ self.B # [N, number_features]
-        # return torch.cat([torch.cos(2*torch.pi*x_proj), torch.sin(2*torch.pi*x_proj)], dim=-1) # [N, number_features * 2]
-        return torch.cat([x_proj, x_proj], dim=-1) # [N, number_features * 2]
+        return torch.cat([torch.cos(2*torch.pi*x_proj), torch.sin(2*torch.pi*x_proj)], dim=-1) # [N, number_features * 2]
+        # return torch.cat([x_proj, x_proj], dim=-1) # [N, number_features * 2]
 
 
 class Swish(nn.Module):
@@ -211,8 +211,13 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         h = self.embedding_mlp(node_input)
 
         for i in range(self.hidden_layer):
+            if i % 2 == 0:
+                current_edge_index = data.edge_index_local
+            else:
+                current_edge_index = data.edge_index_random
+
             h = self.gnn_layers[i](
-                h, u, pos_x, pos_y, variables, edge_index, batch)
+                h, u, pos_x, pos_y, variables, current_edge_index, batch)
 
         diff = self.output_mlp(h[:, None]).squeeze(1)
         dt = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)

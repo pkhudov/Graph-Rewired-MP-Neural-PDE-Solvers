@@ -183,7 +183,7 @@ class GraphCreator_FS_2D(nn.Module):
             batch = torch.cat((batch, b_new), )
 
         # calculating the edge_index
-        edge_index_new = radius_graph(x_new, r=radius, batch=batch.long(), loop=False)
+        local_edge_index = radius_graph(x_new, r=radius, batch=batch.long(), loop=False)
   
         if self.edge_path is not None:
             self.random_edge_index = torch.load(self.edge_path)
@@ -217,9 +217,9 @@ class GraphCreator_FS_2D(nn.Module):
                 all_random_edges.append(random_edges)
             self.random_edge_index = torch.cat(all_random_edges, dim=1)
             print('Generated random edges')
-            edge_index_new = coalesce(torch.cat((edge_index_new, self.random_edge_index), 1))
+            # edge_index_new = coalesce(torch.cat((edge_index_new, self.random_edge_index), 1))
     
-        graph = Data(x=u_new, edge_index=edge_index_new)
+        graph = Data(x=u_new, edge_index_local=local_edge_index, edge_index_random=self.random_edge_index)
         graph.y = y_new
 
         graph.pos = torch.cat((t_new[:, None], x_new), 1)
