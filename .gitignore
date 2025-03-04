@@ -4,3 +4,5 @@ data
 eddie_outputs
 build
 experiments/__init__.py
+**.mp4
+equations/__init__.py

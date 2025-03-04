@@ -165,6 +165,8 @@ def main(args: argparse):
         edge_mode_string = f'_randomregdeg{args.n_random_edges_per_node}'
     elif args.edge_mode == 'RadiusOnly':
         edge_mode_string = ''
+    elif args.edge_mode == 'Cayley':
+        edge_mode_string = '_cayley'
     else:
         raise Exception("Edge mode not implemented")
 
@@ -172,12 +174,12 @@ def main(args: argparse):
        edge_mode_string += f'KernelSigma{args.gaussian_sigma}'
 
     if(args.log):
-        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffsFalseSameParameters.csv' #{args.fourier_features}{edge_mode_string}.csv'
+        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}_alternating.csv'
         print(f'Writing to log file {logfile}')
         sys.stdout = open(logfile, 'w')
 
-    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffsFalseSameParameters.csv' # {args.fourier_features}{edge_mode_string}.pt'
-    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffsFalseSameParameters.csv' # {args.fourier_features}{edge_mode_string}.pt'
+    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}_alternating.pt'
+    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}_alternating.pt'
     print(f'Training on dataset {train_string}')
     print(device)
     print(save_path)
@@ -232,7 +234,7 @@ def main(args: argparse):
             test_loss = test(args, pde, model, test_loader, graph_creator, criterion, device=device)
             # Save model
             torch.save(model.state_dict(), save_path)
-            if args.edge_prob > 0.0:
+            if args.edge_prob > 0.0 or args.n_random_edges_per_node > 0:
                 graph_creator.save_edge_index(save_edges_path)
             print(f"Saved model at {save_path}\n")
             print("Training time: ", total_train_time)
@@ -264,7 +266,7 @@ if __name__ == "__main__":
     parser.add_argument('--edge_prob', type=float,
                         default=0.0, help="Probability with which an edge is added to the graph according to Erdos-Renyi model")
     parser.add_argument('--edge_mode', type=str, default='RadiusOnly',
-                        help='Mode for edge creation: [RadiusOnly, ErdosRenyi, AugmentRnd, RandomRegular]')
+                        help='Mode for edge creation: [RadiusOnly, ErdosRenyi, AugmentRnd, RandomRegular, Cayley]')
     parser.add_argument('--n_random_edges_per_node', type=int, default=2,
                         help='Fixed number of random edges per node')
 
