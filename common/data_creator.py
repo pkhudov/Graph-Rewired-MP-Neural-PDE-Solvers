@@ -110,7 +110,7 @@ class GraphCreator_FS_2D(nn.Module):
         self.x_res = x_resolution
         self.y_res = y_resolution
         self.edge_prob = edge_prob
-        self.random_edge_index = None
+        self.custom_edge_index = None
         self.edge_path = edge_path
         self.edge_mode = edge_mode.lower()
         self.rand_edges_per_node = rand_edges_per_node
@@ -119,7 +119,7 @@ class GraphCreator_FS_2D(nn.Module):
         assert isinstance(self.tw, int)
     
     def save_edge_index(self, path):
-        torch.save(self.random_edge_index, path)
+        torch.save(self.custom_edge_index, path)
 
     def create_data(self, datapoints, steps):
         """
@@ -186,40 +186,42 @@ class GraphCreator_FS_2D(nn.Module):
         local_edge_index = radius_graph(x_new, r=radius, batch=batch.long(), loop=False)
   
         if self.edge_path is not None:
-            self.random_edge_index = torch.load(self.edge_path)
+            self.custom_edge_index = torch.load(self.edge_path)
 
-        if self.random_edge_index is None and self.edge_mode != 'radiusonly': # to ensure that the random edges are only generated once
+        if self.custom_edge_index is None and self.edge_mode != 'radiusonly': # to ensure that the random edges are only generated once
             batch_size = int(batch.max()) + 1
-            all_random_edges = []
+            all_custom_edges = []
             n_nodes = self.x_res * self.y_res
             for sample in range(batch_size):
                 offset = sample * n_nodes
 
                 if self.edge_mode == 'erdosrenyi':
-                    random_edges = erdos_renyi_graph(n_nodes, self.edge_prob)
+                    custom_edges = erdos_renyi_graph(n_nodes, self.edge_prob)
                 elif self.edge_mode == 'augmentnode':
-                    random_edges = []
+                    custom_edges = []
                     for node_i in range(self.x_res * self.y_res):
                         possible_neighbors = list(range(n_nodes))
                         possible_neighbors.remove(node_i)
                         neighbors = random.sample(possible_neighbors, self.rand_edges_per_node)
                         for nb in neighbors:
-                            random_edges.append([node_i, nb])
-                    random_edges = torch.tensor(random_edges).t()
-                    random_edges = to_undirected(random_edges, num_nodes=n_nodes)
+                            custom_edges.append([node_i, nb])
+                    custom_edges = torch.tensor(custom_edges).t()
                 elif self.edge_mode == 'randomregular':
                     rnd_reg_graph = networkx.random_regular_graph(self.rand_edges_per_node, n_nodes)
-                    random_edges = torch.tensor(list(rnd_reg_graph.edges)).t()
+                    custom_edges = torch.tensor(list(rnd_reg_graph.edges)).t()
+                elif self.edge_mode == 'cayley':
+                    cayley_graph = networkx.read_edgelist('cayley_edges', nodetype=int)
+                    custom_edges = torch.tensor(list(cayley_graph.edges)).t()
                 else:
                     raise ValueError(f'Unknown edge mode: {self.edge_mode}')
                 
-                random_edges += offset
-                all_random_edges.append(random_edges)
-            self.random_edge_index = torch.cat(all_random_edges, dim=1)
+                custom_edges = to_undirected(custom_edges, num_nodes=n_nodes) + offset
+                all_custom_edges.append(custom_edges)
+            self.custom_edge_index = coalesce(torch.cat(all_custom_edges, dim=1))
             print('Generated random edges')
-            # edge_index_new = coalesce(torch.cat((edge_index_new, self.random_edge_index), 1))
+            # edge_index_new = coalesce(torch.cat((edge_index_new, self.custom_edge_index), 1))
     
-        graph = Data(x=u_new, edge_index_local=local_edge_index, edge_index_random=self.random_edge_index)
+        graph = Data(x=u_new, edge_index_local=local_edge_index, edge_index_custom=self.custom_edge_index)
         graph.y = y_new
 
         graph.pos = torch.cat((t_new[:, None], x_new), 1)
