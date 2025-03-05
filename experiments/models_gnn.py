@@ -205,7 +205,7 @@ class MP_PDE_Solver(torch.nn.Module):
             if i % 2 == 0:
                 current_edge_index = data.edge_index_local
             else:
-                current_edge_index = data.edge_index
+                current_edge_index = data.edge_index_custom
             h = self.gnn_layers[i](h, u, pos_x, variables, current_edge_index, batch)
 
         # Decoder (formula 10 in the paper)
