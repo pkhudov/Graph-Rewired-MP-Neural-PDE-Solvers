@@ -267,7 +267,7 @@ if __name__ == "__main__":
                         default=0.0, help="Probability with which an edge is added to the graph according to Erdos-Renyi model")
     parser.add_argument('--edge_mode', type=str, default='RadiusOnly',
                         help='Mode for edge creation: [RadiusOnly, ErdosRenyi, AugmentRnd, RandomRegular, Cayley]')
-    parser.add_argument('--n_random_edges_per_node', type=int, default=2,
+    parser.add_argument('--n_random_edges_per_node', type=int, default=0,
                         help='Fixed number of random edges per node')
 
     # Model parameters

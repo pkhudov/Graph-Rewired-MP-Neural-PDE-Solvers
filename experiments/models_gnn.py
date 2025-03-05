@@ -200,8 +200,13 @@ class MP_PDE_Solver(torch.nn.Module):
         # Encoder and processor (message passing)
         node_input = torch.cat((u, pos_x, variables), -1)
         h = self.embedding_mlp(node_input)
+
         for i in range(self.hidden_layer):
-            h = self.gnn_layers[i](h, u, pos_x, variables, edge_index, batch)
+            if i % 2 == 0:
+                current_edge_index = data.edge_index_local
+            else:
+                current_edge_index = data.edge_index
+            h = self.gnn_layers[i](h, u, pos_x, variables, current_edge_index, batch)
 
         # Decoder (formula 10 in the paper)
         dt = (torch.ones(1, self.time_window) * self.pde.dt).to(h.device)

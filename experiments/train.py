@@ -148,19 +148,19 @@ def main(args: argparse):
         train_loader = DataLoader(train_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=True,
-                                  num_workers=1)
+                                  num_workers=4)
 
         valid_dataset = HDF5Dataset(valid_string, pde=pde, mode='valid', base_resolution=base_resolution, super_resolution=super_resolution)
         valid_loader = DataLoader(valid_dataset,
                                   batch_size=args.batch_size,
                                   shuffle=False,
-                                  num_workers=1)
+                                  num_workers=4)
 
         test_dataset = HDF5Dataset(test_string, pde=pde, mode='test', base_resolution=base_resolution, super_resolution=super_resolution)
         test_loader = DataLoader(test_dataset,
                                  batch_size=args.batch_size,
                                  shuffle=False,
-                                 num_workers=1)
+                                 num_workers=4)
     except:
         raise Exception("Datasets could not be loaded properly")
 
@@ -173,12 +173,26 @@ def main(args: argparse):
     dateTimeObj = datetime.now()
     timestring = f'{dateTimeObj.date().month}{dateTimeObj.date().day}{dateTimeObj.time().hour}{dateTimeObj.time().minute}'
 
+    if args.edge_mode == 'ErdosRenyi':
+        edge_mode_string = f'_edgeprob{args.edge_prob}'
+    elif args.edge_mode == 'AugmentNode':
+        edge_mode_string = f'_augment{args.n_random_edges_per_node}'
+    elif args.edge_mode == 'RandomRegular':
+        edge_mode_string = f'_randomregdeg{args.n_random_edges_per_node}'
+    elif args.edge_mode == 'RadiusOnly':
+        edge_mode_string = ''
+    elif args.edge_mode == 'Cayley':
+        edge_mode_string = '_cayley'
+    else:
+        raise Exception("Edge mode not implemented")
+    
     if(args.log):
-        logfile = f'experiments/log/{args.model}_{pde}_{args.experiment}_xresolution{args.base_resolution[1]}-{args.super_resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.csv'
+        logfile = f'experiments/log/{args.model}_{pde}_{args.experiment}_xresolution{args.base_resolution[1]}-{args.super_resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}{edge_mode_string}_alternating.csv'
         print(f'Writing to log file {logfile}')
         sys.stdout = open(logfile, 'w')
 
-    save_path = f'models/GNN_{pde}_{args.experiment}_xresolution{args.base_resolution[1]}-{args.super_resolution[1]}_n{args.neighbors}_edgeprob{args.edge_prob}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}.pt'
+    save_path = f'models/GNN_{pde}_{args.experiment}_xresolution{args.base_resolution[1]}-{args.super_resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}{edge_mode_string}_alternating.pt'
+    save_edges_path = f'models/edges/Edges_GNN_{pde}_{args.experiment}_xresolution{args.base_resolution[1]}-{args.super_resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}{edge_mode_string}_alternating.pt'
     print(f'Training on dataset {train_string}')
     print(device)
     print(save_path)
@@ -245,6 +259,8 @@ def main(args: argparse):
             test_loss = test(args, pde, model, test_loader, graph_creator, criterion, device=device)
             # Save model
             torch.save(model.state_dict(), save_path)
+            if args.edge_prob > 0.0 or args.n_random_edges_per_node > 0:
+                graph_creator.save_edge_index(save_edges_path)
             print(f"Saved model at {save_path}")
             print("Training time: ", total_train_time, "\n")
             time_upto_best_epoch = total_train_time
@@ -274,6 +290,10 @@ if __name__ == "__main__":
                         default=3, help="Neighbors to be considered in GNN solver")
     parser.add_argument('--edge_prob', type=float,
                         default=0.0, help="Probability with which an edge is added to the graph according to Erdos-Renyi model")
+    parser.add_argument('--edge_mode', type=str, default='RadiusOnly',
+                        help='Mode for edge creation: [RadiusOnly, ErdosRenyi, AugmentRnd, RandomRegular, Cayley]')
+    parser.add_argument('--n_random_edges_per_node', type=int, default=0,
+                        help='Fixed number of random edges per node')
 
     # Model parameters
     parser.add_argument('--batch_size', type=int, default=16,

@@ -10,117 +10,9 @@ from torch_geometric.data import Data
 from torch_cluster import radius_graph, knn_graph
 from equations.PDEs import *
 from torch_geometric.utils.random import erdos_renyi_graph
-from torch_geometric.utils import coalesce
-
-
-class HDF5Dataset(Dataset):
-    """Load samples of an PDE Dataset, get items according to PDE"""
-
-    def __init__(self,
-                 path: str,
-                 pde: PDE,
-                 mode: str,
-                 base_resolution: list=None,
-                 super_resolution: list=None,
-                 load_all: bool=False) -> None:
-        """Initialize the dataset object
-        Args:
-            path: path to dataset
-            pde: string of PDE ('CE' or 'WE')
-            mode: [train, valid, test]
-            base_resolution: base resolution of the dataset [nt, nx]
-            super_resolution: super resolution of the dataset [nt, nx]
-            load_all: load all the data into memory
-        Returns:
-            None
-        """
-        super().__init__()
-        f = h5py.File(path, 'r')
-        self.mode = mode
-        self.pde = pde
-        self.dtype = torch.float64
-        self.data = f[self.mode]
-        self.base_resolution = (250, 100) if base_resolution is None else base_resolution
-        self.super_resolution = (250, 200) if super_resolution is None else super_resolution
-        self.dataset_base = f'pde_{self.base_resolution[0]}-{self.base_resolution[1]}'
-        self.dataset_super = f'pde_{self.super_resolution[0]}-{self.super_resolution[1]}'
-
-        ratio_nt = self.data[self.dataset_super].shape[1] / self.data[self.dataset_base].shape[1]
-        ratio_nx = self.data[self.dataset_super].shape[2] / self.data[self.dataset_base].shape[2]
-        assert (ratio_nt.is_integer())
-        assert (ratio_nx.is_integer())
-        self.ratio_nt = int(ratio_nt)
-        self.ratio_nx = int(ratio_nx)
-
-        self.nt = self.data[self.dataset_base].attrs['nt']
-        self.dt = self.data[self.dataset_base].attrs['dt']
-        self.dx = self.data[self.dataset_base].attrs['dx']
-        self.x = self.data[self.dataset_base].attrs['x']
-        self.tmin = self.data[self.dataset_base].attrs['tmin']
-        self.tmax = self.data[self.dataset_base].attrs['tmax']
-
-        if load_all:
-            data = {self.dataset_super: self.data[self.dataset_super][:]}
-            f.close()
-            self.data = data
-
-
-    def __len__(self):
-        return self.data[self.dataset_super].shape[0]
-
-    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, list]:
-        """
-        Get data item
-        Args:
-            idx (int): data index
-        Returns:
-            torch.Tensor: numerical baseline trajectory
-            torch.Tensor: downprojected high-resolution trajectory (used for training)
-            torch.Tensor: spatial coordinates
-            list: equation specific parameters
-        """
-        if(f'{self.pde}' == 'CE'):
-            # Super resolution trajectories are downprojected via kernel which averages of neighboring cell values
-            u_super = self.data[self.dataset_super][idx][::self.ratio_nt][None, None, ...]
-            left = u_super[..., -3:-1]
-            right = u_super[..., 1:3]
-            u_super_padded = torch.tensor(np.concatenate((left, u_super, right), -1))
-            weights = torch.tensor([[[[0.2]*5]]])
-            u_super = F.conv2d(u_super_padded, weights, stride=(1, self.ratio_nx)).squeeze().numpy()
-            x = self.x
-
-            # Base resolution trajectories (numerical baseline) and equation specific parameters
-            u_base = self.data[self.dataset_base][idx]
-            variables = {}
-            variables['alpha'] = self.data['alpha'][idx]
-            variables['beta'] = self.data['beta'][idx]
-            variables['gamma'] = self.data['gamma'][idx]
-
-            return u_base, u_super, x, variables
-
-        elif(f'{self.pde}' == 'WE'):
-            # Super resolution trajectories are downprojected via kernel which averages of neighboring cell values
-            # No padding is possible due to non-periodic boundary conditions
-            weights = torch.tensor([[[[1./self.ratio_nx]*self.ratio_nx]]])
-            u_super = self.data[self.dataset_super][idx][::self.ratio_nt][None, None, ...]
-            u_super = F.conv2d(torch.tensor(u_super), weights, stride=(1, self.ratio_nx)).squeeze().numpy()
-
-            # To match the downprojected trajectories, also coordinates need to be downprojected
-            x_super = torch.tensor(self.data[self.dataset_super].attrs['x'][None, None, None, :])
-            x = F.conv2d(x_super, weights, stride=(1, self.ratio_nx)).squeeze().numpy()
-
-            # Base resolution trajectories (numerical baseline) and equation specific parameters
-            u_base = self.data[self.dataset_base][idx]
-            variables = {}
-            variables['bc_left'] = self.data['bc_left'][idx]
-            variables['bc_right'] = self.data['bc_right'][idx]
-            variables['c'] = self.data['c'][idx]
-
-            return u_base, u_super, x, variables
-
-        else:
-            raise Exception("Wrong experiment")
-
+from torch_geometric.utils import coalesce, to_undirected
+import random
+import networkx
 
 class GraphCreator(nn.Module):
     def __init__(self,
@@ -129,8 +21,10 @@ class GraphCreator(nn.Module):
                  time_window: int = 5,
                  t_resolution: int = 250,
                  x_resolution: int = 100,
-                 edge_prob: float = 0.0
-                 ) -> None:
+                 edge_prob: float = 0.0,
+                 edge_path: str = None,
+                 edge_mode: str = 'Radiusonly',
+                 rand_edges_per_node: int = 2) -> None:
         """
         Initialize GraphCreator class
         Args:
@@ -148,12 +42,18 @@ class GraphCreator(nn.Module):
         self.tw = time_window
         self.t_res = t_resolution
         self.x_res = x_resolution
-
         self.edge_prob = edge_prob
-        self.random_edge_index = None
+        self.edge_path = edge_path
+        self.edge_mode = edge_mode.lower()
+        self.rand_edges_per_node = rand_edges_per_node
+        self.custom_edge_index = None
 
         assert isinstance(self.n, int)
         assert isinstance(self.tw, int)
+
+    def save_edge_index(self, path):
+        """Save the custom edge index to a file."""
+        torch.save(self.custom_edge_index, path)
 
     def create_data(self, datapoints: torch.Tensor, steps: list) -> Tuple[torch.Tensor, torch.Tensor]:
         """
@@ -209,27 +109,50 @@ class GraphCreator(nn.Module):
         if f'{self.pde}' == 'CE':
             dx = x[0][1] - x[0][0]
             radius = self.n * dx + 0.0001
-            edge_index = radius_graph(x_pos, r=radius, batch=batch.long(), loop=False)
-
-            if self.edge_prob > 0:
-                if self.random_edge_index is None:
-                    batch_size = int(batch.max()) + 1
-                    all_random_edges = []
-                    for sample in range(batch_size):
-                        random_edges = erdos_renyi_graph(self.x_res, self.edge_prob)
-                        offset = sample * self.x_res
-                        random_edges += offset
-                        all_random_edges.append(random_edges)
-                    
-                    self.random_edge_index = torch.cat(all_random_edges, dim=1)
-
-                edge_index = torch.cat((edge_index, self.random_edge_index), 1)
-                edge_index = coalesce(edge_index)
-
+            local_edge_index = radius_graph(x_pos, r=radius, batch=batch.long(), loop=False)
         elif f'{self.pde}' == 'WE':
-            edge_index = knn_graph(x_pos, k=self.n, batch=batch.long(), loop=False)
+            local_edge_index = knn_graph(x_pos, k=self.n, batch=batch.long(), loop=False)
 
-        graph = Data(x=u, edge_index=edge_index)
+        # Load custom edge index if provided
+        if self.edge_path is not None:
+            self.custom_edge_index = torch.load(self.edge_path)
+
+        # Generate custom edges if not preloaded and mode is not 'default'
+        if self.custom_edge_index is None and self.edge_mode != 'radiusonly':
+            batch_size = int(batch.max()) + 1
+            all_custom_edges = []
+            n_nodes = self.x_res
+
+            for sample in range(batch_size):
+                offset = sample * n_nodes
+
+                if self.edge_mode == 'erdosrenyi':
+                    custom_edges = erdos_renyi_graph(n_nodes, self.edge_prob)
+                elif self.edge_mode == 'augmentnode':
+                    custom_edges = []
+                    for node_i in range(n_nodes):
+                        possible_neighbors = list(range(n_nodes))
+                        possible_neighbors.remove(node_i)
+                        neighbors = random.sample(possible_neighbors, self.rand_edges_per_node)
+                        for nb in neighbors:
+                            custom_edges.append([node_i, nb])
+                    custom_edges = torch.tensor(custom_edges).t()
+                elif self.edge_mode == 'randomregular':
+                    rnd_reg_graph = networkx.random_regular_graph(self.rand_edges_per_node, n_nodes)
+                    custom_edges = torch.tensor(list(rnd_reg_graph.edges)).t()
+                elif self.edge_mode == 'cayley':
+                    cayley_graph = networkx.read_edgelist('cayley_edges_100', nodetype=int)
+                    custom_edges = torch.tensor(list(cayley_graph.edges)).t()
+                else:
+                    raise ValueError(f'Unknown edge mode: {self.edge_mode}')
+                    
+                custom_edges = to_undirected(custom_edges, num_nodes=n_nodes) + offset
+                all_custom_edges.append(custom_edges)
+
+            self.custom_edge_index = coalesce(torch.cat(all_custom_edges, dim=1))
+            print('Generated custom edges')
+
+        graph = Data(x=u, edge_index_local=local_edge_index, edge_index_custom=self.custom_edge_index)
         graph.y = y
         graph.pos = torch.cat((t_pos[:, None], x_pos[:, None]), 1)
         graph.batch = batch.long()

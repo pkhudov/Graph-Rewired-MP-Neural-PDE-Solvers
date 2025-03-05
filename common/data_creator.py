@@ -218,7 +218,7 @@ class GraphCreator_FS_2D(nn.Module):
                 custom_edges = to_undirected(custom_edges, num_nodes=n_nodes) + offset
                 all_custom_edges.append(custom_edges)
             self.custom_edge_index = coalesce(torch.cat(all_custom_edges, dim=1))
-            print('Generated random edges')
+            print('Generated custom edges')
             # edge_index_new = coalesce(torch.cat((edge_index_new, self.custom_edge_index), 1))
     
         graph = Data(x=u_new, edge_index_local=local_edge_index, edge_index_custom=self.custom_edge_index)
