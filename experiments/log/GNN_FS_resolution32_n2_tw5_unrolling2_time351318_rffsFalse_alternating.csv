@@ -1,0 +1,7 @@
+Training on dataset data/fs_2d_pde_128_train_dataset.h5
+cuda:0
+models/GNN_FS_resolution32_n2_tw5_unrolling2_time351318_rffsFalse_alternating.pt
+Number of parameters: 619769
+Training started at: 2025-03-05 13:18:03
+Epoch 0
+Starting epoch 0...

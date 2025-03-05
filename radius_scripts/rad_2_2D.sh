@@ -11,7 +11,8 @@
 #
 # Request one GPU in the gpu queue:
 #$ -q gpu
-#$ -pe gpu-a100 1
+#$ -l gpu=1
+#$ -pe sharedmem 4
 #
 # Request 32 GB system RAM
 # the total system RAM available to the job is the value specified here multiplied by 
