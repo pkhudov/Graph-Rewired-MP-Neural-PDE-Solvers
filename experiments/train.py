@@ -218,6 +218,8 @@ def main(args: argparse):
                                  time_window=args.time_window,
                                  t_resolution=args.base_resolution[0],
                                  x_resolution=args.base_resolution[1],
+                                edge_mode=args.edge_mode,
+                                rand_edges_per_node=args.n_random_edges_per_node,
                                  edge_prob=args.edge_prob).to(device)
 
     if args.model == 'GNN':
