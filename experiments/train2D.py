@@ -167,6 +167,8 @@ def main(args: argparse):
         edge_mode_string = ''
     elif args.edge_mode == 'Cayley':
         edge_mode_string = '_cayley'
+    elif args.edge_mode == 'Cayley-CGP':
+        edge_mode_string = '_cayley-cgp'
     else:
         raise Exception("Edge mode not implemented")
 
@@ -203,7 +205,8 @@ def main(args: argparse):
                               time_window=graph_creator.tw,
                               eq_variables=eq_variables,
                               random_ff=args.fourier_features,
-                              gaussian_sigma=args.gaussian_sigma).to(device)
+                              gaussian_sigma=args.gaussian_sigma,
+                              edge_mode=args.edge_mode).to(device)
 
     model_parameters = filter(lambda p: p.requires_grad, model.parameters())
     params = sum([np.prod(p.size()) for p in model_parameters])

@@ -138,7 +138,8 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             random_ff=False,
             rff_number_features=8,
             rff_sigma=1.0,
-            gaussian_sigma=0.0
+            gaussian_sigma=0.0,
+            edge_mode='RadiusOnly'
     ):
         super(NPDE_GNN_FS_2D, self).__init__()
 
@@ -156,6 +157,7 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             self.rff_number_features = 0
             self.rff_node = None
             self.rff_message = None
+        self.edge_mode = edge_mode.lower()
 
 
         # in_features have to be of the same size as out_features for the time being
@@ -211,13 +213,30 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         h = self.embedding_mlp(node_input)
 
         for i in range(self.hidden_layer):
-            if i % 2 == 0:
-                current_edge_index = data.edge_index_local
+            if self.edge_mode != 'radiusonly':
+                if i % 2 == 0:
+                    current_edge_index = data.edge_index_local
+                else:
+                    current_edge_index = data.edge_index_custom
             else:
-                current_edge_index = data.edge_index_custom
+                current_edge_index = data.edge_index_local
 
             h = self.gnn_layers[i](
                 h, u, pos_x, pos_y, variables, current_edge_index, batch)
+        
+        if self.edge_mode == 'cayley-cgp':
+            h_list = []
+            for b in torch.unique(batch):
+                idx = (batch == b).nonzero(as_tuple=True)[0]
+                h_list.append(h[idx][:self.pde.Lx*self.pde.Ly])
+            h = torch.cat(h_list, dim=0)
+
+            u_list = []
+            for b in torch.unique(batch):
+                idx = (batch == b).nonzero(as_tuple=True)[0]
+                # Extract only the first (real) nodes for each sample.
+                u_list.append(u[idx][:self.pde.Lx * self.pde.Ly])
+            u = torch.cat(u_list, dim=0)
 
         diff = self.output_mlp(h[:, None]).squeeze(1)
         dt = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
