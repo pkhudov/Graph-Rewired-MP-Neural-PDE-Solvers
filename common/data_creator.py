@@ -266,80 +266,85 @@ class GraphCreator_FS_2D(nn.Module):
         return graph
     
     
-    # def create_next_graph(self, graph, pred, labels, steps):
+    def create_next_graph(self, graph, pred, virtual, labels, steps):
 
-    #     """
-    #     getting new graph for the next timestep
-    #     """
-    #     graph.x = torch.cat((graph.x, pred), 1)[:, self.tw:]
-
-    #     nt = self.pde.grid_size[0]
-    #     nx = self.pde.grid_size[1]
-    #     ny = self.pde.grid_size[2]
-    #     t = torch.linspace(self.pde.tmin, self.pde.tmax, nt)
-    #     t_new = torch.Tensor()
-    #     y_new = torch.Tensor()
-
-    #     for (labels_batch, step) in zip(labels, steps):
-    #         y_tmp = torch.transpose(torch.cat([l.reshape(-1, nx*ny) for l in labels_batch]), 0, 1)
-    #         y_new = torch.cat((y_new, y_tmp), )
-    #         t_tmp = torch.ones(nx*ny) * t[step]
-    #         t_new = torch.cat((t_new, t_tmp), )
-
-    #     graph.y = y_new
-    #     graph.pos[:, 0] = t_new
-
-    #     return graph
-
-
-    def create_next_graph(self, graph, pred, labels, steps):
         """
-        Update the graph for the next timestep.
-        In 'cayley-cgp' mode the graph.x has been extended to include virtual nodes.
-        Here, we update only the real nodes (the first n_real nodes per sample) with the new prediction,
-        and leave the virtual nodes unchanged.
+        getting new graph for the next timestep
         """
+
+        full_pred = torch.cat((pred, virtual), 0)  # shape: (n_full, feat_dim)
+        # Update the full state by concatenating the current state with the new prediction and then shifting the temporal window.
+        graph.x = torch.cat((graph.x, full_pred), 1)[:, self.tw:]
+
+        # graph.x = torch.cat((graph.x, pred), 1)[:, self.tw:]
+
         nt = self.pde.grid_size[0]
         nx = self.pde.grid_size[1]
         ny = self.pde.grid_size[2]
         t = torch.linspace(self.pde.tmin, self.pde.tmax, nt)
-
-        if self.edge_mode == 'cayley-cgp':
-            n_real = self.x_res * self.y_res  # original number of (real) nodes per sample
-            new_x_list = []
-            new_batch_list = []
-            # Process each sample in the batch separately.
-            for b in torch.unique(graph.batch):
-                idx = (graph.batch == b).nonzero(as_tuple=True)[0]
-                # Assume that the first n_real nodes in each sample are the real nodes,
-                # and any nodes after that are virtual.
-                real_idx = idx[:n_real]
-                virt_idx = idx[n_real:]
-                # Update only the real nodes:
-                # The update is analogous to: torch.cat((graph.x, pred), 1)[:, self.tw:]
-                # but applied only to the real nodes.
-                pred_sample = pred[graph.batch == b]  # shape should be (n_real, feat_dim)
-                updated_real = torch.cat((graph.x[real_idx], pred_sample), 1)[:, self.tw:]
-                # For virtual nodes, simply carry their state forward.
-                updated_sample = torch.cat((updated_real, graph.x[virt_idx]), 0)
-                new_x_list.append(updated_sample)
-                new_batch_list.append(torch.full((updated_sample.size(0),), b, device=graph.x.device))
-            graph.x = torch.cat(new_x_list, 0)
-            graph.batch = torch.cat(new_batch_list, 0)
-        else:
-            # For other modes, update the entire state as before.
-            graph.x = torch.cat((graph.x, pred), 1)[:, self.tw:]
-        
-        # Update labels and positions as before.
         t_new = torch.Tensor()
         y_new = torch.Tensor()
+
         for (labels_batch, step) in zip(labels, steps):
-            y_tmp = torch.transpose(torch.cat([l.reshape(-1, nx * ny) for l in labels_batch]), 0, 1)
+            y_tmp = torch.transpose(torch.cat([l.reshape(-1, nx*ny) for l in labels_batch]), 0, 1)
             y_new = torch.cat((y_new, y_tmp), )
-            t_tmp = torch.ones(nx * ny) * t[step]
+            t_tmp = torch.ones(nx*ny) * t[step]
             t_new = torch.cat((t_new, t_tmp), )
-        
+
         graph.y = y_new
         graph.pos[:, 0] = t_new
 
         return graph
+
+
+    # def create_next_graph(self, graph, pred, labels, steps):
+    #     """
+    #     Update the graph for the next timestep.
+    #     In 'cayley-cgp' mode the graph.x has been extended to include virtual nodes.
+    #     Here, we update only the real nodes (the first n_real nodes per sample) with the new prediction,
+    #     and leave the virtual nodes unchanged.
+    #     """
+    #     nt = self.pde.grid_size[0]
+    #     nx = self.pde.grid_size[1]
+    #     ny = self.pde.grid_size[2]
+    #     t = torch.linspace(self.pde.tmin, self.pde.tmax, nt)
+
+    #     if self.edge_mode == 'cayley-cgp':
+    #         n_real = self.x_res * self.y_res  # original number of (real) nodes per sample
+    #         new_x_list = []
+    #         new_batch_list = []
+    #         # Process each sample in the batch separately.
+    #         for b in torch.unique(graph.batch):
+    #             idx = (graph.batch == b).nonzero(as_tuple=True)[0]
+    #             # Assume that the first n_real nodes in each sample are the real nodes,
+    #             # and any nodes after that are virtual.
+    #             real_idx = idx[:n_real]
+    #             virt_idx = idx[n_real:]
+    #             # Update only the real nodes:
+    #             # The update is analogous to: torch.cat((graph.x, pred), 1)[:, self.tw:]
+    #             # but applied only to the real nodes.
+    #             pred_sample = pred[graph.batch == b]  # shape should be (n_real, feat_dim)
+    #             updated_real = torch.cat((graph.x[real_idx], pred_sample), 1)[:, self.tw:]
+    #             # For virtual nodes, simply carry their state forward.
+    #             updated_sample = torch.cat((updated_real, graph.x[virt_idx]), 0)
+    #             new_x_list.append(updated_sample)
+    #             new_batch_list.append(torch.full((updated_sample.size(0),), b, device=graph.x.device))
+    #         graph.x = torch.cat(new_x_list, 0)
+    #         graph.batch = torch.cat(new_batch_list, 0)
+    #     else:
+    #         # For other modes, update the entire state as before.
+    #         graph.x = torch.cat((graph.x, pred), 1)[:, self.tw:]
+        
+    #     # Update labels and positions as before.
+    #     t_new = torch.Tensor()
+    #     y_new = torch.Tensor()
+    #     for (labels_batch, step) in zip(labels, steps):
+    #         y_tmp = torch.transpose(torch.cat([l.reshape(-1, nx * ny) for l in labels_batch]), 0, 1)
+    #         y_new = torch.cat((y_new, y_tmp), )
+    #         t_tmp = torch.ones(nx * ny) * t[step]
+    #         t_new = torch.cat((t_new, t_tmp), )
+        
+    #     graph.y = y_new
+    #     graph.pos[:, 0] = t_new
+
+    #     return graph

@@ -224,18 +224,19 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             h = self.gnn_layers[i](
                 h, u, pos_x, pos_y, variables, current_edge_index, batch)
         
+        h_virtual = None
         if self.edge_mode == 'cayley-cgp':
             h_list = []
+            u_list = []
+            h_virtual_list = []
+
             for b in torch.unique(batch):
                 idx = (batch == b).nonzero(as_tuple=True)[0]
                 h_list.append(h[idx][:self.pde.Lx*self.pde.Ly])
-            h = torch.cat(h_list, dim=0)
-
-            u_list = []
-            for b in torch.unique(batch):
-                idx = (batch == b).nonzero(as_tuple=True)[0]
-                # Extract only the first (real) nodes for each sample.
                 u_list.append(u[idx][:self.pde.Lx * self.pde.Ly])
+                h_virtual_list.append(h[idx][self.pde.Lx*self.pde.Ly:])
+            h_virtual = torch.cat(h_virtual_list, dim=0)
+            h = torch.cat(h_list, dim=0)
             u = torch.cat(u_list, dim=0)
 
         diff = self.output_mlp(h[:, None]).squeeze(1)
@@ -243,4 +244,4 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         dt = torch.cumsum(dt, dim=1)
         out = u[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt * diff
 
-        return out
+        return out, h_virtual

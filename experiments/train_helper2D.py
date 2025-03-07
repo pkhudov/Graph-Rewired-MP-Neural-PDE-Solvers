@@ -50,11 +50,11 @@ def training_loop(model: torch.nn.Module,
                 random_steps = [rs + graph_creator.tw for rs in random_steps]
                 _, labels = graph_creator.create_data(u, random_steps)
                 if f'{model}' == 'GNN':
-                    pred = model(graph)
-                    graph = graph_creator.create_next_graph(graph, pred, labels, random_steps).to(device)
+                    pred, virtual = model(graph)
+                    graph = graph_creator.create_next_graph(graph, pred, virtual, labels, random_steps).to(device)
 
         if f'{model}' == 'GNN':
-            pred = model(graph)
+            pred, virtual = model(graph)
             loss = criterion(pred, graph.y)
         else:
             pred = model(data)
@@ -112,7 +112,7 @@ def test_timestep_losses(model: torch.nn.Module,
                 data, labels = graph_creator.create_data(u, same_steps)
                 if f'{model}' == 'GNN':
                     graph = graph_creator.create_graph(data, labels, same_steps).to(device)
-                    pred = model(graph)
+                    pred, virtual = model(graph)
                     loss = criterion(pred, graph.y)
                 losses.append(loss / batch_size)
 
@@ -152,7 +152,7 @@ def test_unrolled_losses(model: torch.nn.Module,
             data, labels = graph_creator.create_data(u, same_steps)
             if f'{model}' == 'GNN':
                 graph = graph_creator.create_graph(data, labels, same_steps).to(device)
-                pred = model(graph)
+                pred, virtual = model(graph)
                 loss = criterion(pred, graph.y) / nx_base_resolution
 
             losses_tmp.append(loss / batch_size)
@@ -162,8 +162,8 @@ def test_unrolled_losses(model: torch.nn.Module,
                 same_steps = [step] * batch_size
                 _, labels = graph_creator.create_data(u, same_steps)
                 if f'{model}' == 'GNN':
-                    graph = graph_creator.create_next_graph(graph, pred, labels, same_steps).to(device)
-                    pred = model(graph)
+                    graph = graph_creator.create_next_graph(graph, pred, virtual, labels, same_steps).to(device)
+                    pred, virtual = model(graph)
                     loss = criterion(pred, graph.y) / nx_base_resolution
                 losses_tmp.append(loss / batch_size)
 
