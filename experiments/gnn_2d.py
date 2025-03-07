@@ -224,24 +224,43 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             h = self.gnn_layers[i](
                 h, u, pos_x, pos_y, variables, current_edge_index, batch)
         
-        h_virtual = None
-        if self.edge_mode == 'cayley-cgp':
-            h_list = []
-            u_list = []
-            h_virtual_list = []
+        # out_virtual = None
+        # if self.edge_mode == 'cayley-cgp':
+        #     h_list = []
+        #     u_list = []
+        #     h_virtual_list = []
+        #     u_virtual_list = []
 
-            for b in torch.unique(batch):
-                idx = (batch == b).nonzero(as_tuple=True)[0]
-                h_list.append(h[idx][:self.pde.Lx*self.pde.Ly])
-                u_list.append(u[idx][:self.pde.Lx * self.pde.Ly])
-                h_virtual_list.append(h[idx][self.pde.Lx*self.pde.Ly:])
-            h_virtual = torch.cat(h_virtual_list, dim=0)
-            h = torch.cat(h_list, dim=0)
-            u = torch.cat(u_list, dim=0)
+        #     for b in torch.unique(batch):
+        #         idx = (batch == b).nonzero(as_tuple=True)[0]
+        #         h_list.append(h[idx][:self.pde.Lx*self.pde.Ly])
+        #         u_list.append(u[idx][:self.pde.Lx * self.pde.Ly])
+        #         h_virtual_list.append(h[idx][self.pde.Lx*self.pde.Ly:])
+        #         u_virtual_list.append(u[idx][self.pde.Lx*self.pde.Ly:])
+        #     h_virtual = torch.cat(h_virtual_list, dim=0)
+        #     u_virtual = torch.cat(u_virtual_list, dim=0)
+        #     h = torch.cat(h_list, dim=0)
+        #     u = torch.cat(u_list, dim=0)
+
+        #     diff_virtual = self.output_mlp(h_virtual[:, None]).squeeze(1)
+        #     dt_virtual = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
+        #     dt_virtual = torch.cumsum(dt_virtual, dim=1)
+        #     out_virtual = u_virtual[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt_virtual * diff_virtual
 
         diff = self.output_mlp(h[:, None]).squeeze(1)
         dt = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
         dt = torch.cumsum(dt, dim=1)
         out = u[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt * diff
 
-        return out, h_virtual
+        out_virtual = None
+        if self.edge_mode == 'cayley-cgp':
+            out_real_list = []
+            out_virtual_list = []
+            for b in torch.unique(batch):
+                idx = (batch == b).nonzero(as_tuple=True)[0]
+                out_real_list.append(out[idx][:self.pde.Lx*self.pde.Ly])
+                out_virtual_list.append(out[idx][self.pde.Lx*self.pde.Ly:])
+            out = torch.cat(out_real_list, dim=0)
+            out_virtual = torch.cat(out_virtual_list, dim=0)
+
+        return out, out_virtual

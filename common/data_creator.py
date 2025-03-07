@@ -115,6 +115,10 @@ class GraphCreator_FS_2D(nn.Module):
         self.edge_mode = edge_mode.lower()
         self.rand_edges_per_node = rand_edges_per_node
 
+        if self.edge_mode == 'cayley-cgp':
+            self.cayley_graph = networkx.read_edgelist('full_cayley_edges', nodetype=int)
+            self.n_cayley_nodes = self.cayley_graph.number_of_nodes()
+
         assert isinstance(self.n, int)
         assert isinstance(self.tw, int)
     
@@ -188,9 +192,7 @@ class GraphCreator_FS_2D(nn.Module):
         local_edge_index = radius_graph(x_new, r=radius, batch=batch.long(), loop=False)
 
         if self.edge_mode == 'cayley-cgp':
-            cayley_graph = networkx.read_edgelist('full_cayley_edges', nodetype=int)
-            n_cayley_nodes = cayley_graph.number_of_nodes()
-            extra_nodes = n_cayley_nodes - n_nodes
+            extra_nodes = self.n_cayley_nodes - n_nodes
 
             batch_size = int(batch.max().item()) + 1
             new_u_list = []
@@ -210,7 +212,7 @@ class GraphCreator_FS_2D(nn.Module):
                 new_u_list.append(torch.cat([sample_u, virtual_u], dim=0))
                 new_x_list.append(torch.cat([sample_x, virtual_x], dim=0))
                 new_t_list.append(torch.cat([sample_t, virtual_t], dim=0))
-                new_batch_list.append(torch.full((n_cayley_nodes,), b, device=sample_u.device))
+                new_batch_list.append(torch.full((self.n_cayley_nodes,), b, device=sample_u.device))
             
             u_new = torch.cat(new_u_list, dim=0)
             x_new = torch.cat(new_x_list, dim=0)
@@ -223,7 +225,7 @@ class GraphCreator_FS_2D(nn.Module):
         if self.custom_edge_index is None and self.edge_mode != 'radiusonly': # to ensure that the random edges are only generated once
             batch_size = int(batch.max()) + 1
             if self.edge_mode == 'cayley-cgp':
-                n_nodes = n_cayley_nodes
+                n_nodes = self.n_cayley_nodes
             all_custom_edges = []
             for sample in range(batch_size):
                 offset = sample * n_nodes
@@ -246,8 +248,7 @@ class GraphCreator_FS_2D(nn.Module):
                     cayley_graph = networkx.read_edgelist('cayley_edges', nodetype=int)
                     custom_edges = torch.tensor(list(cayley_graph.edges)).t()
                 elif self.edge_mode == 'cayley-cgp':
-                    cayley_graph = networkx.read_edgelist('full_cayley_edges', nodetype=int)
-                    custom_edges = torch.tensor(list(cayley_graph.edges)).t()
+                    custom_edges = torch.tensor(list(self.cayley_graph.edges)).t()
                 else:
                     raise ValueError(f'Unknown edge mode: {self.edge_mode}')
                 
@@ -271,7 +272,6 @@ class GraphCreator_FS_2D(nn.Module):
         """
         getting new graph for the next timestep
         """
-
         full_pred = torch.cat((pred, virtual), 0)  # shape: (n_full, feat_dim)
         # Update the full state by concatenating the current state with the new prediction and then shifting the temporal window.
         graph.x = torch.cat((graph.x, full_pred), 1)[:, self.tw:]
@@ -288,7 +288,10 @@ class GraphCreator_FS_2D(nn.Module):
         for (labels_batch, step) in zip(labels, steps):
             y_tmp = torch.transpose(torch.cat([l.reshape(-1, nx*ny) for l in labels_batch]), 0, 1)
             y_new = torch.cat((y_new, y_tmp), )
-            t_tmp = torch.ones(nx*ny) * t[step]
+            if self.edge_mode == 'cayley-cgp':
+                t_tmp = torch.ones(self.n_cayley_nodes) * t[step]
+            else:
+                t_tmp = torch.ones(nx * ny) * t[step]
             t_new = torch.cat((t_new, t_tmp), )
 
         graph.y = y_new
