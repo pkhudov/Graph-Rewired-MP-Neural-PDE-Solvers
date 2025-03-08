@@ -221,7 +221,7 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             # else:
             #     current_edge_index = data.edge_index_local
 
-            current_edge_index = data.edge_index_local
+            current_edge_index = data.edge_index_custom
 
             h = self.gnn_layers[i](
                 h, u, pos_x, pos_y, variables, current_edge_index, batch)

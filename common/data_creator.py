@@ -258,7 +258,9 @@ class GraphCreator_FS_2D(nn.Module):
                 all_custom_edges.append(custom_edges)
             self.custom_edge_index = coalesce(torch.cat(all_custom_edges, dim=1))
             print(f'Generated {self.edge_mode} edges')
-            # edge_index_new = coalesce(torch.cat((edge_index_new, self.custom_edge_index), 1))
+
+            # Join local and custom edges
+            self.custom_edge_index = coalesce(torch.cat((local_edge_index, self.custom_edge_index), 1))
     
         graph = Data(x=u_new, edge_index_local=local_edge_index, edge_index_custom=self.custom_edge_index)
         graph.y = y_new
