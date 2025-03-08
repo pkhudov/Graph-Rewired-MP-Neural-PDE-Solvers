@@ -213,13 +213,15 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         h = self.embedding_mlp(node_input)
 
         for i in range(self.hidden_layer):
-            if self.edge_mode != 'radiusonly':
-                if i % 2 == 0:
-                    current_edge_index = data.edge_index_local
-                else:
-                    current_edge_index = data.edge_index_custom
-            else:
-                current_edge_index = data.edge_index_local
+            # if self.edge_mode != 'radiusonly':
+            #     if i % 2 == 0:
+            #         current_edge_index = data.edge_index_local
+            #     else:
+            #         current_edge_index = data.edge_index_custom
+            # else:
+            #     current_edge_index = data.edge_index_local
+
+            current_edge_index = data.edge_index_local
 
             h = self.gnn_layers[i](
                 h, u, pos_x, pos_y, variables, current_edge_index, batch)
