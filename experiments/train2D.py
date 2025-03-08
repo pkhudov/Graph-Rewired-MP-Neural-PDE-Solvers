@@ -169,6 +169,8 @@ def main(args: argparse):
         edge_mode_string = '_cayley'
     elif args.edge_mode == 'Cayley-CGP':
         edge_mode_string = '_cayley-cgp'
+    elif args.edge_mode == 'Complete':
+        edge_mode_string = '_complete'
     else:
         raise Exception("Edge mode not implemented")
 
