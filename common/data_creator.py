@@ -249,6 +249,8 @@ class GraphCreator_FS_2D(nn.Module):
                     custom_edges = torch.tensor(list(cayley_graph.edges)).t()
                 elif self.edge_mode == 'cayley-cgp':
                     custom_edges = torch.tensor(list(self.cayley_graph.edges)).t()
+                elif self.edge_mode == 'complete':
+                    custom_edges = radius_graph(x_new, r=100* torch.sqrt(dx**2 + dy**2) + 0.0001, batch=batch.long(), loop=False)
                 else:
                     raise ValueError(f'Unknown edge mode: {self.edge_mode}')
                 
