@@ -276,7 +276,9 @@ class GraphCreator_FS_2D(nn.Module):
         """
         full_pred = torch.cat((pred, virtual), 0)  # shape: (n_full, feat_dim)
         # Update the full state by concatenating the current state with the new prediction and then shifting the temporal window.
-        graph.x = torch.cat((graph.x, full_pred), 1)[:, self.tw:]
+        # graph.x = torch.cat((graph.x, full_pred), 1)[:, self.tw:]
+
+        graph.x = torch.cat((graph.x, pred), 1)[:, self.tw:]
 
         # graph.x = torch.cat((graph.x, pred), 1)[:, self.tw:]
 

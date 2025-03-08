@@ -254,7 +254,7 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         dt = torch.cumsum(dt, dim=1)
         out = u[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt * diff
 
-        out_virtual = None
+        out_virtual = torch.zeros_like(out)
         if self.edge_mode == 'cayley-cgp':
             out_real_list = []
             out_virtual_list = []
