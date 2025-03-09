@@ -64,26 +64,26 @@ def train(args: argparse,
     # Since the starting point is randomly drawn, this in expectation has every possible starting point/sample combination of the training data.
     # Therefore in expectation the whole available training information is covered.
     for i in range(graph_creator.t_res):
-    losses, batch_grads_mean = training_loop(model, unrolling, args.batch_size, optimizer, loader, graph_creator, criterion, device)
-    
-    if i % args.print_interval == 0:
-        sigmas = [
-            layer.gaussian_sigma.item() if hasattr(layer.gaussian_sigma, 'item') else layer.gaussian_sigma
-            for layer in model.gnn_layers
-        ]
-        g_coeffs = [
-            layer.gaussian_coeff.item() if hasattr(layer.gaussian_coeff, 'item') else layer.gaussian_coeff
-            for layer in model.gnn_layers
-        ]
+        losses, batch_grads_mean = training_loop(model, unrolling, args.batch_size, optimizer, loader, graph_creator, criterion, device)
+        
+        if i % args.print_interval == 0:
+            sigmas = [
+                layer.gaussian_sigma.item() if hasattr(layer.gaussian_sigma, 'item') else layer.gaussian_sigma
+                for layer in model.gnn_layers
+            ]
+            g_coeffs = [
+                layer.gaussian_coeff.item() if hasattr(layer.gaussian_coeff, 'item') else layer.gaussian_coeff
+                for layer in model.gnn_layers
+            ]
 
-        log_message = f'Training Loss (progress: {i / graph_creator.t_res:.2f}): {torch.mean(losses)}; Norm Grads: {batch_grads_mean}'
+            log_message = f'Training Loss (progress: {i / graph_creator.t_res:.2f}): {torch.mean(losses)}; Norm Grads: {batch_grads_mean}'
 
-        if any(sigma is not None for sigma in sigmas):  # Print only if at least one is not None
-            log_message += f'; Sigmas: {sigmas}'
-        if any(coeff is not None for coeff in g_coeffs):  # Print only if at least one is not None
-            log_message += f'; Coeffs: {g_coeffs}'
+            if any(sigma is not None for sigma in sigmas):  # Print only if at least one is not None
+                log_message += f'; Sigmas: {sigmas}'
+            if any(coeff is not None for coeff in g_coeffs):  # Print only if at least one is not None
+                log_message += f'; Coeffs: {g_coeffs}'
 
-        print(log_message)
+            print(log_message)
 
 def test(args: argparse,
          pde: PDE,
