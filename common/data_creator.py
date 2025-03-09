@@ -199,6 +199,8 @@ class GraphCreator_FS_2D(nn.Module):
             new_x_list = []
             new_t_list = []
             new_batch_list = []
+            
+            self_edges = []
             for b in range(batch_size):
                 start = b * n_nodes
                 end = (b + 1) * n_nodes
@@ -207,17 +209,26 @@ class GraphCreator_FS_2D(nn.Module):
                 sample_t = t_new[start:end]
 
                 virtual_u = torch.zeros(extra_nodes, sample_u.shape[1], device=sample_u.device)
-                virtual_x = torch.zeros(extra_nodes, grid.shape[1], device=grid.device)
-                virtual_t = torch.zeros(extra_nodes, device=sample_t.device)
+                # virtual_x = torch.zeros(extra_nodes, grid.shape[1], device=grid.device)
+                virtual_x = sample_x.mean(dim=0, keepdim=True).repeat(extra_nodes, 1)
+                # virtual_t = torch.zeros(extra_nodes, device=sample_t.device)
+                virtual_t = sample_t[0:1].repeat(extra_nodes)
                 new_u_list.append(torch.cat([sample_u, virtual_u], dim=0))
                 new_x_list.append(torch.cat([sample_x, virtual_x], dim=0))
                 new_t_list.append(torch.cat([sample_t, virtual_t], dim=0))
                 new_batch_list.append(torch.full((self.n_cayley_nodes,), b, device=sample_u.device))
-            
+
+                base = b*self.n_cayley_nodes
+                for i in range(base + n_nodes, base+self.n_cayley_nodes):
+                    self_edges.append([i,i])
+                
             u_new = torch.cat(new_u_list, dim=0)
             x_new = torch.cat(new_x_list, dim=0)
             t_new = torch.cat(new_t_list, dim=0)
             batch = torch.cat(new_batch_list, dim=0)
+
+            self_edges = torch.tensor(self_edges, dtype=torch.long, device=x_new.device).t().contiguous()
+            local_edge_index = torch.concat([local_edge_index, self_edges], dim=1)
 
         if self.edge_path is not None:
             self.custom_edge_index = torch.load(self.edge_path)
@@ -260,7 +271,7 @@ class GraphCreator_FS_2D(nn.Module):
             print(f'Generated {self.edge_mode} edges')
 
             # Join local and custom edges
-            self.custom_edge_index = coalesce(torch.cat((local_edge_index, self.custom_edge_index), 1))
+            # self.custom_edge_index = coalesce(torch.cat((local_edge_index, self.custom_edge_index), 1))
     
         graph = Data(x=u_new, edge_index_local=local_edge_index, edge_index_custom=self.custom_edge_index)
         graph.y = y_new

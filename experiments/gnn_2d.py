@@ -225,8 +225,26 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
 
             h = self.gnn_layers[i](
                 h, u, pos_x, pos_y, variables, current_edge_index, batch)
-        
-        # out_virtual = None
+
+        diff = self.output_mlp(h[:, None]).squeeze(1)
+        dt = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
+        dt = torch.cumsum(dt, dim=1)
+        out = u[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt * diff
+
+        out_virtual = torch.zeros_like(out)
+        if self.edge_mode == 'cayley-cgp':
+            out_real_list = []
+            out_virtual_list = []
+            for b in torch.unique(batch):
+                idx = (batch == b).nonzero(as_tuple=True)[0]
+                out_real_list.append(out[idx][:self.pde.Lx*self.pde.Ly])
+                out_virtual_list.append(out[idx][self.pde.Lx*self.pde.Ly:])
+            out = torch.cat(out_real_list, dim=0)
+            out_virtual = torch.cat(out_virtual_list, dim=0)
+
+        return out, out_virtual
+    
+            # out_virtual = None
         # if self.edge_mode == 'cayley-cgp':
         #     h_list = []
         #     u_list = []
@@ -248,21 +266,3 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         #     dt_virtual = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
         #     dt_virtual = torch.cumsum(dt_virtual, dim=1)
         #     out_virtual = u_virtual[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt_virtual * diff_virtual
-
-        diff = self.output_mlp(h[:, None]).squeeze(1)
-        dt = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
-        dt = torch.cumsum(dt, dim=1)
-        out = u[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt * diff
-
-        out_virtual = torch.zeros_like(out)
-        if self.edge_mode == 'cayley-cgp':
-            out_real_list = []
-            out_virtual_list = []
-            for b in torch.unique(batch):
-                idx = (batch == b).nonzero(as_tuple=True)[0]
-                out_real_list.append(out[idx][:self.pde.Lx*self.pde.Ly])
-                out_virtual_list.append(out[idx][self.pde.Lx*self.pde.Ly:])
-            out = torch.cat(out_real_list, dim=0)
-            out_virtual = torch.cat(out_virtual_list, dim=0)
-
-        return out, out_virtual
