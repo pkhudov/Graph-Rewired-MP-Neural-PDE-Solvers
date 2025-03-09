@@ -64,11 +64,26 @@ def train(args: argparse,
     # Since the starting point is randomly drawn, this in expectation has every possible starting point/sample combination of the training data.
     # Therefore in expectation the whole available training information is covered.
     for i in range(graph_creator.t_res):
-        losses, batch_grads_mean = training_loop(model, unrolling, args.batch_size, optimizer, loader, graph_creator, criterion, device)
-        if(i % args.print_interval == 0):
-            sigmas = [layer.gaussian_sigma.item() if hasattr(layer.gaussian_sigma, 'item') else layer.gaussian_sigma for layer in model.gnn_layers]
-            g_coeffs = [layer.gaussian_coeff.item() if hasattr(layer.gaussian_coeff, 'item') else layer.gaussian_coeff for layer in model.gnn_layers]
-            print(f'Training Loss (progress: {i / graph_creator.t_res:.2f}): {torch.mean(losses)}; Norm Grads: {batch_grads_mean}; Sigmas: {sigmas}; Coeffs: {g_coeffs}')
+    losses, batch_grads_mean = training_loop(model, unrolling, args.batch_size, optimizer, loader, graph_creator, criterion, device)
+    
+    if i % args.print_interval == 0:
+        sigmas = [
+            layer.gaussian_sigma.item() if hasattr(layer.gaussian_sigma, 'item') else layer.gaussian_sigma
+            for layer in model.gnn_layers
+        ]
+        g_coeffs = [
+            layer.gaussian_coeff.item() if hasattr(layer.gaussian_coeff, 'item') else layer.gaussian_coeff
+            for layer in model.gnn_layers
+        ]
+
+        log_message = f'Training Loss (progress: {i / graph_creator.t_res:.2f}): {torch.mean(losses)}; Norm Grads: {batch_grads_mean}'
+
+        if any(sigma is not None for sigma in sigmas):  # Print only if at least one is not None
+            log_message += f'; Sigmas: {sigmas}'
+        if any(coeff is not None for coeff in g_coeffs):  # Print only if at least one is not None
+            log_message += f'; Coeffs: {g_coeffs}'
+
+        print(log_message)
 
 def test(args: argparse,
          pde: PDE,
@@ -178,12 +193,12 @@ def main(args: argparse):
        edge_mode_string += f'KernelSigma{args.gaussian_sigma}'
 
     if(args.log):
-        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}.csv'
+        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}_alternating.csv'
         print(f'Writing to log file {logfile}')
         sys.stdout = open(logfile, 'w')
 
-    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}.pt'
-    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}.pt'
+    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}_alternating.pt'
+    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}_alternating.pt'
     print(f'Training on dataset {train_string}')
     print(device)
     print(save_path)

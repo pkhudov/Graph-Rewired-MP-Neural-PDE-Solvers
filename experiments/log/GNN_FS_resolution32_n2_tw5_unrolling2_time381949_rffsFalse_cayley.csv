@@ -1,0 +1,1049 @@
+Training on dataset data/fs_2d_pde_128_train_dataset.h5
+cuda:0
+models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+Number of parameters: 619769
+Training started at: 2025-03-08 19:49:11
+Epoch 0
+Starting epoch 0...
+Generated cayley edges
+Training Loss (progress: 0.00): 5.6143658806334775; Norm Grads: 16.09370523187352; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.915076597945665; Norm Grads: 29.695086408248027; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.5821115058469606; Norm Grads: 32.364215758732186; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.418075907536878; Norm Grads: 33.537518476655755; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.3618760865024706; Norm Grads: 34.535193113557305; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.314810284877764; Norm Grads: 34.426344588819134; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.232843667570527; Norm Grads: 30.82109245579998; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.272499062836881; Norm Grads: 32.600487847269264; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.1834907552851384; Norm Grads: 31.68935804720722; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.1179470125013986; Norm Grads: 31.635244729492804; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 10.039221385275066
+Step 10, mean loss 8.53411828367328
+Step 15, mean loss 10.855761841169828
+Step 20, mean loss 15.569535178623806
+Step 25, mean loss 22.122614944903937
+Step 30, mean loss 27.99780721243043
+Step 35, mean loss 34.37588612383734
+Step 40, mean loss 41.11843301154698
+Step 45, mean loss 49.00247596067686
+Step 50, mean loss 50.32580543193194
+Step 55, mean loss 49.94576099930692
+Step 60, mean loss 50.812822688186685
+Step 65, mean loss 50.37274803360984
+Step 70, mean loss 48.289203291239176
+Step 75, mean loss 44.796132853821305
+Step 80, mean loss 43.96076061321449
+Step 85, mean loss 44.26003090726749
+Step 90, mean loss 46.001397546886096
+Step 95, mean loss 46.448343066620936
+Unrolled forward losses 596.117975697874
+Evaluation on test dataset:
+Step 5, mean loss 10.239580726335106
+Step 10, mean loss 8.368472654117245
+Step 15, mean loss 12.223204877376705
+Step 20, mean loss 18.72840114663057
+Step 25, mean loss 24.370319995712173
+Step 30, mean loss 31.342833673539662
+Step 35, mean loss 39.64432044513051
+Step 40, mean loss 49.060221281619185
+Step 45, mean loss 54.73197876174305
+Step 50, mean loss 54.67856711977305
+Step 55, mean loss 52.300359216260695
+Step 60, mean loss 51.24230399304852
+Step 65, mean loss 50.150569867997106
+Step 70, mean loss 48.23680382301727
+Step 75, mean loss 45.85827575881399
+Step 80, mean loss 45.406330013532596
+Step 85, mean loss 46.43332992098486
+Step 90, mean loss 49.80390720169743
+Step 95, mean loss 52.24076985616935
+Unrolled forward losses 497.16603171465886
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+
+Training time:  0:21:07.787619
+Epoch 1
+Starting epoch 1...
+Training Loss (progress: 0.00): 3.9593189814267906; Norm Grads: 34.564675881136495; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.8776373497584533; Norm Grads: 26.957687041739497; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 4.044323332235336; Norm Grads: 26.879413284367374; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.8888585676522935; Norm Grads: 27.464421756366225; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.765554007291148; Norm Grads: 26.38501636194706; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 4.104648871701927; Norm Grads: 27.359860039688975; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 4.068582807393832; Norm Grads: 27.31327950236566; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.7101083825076144; Norm Grads: 24.92723016408371; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.7075816924810385; Norm Grads: 26.339024618762572; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.7138230260493894; Norm Grads: 25.065759605443514; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 9.413162619983947
+Step 10, mean loss 5.859879833771943
+Step 15, mean loss 7.632821047906345
+Step 20, mean loss 12.723618813104258
+Step 25, mean loss 19.082875420493174
+Step 30, mean loss 24.595787432705045
+Step 35, mean loss 30.541744036088424
+Step 40, mean loss 37.18565269324796
+Step 45, mean loss 46.169682135964756
+Step 50, mean loss 48.44180445570007
+Step 55, mean loss 47.65893504970644
+Step 60, mean loss 47.99688612404219
+Step 65, mean loss 47.41863832910879
+Step 70, mean loss 46.448704014287095
+Step 75, mean loss 43.03721944779178
+Step 80, mean loss 42.37226161932847
+Step 85, mean loss 42.83129980462434
+Step 90, mean loss 43.82785038551295
+Step 95, mean loss 44.77968093374715
+Unrolled forward losses 230.4959991718452
+Evaluation on test dataset:
+Step 5, mean loss 9.837652163620714
+Step 10, mean loss 5.672385268889856
+Step 15, mean loss 8.957340862157075
+Step 20, mean loss 15.008448939493064
+Step 25, mean loss 22.211455531239476
+Step 30, mean loss 28.675275371578703
+Step 35, mean loss 35.597190106424904
+Step 40, mean loss 44.757689387332945
+Step 45, mean loss 51.41378824175311
+Step 50, mean loss 53.00257312641962
+Step 55, mean loss 49.92611267648558
+Step 60, mean loss 47.71215475881961
+Step 65, mean loss 47.291138324261055
+Step 70, mean loss 45.72507893360708
+Step 75, mean loss 43.757608900913354
+Step 80, mean loss 43.101604835649944
+Step 85, mean loss 44.285425629987785
+Step 90, mean loss 47.02861291827243
+Step 95, mean loss 49.907100951857686
+Unrolled forward losses 200.01134007055407
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+
+Training time:  0:44:14.685445
+Epoch 2
+Starting epoch 2...
+Training Loss (progress: 0.00): 4.157844755824565; Norm Grads: 25.06226341686552; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 4.1758062902597155; Norm Grads: 25.939587612572325; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 4.265664010085435; Norm Grads: 25.752458270817794; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 4.140676207155952; Norm Grads: 26.60271918729774; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 4.08862553063948; Norm Grads: 26.140110333688128; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.992066210685603; Norm Grads: 26.682646687317668; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 4.038772124204095; Norm Grads: 28.840867227250676; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.9231225579537887; Norm Grads: 27.403544912632483; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 4.337107053516855; Norm Grads: 28.881469124955604; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 4.0240617782125545; Norm Grads: 27.740012331865657; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 6.156308933240332
+Step 10, mean loss 7.59318125374148
+Step 15, mean loss 8.763959060482566
+Step 20, mean loss 12.649421255192001
+Step 25, mean loss 18.0832920014646
+Step 30, mean loss 23.08019474104607
+Step 35, mean loss 29.583028940672087
+Step 40, mean loss 35.698569890220455
+Step 45, mean loss 43.80046575862063
+Step 50, mean loss 46.80892025918287
+Step 55, mean loss 46.733046913173126
+Step 60, mean loss 47.59322004098341
+Step 65, mean loss 46.660424248770155
+Step 70, mean loss 45.08454628292009
+Step 75, mean loss 41.99287856225669
+Step 80, mean loss 41.100509204287505
+Step 85, mean loss 41.67979397284739
+Step 90, mean loss 42.832955446822844
+Step 95, mean loss 44.00709796178153
+Unrolled forward losses 162.3757598617082
+Evaluation on test dataset:
+Step 5, mean loss 6.270299207223685
+Step 10, mean loss 6.936017647688214
+Step 15, mean loss 10.05878206124687
+Step 20, mean loss 14.620647354876969
+Step 25, mean loss 20.35779046184956
+Step 30, mean loss 27.390525590302765
+Step 35, mean loss 34.79462732850543
+Step 40, mean loss 43.3947181734153
+Step 45, mean loss 49.21592041321577
+Step 50, mean loss 50.79747812929206
+Step 55, mean loss 48.57464685692098
+Step 60, mean loss 46.93192343333807
+Step 65, mean loss 46.40596919776214
+Step 70, mean loss 44.371965330891726
+Step 75, mean loss 42.24824311125565
+Step 80, mean loss 41.96441260656991
+Step 85, mean loss 43.28672273466388
+Step 90, mean loss 46.23522161016211
+Step 95, mean loss 49.52082697668823
+Unrolled forward losses 166.15791095769185
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+
+Training time:  1:08:23.872070
+Epoch 3
+Starting epoch 3...
+Training Loss (progress: 0.00): 3.9773249814287444; Norm Grads: 28.419851510057835; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.966837245527341; Norm Grads: 28.66231867704981; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 4.068673077728468; Norm Grads: 27.091189541625617; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 4.040167235662341; Norm Grads: 29.561327800883824; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.96123027812267; Norm Grads: 29.888073572240287; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.906376323162343; Norm Grads: 28.585992684365902; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 4.099301567339995; Norm Grads: 30.708020366145092; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 4.009492083532214; Norm Grads: 31.74749279245775; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.8789074898083604; Norm Grads: 28.57055645116933; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 4.0406849099262105; Norm Grads: 30.29931788764494; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 4.985167513880965
+Step 10, mean loss 4.706647504687
+Step 15, mean loss 6.613371055963833
+Step 20, mean loss 9.845959793057109
+Step 25, mean loss 15.068372859494882
+Step 30, mean loss 21.368789406146362
+Step 35, mean loss 29.12307537020559
+Step 40, mean loss 35.17626820132662
+Step 45, mean loss 43.281218313977845
+Step 50, mean loss 46.47944473357311
+Step 55, mean loss 47.00723337660315
+Step 60, mean loss 46.86358758890408
+Step 65, mean loss 46.031637390279656
+Step 70, mean loss 44.45857003011588
+Step 75, mean loss 41.12422242305188
+Step 80, mean loss 40.55315320935346
+Step 85, mean loss 41.58345619944235
+Step 90, mean loss 42.89156295127605
+Step 95, mean loss 44.36361904736593
+Unrolled forward losses 109.94616721144254
+Evaluation on test dataset:
+Step 5, mean loss 5.070424541787955
+Step 10, mean loss 4.554813966268962
+Step 15, mean loss 7.89381459989117
+Step 20, mean loss 12.199354733314518
+Step 25, mean loss 16.999074290602916
+Step 30, mean loss 24.263392365897182
+Step 35, mean loss 34.07788021955159
+Step 40, mean loss 42.61595692217122
+Step 45, mean loss 48.96620990547801
+Step 50, mean loss 51.11854043207465
+Step 55, mean loss 49.705083076128076
+Step 60, mean loss 46.857574305536325
+Step 65, mean loss 45.03890945992293
+Step 70, mean loss 43.48546866182903
+Step 75, mean loss 41.74507104290682
+Step 80, mean loss 41.28391203512388
+Step 85, mean loss 42.905696056760775
+Step 90, mean loss 46.20563978169057
+Step 95, mean loss 49.73149511418145
+Unrolled forward losses 114.89635185951649
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+
+Training time:  1:31:58.504070
+Epoch 4
+Starting epoch 4...
+Training Loss (progress: 0.00): 4.079881002527122; Norm Grads: 30.677063956532763; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.9865733189728485; Norm Grads: 30.163194726927106; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 4.0323586372633216; Norm Grads: 29.99195378264409; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 4.025771643527776; Norm Grads: 32.02421617245469; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.9316672734817852; Norm Grads: 30.922294491354066; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.881141461553781; Norm Grads: 29.87587194279161; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.994102770384774; Norm Grads: 31.982030513045437; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.8604040091663645; Norm Grads: 29.297481782091577; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.8777151859629906; Norm Grads: 32.11411212531828; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.939951045865359; Norm Grads: 31.189996166962967; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 4.756691380959515
+Step 10, mean loss 5.164008069484815
+Step 15, mean loss 6.0544715093311625
+Step 20, mean loss 9.213265686624727
+Step 25, mean loss 14.253803170540692
+Step 30, mean loss 20.537069660870337
+Step 35, mean loss 27.42458752424946
+Step 40, mean loss 33.74960490396096
+Step 45, mean loss 42.35459941392975
+Step 50, mean loss 46.31068068010489
+Step 55, mean loss 46.200376370367415
+Step 60, mean loss 46.86363953399032
+Step 65, mean loss 46.774432195470794
+Step 70, mean loss 45.22837055681195
+Step 75, mean loss 42.09295324349792
+Step 80, mean loss 41.1979114307631
+Step 85, mean loss 41.924798255763186
+Step 90, mean loss 43.25061294173098
+Step 95, mean loss 44.915279922323464
+Unrolled forward losses 98.2415362537626
+Evaluation on test dataset:
+Step 5, mean loss 4.590293487505406
+Step 10, mean loss 4.6945830663454435
+Step 15, mean loss 7.416346964126202
+Step 20, mean loss 11.430801383647493
+Step 25, mean loss 16.596124056357624
+Step 30, mean loss 23.744384021132237
+Step 35, mean loss 32.69767751934967
+Step 40, mean loss 41.294236849618954
+Step 45, mean loss 47.90196355498642
+Step 50, mean loss 50.380125888660075
+Step 55, mean loss 48.49927540138821
+Step 60, mean loss 46.52256021659613
+Step 65, mean loss 45.56263378582543
+Step 70, mean loss 43.9871732871388
+Step 75, mean loss 42.288273453164805
+Step 80, mean loss 41.85680688186807
+Step 85, mean loss 43.43881253595314
+Step 90, mean loss 46.465271639149606
+Step 95, mean loss 50.317556249882735
+Unrolled forward losses 105.23905193157819
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+
+Training time:  1:56:34.169331
+Epoch 5
+Starting epoch 5...
+Training Loss (progress: 0.00): 3.8782112764187664; Norm Grads: 29.83263873553898; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.9074783863294806; Norm Grads: 30.865803041993807; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.8713535991031054; Norm Grads: 31.127977167958914; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.818574144538008; Norm Grads: 31.030268153243036; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.801944782295727; Norm Grads: 31.50918046461143; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.839526482835506; Norm Grads: 31.361074816382576; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.7938409075306416; Norm Grads: 31.087951732360512; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.987197705300428; Norm Grads: 33.667438755985195; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.8836047348234883; Norm Grads: 31.912874156972126; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.863339855706542; Norm Grads: 32.95636715266984; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.978224403210643
+Step 10, mean loss 4.553696406992
+Step 15, mean loss 5.8501148912660055
+Step 20, mean loss 8.50483738761893
+Step 25, mean loss 13.17536768404422
+Step 30, mean loss 18.89176806101164
+Step 35, mean loss 26.04512847670891
+Step 40, mean loss 32.36350090924604
+Step 45, mean loss 40.57336903559839
+Step 50, mean loss 43.44568238403972
+Step 55, mean loss 43.859349061157474
+Step 60, mean loss 44.86104844640196
+Step 65, mean loss 44.54540426593723
+Step 70, mean loss 43.139647782681905
+Step 75, mean loss 40.1146651317716
+Step 80, mean loss 39.380272058458445
+Step 85, mean loss 39.984794453211244
+Step 90, mean loss 41.56843754591892
+Step 95, mean loss 43.190827524014075
+Unrolled forward losses 101.94038032246257
+Epoch 6
+Starting epoch 6...
+Training Loss (progress: 0.00): 3.825834037866243; Norm Grads: 32.3876066417422; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.87961101440253; Norm Grads: 32.72819195838156; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.773499429203994; Norm Grads: 32.32266327428818; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.7958650193045336; Norm Grads: 31.5003696497901; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.8539060302965873; Norm Grads: 32.64316659949117; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.837197461868336; Norm Grads: 33.581906416116325; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.860320692157945; Norm Grads: 33.08935464852988; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.8100070916673823; Norm Grads: 33.34315069068646; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.807156086683299; Norm Grads: 34.70830446221812; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.8878022637177794; Norm Grads: 33.45310222950154; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.854227746984688
+Step 10, mean loss 4.332035904483384
+Step 15, mean loss 5.444565516068822
+Step 20, mean loss 8.25547233043671
+Step 25, mean loss 13.791532810772914
+Step 30, mean loss 19.52551456925343
+Step 35, mean loss 27.398331897896608
+Step 40, mean loss 32.83877883790579
+Step 45, mean loss 40.855808033123324
+Step 50, mean loss 44.72908997777026
+Step 55, mean loss 45.574426820039875
+Step 60, mean loss 46.284935731286446
+Step 65, mean loss 46.23562520727348
+Step 70, mean loss 44.40655480429908
+Step 75, mean loss 41.25204748040637
+Step 80, mean loss 40.14671959821864
+Step 85, mean loss 40.565870884048365
+Step 90, mean loss 41.71887484139364
+Step 95, mean loss 42.67489537875869
+Unrolled forward losses 77.4858562806441
+Evaluation on test dataset:
+Step 5, mean loss 3.8509156144882377
+Step 10, mean loss 4.175168684525534
+Step 15, mean loss 6.839029674634537
+Step 20, mean loss 10.288120117506075
+Step 25, mean loss 15.368019021369985
+Step 30, mean loss 23.057366608307092
+Step 35, mean loss 32.15934518336766
+Step 40, mean loss 40.58810359314931
+Step 45, mean loss 46.7185078393096
+Step 50, mean loss 48.82417726407543
+Step 55, mean loss 48.351750328315106
+Step 60, mean loss 46.11335150072346
+Step 65, mean loss 45.296347099063
+Step 70, mean loss 43.63970670207753
+Step 75, mean loss 41.53153361952592
+Step 80, mean loss 41.125402555100834
+Step 85, mean loss 42.30019926390075
+Step 90, mean loss 44.887902134790544
+Step 95, mean loss 48.14984730773608
+Unrolled forward losses 89.99734776752234
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+
+Training time:  2:44:50.422749
+Epoch 7
+Starting epoch 7...
+Training Loss (progress: 0.00): 3.9314826530057476; Norm Grads: 33.94838176146504; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.8466005100260032; Norm Grads: 34.55265895475982; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.8154380464458244; Norm Grads: 34.65311860763674; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.7657581346949964; Norm Grads: 34.80029003072973; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.6867926638778483; Norm Grads: 33.59758534629781; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.604461006220515; Norm Grads: 36.92125532466713; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.654254902814458; Norm Grads: 32.675526203604036; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.825993124060738; Norm Grads: 34.96966926560659; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.730863012659314; Norm Grads: 33.69151522514024; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.7268918904540183; Norm Grads: 34.89992307961625; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.9058942948826583
+Step 10, mean loss 4.31879456877556
+Step 15, mean loss 5.502301852683724
+Step 20, mean loss 7.955403507237262
+Step 25, mean loss 12.467885212829662
+Step 30, mean loss 18.204664046906725
+Step 35, mean loss 25.277374079824646
+Step 40, mean loss 31.470171241149032
+Step 45, mean loss 39.89920424366622
+Step 50, mean loss 43.21417384867623
+Step 55, mean loss 43.65811104804479
+Step 60, mean loss 44.46607377173821
+Step 65, mean loss 44.34026282827905
+Step 70, mean loss 42.758317272108314
+Step 75, mean loss 39.90419534786552
+Step 80, mean loss 39.1440910748875
+Step 85, mean loss 39.906875883582465
+Step 90, mean loss 41.062068810863444
+Step 95, mean loss 42.386541694270996
+Unrolled forward losses 82.93762963844848
+Epoch 8
+Starting epoch 8...
+Training Loss (progress: 0.00): 3.752813151040121; Norm Grads: 35.96010818203354; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.708662044286891; Norm Grads: 35.50687475666775; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.6140760583040032; Norm Grads: 34.26594910019475; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.8235891422927275; Norm Grads: 35.21447196559659; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.7164267625076595; Norm Grads: 36.00750473390991; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.8655742619772453; Norm Grads: 34.658337331785894; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.799392663075588; Norm Grads: 36.0912611914408; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.703017224398861; Norm Grads: 34.56165689636138; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.592769295261925; Norm Grads: 36.768959133289364; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.82467115887677; Norm Grads: 36.83333314301368; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 4.070004688475153
+Step 10, mean loss 3.9019635427000274
+Step 15, mean loss 5.12736737924392
+Step 20, mean loss 7.632814131347443
+Step 25, mean loss 12.493940745794392
+Step 30, mean loss 18.07012817278943
+Step 35, mean loss 25.32074177397783
+Step 40, mean loss 31.34784779119422
+Step 45, mean loss 39.62372490697101
+Step 50, mean loss 43.1486965825128
+Step 55, mean loss 43.61631608222488
+Step 60, mean loss 44.334457979787096
+Step 65, mean loss 44.16452464251833
+Step 70, mean loss 42.81705468965793
+Step 75, mean loss 40.017208895545025
+Step 80, mean loss 39.1503250585973
+Step 85, mean loss 39.950843224605414
+Step 90, mean loss 41.11111458682165
+Step 95, mean loss 42.43317986910294
+Unrolled forward losses 83.45811817285534
+Epoch 9
+Starting epoch 9...
+Training Loss (progress: 0.00): 3.466360148001826; Norm Grads: 34.58460500312749; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.6396511169377392; Norm Grads: 37.36214523640924; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.6428423521845694; Norm Grads: 35.08795971322963; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.701638744143609; Norm Grads: 35.13434363337305; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.742916866005932; Norm Grads: 36.899203291204714; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.5617216365837794; Norm Grads: 36.089641876539744; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.7698342646677894; Norm Grads: 37.65477396717725; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.8101563006446226; Norm Grads: 37.81012400144055; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.731588719522711; Norm Grads: 36.281378878931896; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.6670243094910466; Norm Grads: 36.54195575180793; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.558059525215933
+Step 10, mean loss 3.984643288958596
+Step 15, mean loss 5.086754226267861
+Step 20, mean loss 7.80000969896054
+Step 25, mean loss 12.659904790060207
+Step 30, mean loss 18.19171638020048
+Step 35, mean loss 25.698567313151088
+Step 40, mean loss 31.82381466755758
+Step 45, mean loss 40.25691793099433
+Step 50, mean loss 43.9923500749691
+Step 55, mean loss 44.724037953122256
+Step 60, mean loss 45.292998277819024
+Step 65, mean loss 45.127939489434944
+Step 70, mean loss 43.42779744710241
+Step 75, mean loss 40.30518650964191
+Step 80, mean loss 39.22826166998564
+Step 85, mean loss 39.61949818150538
+Step 90, mean loss 40.82316537926809
+Step 95, mean loss 42.01211527321334
+Unrolled forward losses 68.78092745478665
+Evaluation on test dataset:
+Step 5, mean loss 3.4960558840991913
+Step 10, mean loss 3.7708136080586048
+Step 15, mean loss 6.4836960648302195
+Step 20, mean loss 9.644117501956465
+Step 25, mean loss 14.386945882432567
+Step 30, mean loss 21.408621910794402
+Step 35, mean loss 30.26968328990602
+Step 40, mean loss 39.414502686626506
+Step 45, mean loss 46.23900536146254
+Step 50, mean loss 47.941510452672006
+Step 55, mean loss 46.92860954586757
+Step 60, mean loss 44.85110793857959
+Step 65, mean loss 44.090306379035155
+Step 70, mean loss 42.57432418767161
+Step 75, mean loss 40.38868180657575
+Step 80, mean loss 40.156265431477024
+Step 85, mean loss 41.27867650739714
+Step 90, mean loss 44.09627212874227
+Step 95, mean loss 47.48952323835982
+Unrolled forward losses 76.83999800457846
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+
+Training time:  3:56:55.920384
+Epoch 10
+Starting epoch 10...
+Training Loss (progress: 0.00): 3.613440575157366; Norm Grads: 35.885159120168225; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.771662154593941; Norm Grads: 37.149846505062115; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.5799446705236293; Norm Grads: 35.547949183680046; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.6362979233560564; Norm Grads: 34.43313175549892; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.7021126892968943; Norm Grads: 36.63723948702251; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.6489197580345234; Norm Grads: 36.55034042386751; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.480554730579654; Norm Grads: 36.87686495025349; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.771328932590051; Norm Grads: 39.86020431863886; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.6283738650455337; Norm Grads: 38.033790020210084; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.670320213571203; Norm Grads: 37.44025695651493; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.6355843253148894
+Step 10, mean loss 3.864938377763383
+Step 15, mean loss 4.870336267336773
+Step 20, mean loss 7.450857432713155
+Step 25, mean loss 12.443158264719436
+Step 30, mean loss 18.152360853373757
+Step 35, mean loss 25.475884476940912
+Step 40, mean loss 31.271065328971538
+Step 45, mean loss 39.33815071597688
+Step 50, mean loss 43.08781974241312
+Step 55, mean loss 43.67614042080407
+Step 60, mean loss 44.44464270278081
+Step 65, mean loss 44.02577783751509
+Step 70, mean loss 42.35740437470142
+Step 75, mean loss 39.30174267540975
+Step 80, mean loss 38.4597026467717
+Step 85, mean loss 39.17169786489616
+Step 90, mean loss 40.601096591465904
+Step 95, mean loss 42.22887273630724
+Unrolled forward losses 75.69836227190063
+Epoch 11
+Starting epoch 11...
+Training Loss (progress: 0.00): 3.659845273398697; Norm Grads: 37.87265096053552; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.6391577483296365; Norm Grads: 38.13818991529987; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.5831181814849655; Norm Grads: 37.033200781102074; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.593401544009954; Norm Grads: 36.888087838781345; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.6383373246716233; Norm Grads: 36.72515704161563; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.627675595294747; Norm Grads: 36.99181855249375; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.7806189979100826; Norm Grads: 37.946319988318976; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.5401962901752557; Norm Grads: 37.102896446983635; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.7026508927709703; Norm Grads: 36.53406509817569; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.7121282796657713; Norm Grads: 38.658340936001565; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.8112615278120416
+Step 10, mean loss 3.580420424728919
+Step 15, mean loss 4.788203499558323
+Step 20, mean loss 7.096655773955623
+Step 25, mean loss 11.770563618296862
+Step 30, mean loss 17.286480267446226
+Step 35, mean loss 24.74712783937588
+Step 40, mean loss 30.89676585001386
+Step 45, mean loss 39.00400589024886
+Step 50, mean loss 42.726244524369534
+Step 55, mean loss 43.2838456318376
+Step 60, mean loss 44.044101599594995
+Step 65, mean loss 43.8452409945033
+Step 70, mean loss 42.24418540293745
+Step 75, mean loss 39.330019622948555
+Step 80, mean loss 38.48379784319992
+Step 85, mean loss 39.096490372210624
+Step 90, mean loss 40.4901384335777
+Step 95, mean loss 42.05312101679404
+Unrolled forward losses 64.26813059422474
+Evaluation on test dataset:
+Step 5, mean loss 3.754257312383883
+Step 10, mean loss 3.4249192292376187
+Step 15, mean loss 5.907450504915542
+Step 20, mean loss 8.85286070522778
+Step 25, mean loss 13.585580600622768
+Step 30, mean loss 20.765501084146177
+Step 35, mean loss 29.452262181422526
+Step 40, mean loss 38.002908093289406
+Step 45, mean loss 44.22650944219993
+Step 50, mean loss 46.640078386587675
+Step 55, mean loss 45.51481672955964
+Step 60, mean loss 43.46242585510559
+Step 65, mean loss 42.603668913942755
+Step 70, mean loss 41.45727915405001
+Step 75, mean loss 39.32326465453438
+Step 80, mean loss 39.150481712515386
+Step 85, mean loss 40.67401446221802
+Step 90, mean loss 43.71004985714275
+Step 95, mean loss 47.56423772496424
+Unrolled forward losses 75.98913458559183
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+
+Training time:  4:44:37.564128
+Epoch 12
+Starting epoch 12...
+Training Loss (progress: 0.00): 3.5842973932071542; Norm Grads: 37.464940061248704; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.6283522476273977; Norm Grads: 39.55167568263614; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.518210215171049; Norm Grads: 38.365077435659614; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.5522363082285673; Norm Grads: 38.66703885889432; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.5941427446405156; Norm Grads: 37.581135391994735; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.762385425261001; Norm Grads: 40.56375829214869; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.6203539185155607; Norm Grads: 39.613104705782256; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.570669624893931; Norm Grads: 36.8457367699418; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.5611889212344288; Norm Grads: 39.18183363373442; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.7311020520722162; Norm Grads: 39.27885166910754; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 4.438909758837023
+Step 10, mean loss 4.003768838560087
+Step 15, mean loss 4.853967975736445
+Step 20, mean loss 7.320178196862786
+Step 25, mean loss 12.439930819728579
+Step 30, mean loss 17.711449242734872
+Step 35, mean loss 24.51436478365457
+Step 40, mean loss 30.49882001033602
+Step 45, mean loss 38.7652007153313
+Step 50, mean loss 42.206086639549426
+Step 55, mean loss 42.761217456664085
+Step 60, mean loss 43.50198598244977
+Step 65, mean loss 43.30172620083945
+Step 70, mean loss 41.82151791034545
+Step 75, mean loss 38.90425898762426
+Step 80, mean loss 38.33367043086572
+Step 85, mean loss 38.82942233780644
+Step 90, mean loss 40.38123410068776
+Step 95, mean loss 42.1889526059531
+Unrolled forward losses 71.20685565243025
+Epoch 13
+Starting epoch 13...
+Training Loss (progress: 0.00): 3.705192706697504; Norm Grads: 38.80124535913778; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.5844774728238407; Norm Grads: 38.065710301428794; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.553876319025296; Norm Grads: 40.93585341643514; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.576162935315367; Norm Grads: 38.92517998105331; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.708607977612843; Norm Grads: 40.374186820258885; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.6721665325397415; Norm Grads: 41.28003548338408; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.62165814857011; Norm Grads: 38.21042580746559; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.589443965843589; Norm Grads: 39.47413325264223; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.6070877425245444; Norm Grads: 39.234632273062715; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.4411339773517424; Norm Grads: 39.547189884450326; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.808713586715868
+Step 10, mean loss 3.8798297655526675
+Step 15, mean loss 4.927591609983919
+Step 20, mean loss 7.509626132080285
+Step 25, mean loss 12.021072711961121
+Step 30, mean loss 17.69765053511803
+Step 35, mean loss 25.12267694213961
+Step 40, mean loss 31.06365454413404
+Step 45, mean loss 39.21769164344058
+Step 50, mean loss 42.74119468906322
+Step 55, mean loss 43.393039392589365
+Step 60, mean loss 44.298101042358766
+Step 65, mean loss 44.20398415176949
+Step 70, mean loss 42.50556991855104
+Step 75, mean loss 39.59099395695816
+Step 80, mean loss 38.868048051446465
+Step 85, mean loss 39.7295992668407
+Step 90, mean loss 41.23969066967265
+Step 95, mean loss 43.24771384561711
+Unrolled forward losses 70.93365512906738
+Epoch 14
+Starting epoch 14...
+Training Loss (progress: 0.00): 3.6627772446004876; Norm Grads: 39.34601542170717; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.6183287786326868; Norm Grads: 39.021777030814796; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.5865570554578126; Norm Grads: 40.621456791852495; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.6803382319364424; Norm Grads: 38.93607395536551; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.727619137089213; Norm Grads: 39.494600605898434; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.5578273026119533; Norm Grads: 39.5793986841198; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.5654125485703236; Norm Grads: 38.525812656311814; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.6387938921401126; Norm Grads: 38.47699682911534; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.5705905433324903; Norm Grads: 39.185906859573876; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.6898076667874964; Norm Grads: 40.33850044140438; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.8529837009245163
+Step 10, mean loss 3.4992450357411995
+Step 15, mean loss 4.636113663944217
+Step 20, mean loss 6.928402815853952
+Step 25, mean loss 11.623550676791973
+Step 30, mean loss 16.927492387163117
+Step 35, mean loss 24.10230025457798
+Step 40, mean loss 30.250073489410767
+Step 45, mean loss 38.28407360501971
+Step 50, mean loss 41.849213260005456
+Step 55, mean loss 42.466363470707606
+Step 60, mean loss 43.38860251214847
+Step 65, mean loss 43.37307841843358
+Step 70, mean loss 41.716320694286516
+Step 75, mean loss 38.999209931300484
+Step 80, mean loss 38.28277754288395
+Step 85, mean loss 39.16770391480844
+Step 90, mean loss 40.775500594345274
+Step 95, mean loss 42.76798418043164
+Unrolled forward losses 70.9302685320449
+Epoch 15
+Starting epoch 15...
+Training Loss (progress: 0.00): 3.587551004431608; Norm Grads: 38.681635486865204; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.5038035953959263; Norm Grads: 38.13932568790626; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.6475878171041813; Norm Grads: 38.11362672966813; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.6652617773838343; Norm Grads: 38.88521042880287; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.687741137270877; Norm Grads: 40.39229321900324; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.7327134710992427; Norm Grads: 38.9718725468692; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.5684894995919723; Norm Grads: 40.17629401109691; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.498993468613262; Norm Grads: 39.45329859718463; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.503324323956996; Norm Grads: 38.13627599048811; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.4855367413604768; Norm Grads: 40.425981352196246; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.662824948566209
+Step 10, mean loss 4.055074472872895
+Step 15, mean loss 5.078411174422699
+Step 20, mean loss 7.440718811666303
+Step 25, mean loss 11.670396581540645
+Step 30, mean loss 17.11958362259341
+Step 35, mean loss 24.503933397234988
+Step 40, mean loss 30.372322592629864
+Step 45, mean loss 38.580010714779334
+Step 50, mean loss 42.48305621165157
+Step 55, mean loss 43.0534441362992
+Step 60, mean loss 43.78892019947602
+Step 65, mean loss 43.73481914791427
+Step 70, mean loss 42.07461786529455
+Step 75, mean loss 39.16638746878456
+Step 80, mean loss 38.26641621591034
+Step 85, mean loss 38.91507895379955
+Step 90, mean loss 40.21810554845291
+Step 95, mean loss 41.93301182827553
+Unrolled forward losses 78.89545850025569
+Epoch 16
+Starting epoch 16...
+Training Loss (progress: 0.00): 3.6869269320856914; Norm Grads: 40.23591628512197; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.6167590728338808; Norm Grads: 40.74906637216239; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.600643047252614; Norm Grads: 40.698301598698926; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.6751202068558655; Norm Grads: 40.26397008980574; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.6078277546299593; Norm Grads: 41.122837591023945; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.5564077196592163; Norm Grads: 40.12514067170327; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.7053465494635667; Norm Grads: 39.84569856825546; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.5168663204715194; Norm Grads: 38.48219398992226; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.6305982296900043; Norm Grads: 40.75208057641025; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.4798270191167067; Norm Grads: 40.51217822967827; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.64824289257555
+Step 10, mean loss 3.6594546706590343
+Step 15, mean loss 4.727171098506411
+Step 20, mean loss 7.0977067483345735
+Step 25, mean loss 11.356236146887536
+Step 30, mean loss 16.739074518431828
+Step 35, mean loss 23.967376733749234
+Step 40, mean loss 30.001453091194882
+Step 45, mean loss 38.26457927138288
+Step 50, mean loss 41.76454111168185
+Step 55, mean loss 42.24525565356508
+Step 60, mean loss 43.11861574990314
+Step 65, mean loss 43.10857854156843
+Step 70, mean loss 41.27719690268977
+Step 75, mean loss 38.590552021134165
+Step 80, mean loss 37.79294719296056
+Step 85, mean loss 38.3684923286396
+Step 90, mean loss 39.62377324758799
+Step 95, mean loss 41.167438267757134
+Unrolled forward losses 71.41350277863882
+Epoch 17
+Starting epoch 17...
+Training Loss (progress: 0.00): 3.577757851108933; Norm Grads: 39.41083147467755; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.7126841308880567; Norm Grads: 39.936346017612976; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.482618721791931; Norm Grads: 40.00920215047082; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.500407146112857; Norm Grads: 39.50295743154392; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.6347768346453315; Norm Grads: 40.92731653889963; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.512332433033692; Norm Grads: 39.28258138512324; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.558728161001956; Norm Grads: 40.773919547122034; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.6195729870035533; Norm Grads: 41.10940310699988; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.6000381453938335; Norm Grads: 41.66470694217261; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.5893139444281115; Norm Grads: 40.302170369031025; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.309448216462939
+Step 10, mean loss 3.603224670993746
+Step 15, mean loss 4.648379200204824
+Step 20, mean loss 7.051222530860992
+Step 25, mean loss 11.264745436929271
+Step 30, mean loss 16.76981399921926
+Step 35, mean loss 24.149415993761735
+Step 40, mean loss 30.08682673448877
+Step 45, mean loss 38.180224772364284
+Step 50, mean loss 41.58591920260616
+Step 55, mean loss 41.98951543468745
+Step 60, mean loss 42.81456056362592
+Step 65, mean loss 42.690349147809705
+Step 70, mean loss 40.99948666161811
+Step 75, mean loss 38.36073458394316
+Step 80, mean loss 37.733320505962126
+Step 85, mean loss 38.526186542572226
+Step 90, mean loss 39.898963550683575
+Step 95, mean loss 41.33174442156975
+Unrolled forward losses 71.57828114706768
+Epoch 18
+Starting epoch 18...
+Training Loss (progress: 0.00): 3.7392773285031926; Norm Grads: 40.3575526996582; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.6443188220026146; Norm Grads: 41.834889654190526; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.5596623027472925; Norm Grads: 39.17662820497827; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.5702996888003824; Norm Grads: 40.44434988432459; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.514492055400036; Norm Grads: 40.186644592928864; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.5736590525719802; Norm Grads: 42.617512183558176; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.652346639301081; Norm Grads: 42.26154591731034; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.516725577141368; Norm Grads: 41.87578017216447; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.6108695306429324; Norm Grads: 40.562032478526945; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.5635932037269975; Norm Grads: 42.347256445583085; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.1738463441310896
+Step 10, mean loss 3.3344011316243707
+Step 15, mean loss 4.528106844873738
+Step 20, mean loss 6.783988525422579
+Step 25, mean loss 10.928335366568758
+Step 30, mean loss 16.355696795667487
+Step 35, mean loss 23.78597487985854
+Step 40, mean loss 29.89541595912881
+Step 45, mean loss 37.98981032485821
+Step 50, mean loss 41.70598418720053
+Step 55, mean loss 42.06281059464452
+Step 60, mean loss 42.8121950822698
+Step 65, mean loss 42.76907492067785
+Step 70, mean loss 41.23876335477735
+Step 75, mean loss 38.49384233047095
+Step 80, mean loss 37.736983136380715
+Step 85, mean loss 38.36804773341705
+Step 90, mean loss 39.77982390208595
+Step 95, mean loss 41.51832354873812
+Unrolled forward losses 69.38917030597318
+Epoch 19
+Starting epoch 19...
+Training Loss (progress: 0.00): 3.5619938562845035; Norm Grads: 42.74796902069005; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.4756873624947975; Norm Grads: 40.62951258309677; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.5364537990936054; Norm Grads: 41.559820337126766; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.6936266143540455; Norm Grads: 41.6150498296425; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.519650258013049; Norm Grads: 42.14152179499081; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.53669934787244; Norm Grads: 41.43911995701872; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.488454514377669; Norm Grads: 39.2157329718145; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.6043105464847653; Norm Grads: 40.98496104332573; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.463771946601166; Norm Grads: 38.678696906952936; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.6052468600224663; Norm Grads: 40.83390141079115; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.5002319980314227
+Step 10, mean loss 3.7865355603742668
+Step 15, mean loss 4.854732364057918
+Step 20, mean loss 7.203796019470913
+Step 25, mean loss 11.513634507000315
+Step 30, mean loss 17.01639194205076
+Step 35, mean loss 24.594405219632804
+Step 40, mean loss 30.467937639401832
+Step 45, mean loss 38.478812403571155
+Step 50, mean loss 42.63790264104922
+Step 55, mean loss 43.164037987116274
+Step 60, mean loss 43.94359974806169
+Step 65, mean loss 43.84087573605079
+Step 70, mean loss 42.038424517173866
+Step 75, mean loss 39.185460240400076
+Step 80, mean loss 38.38381114446659
+Step 85, mean loss 39.07592720605935
+Step 90, mean loss 40.458722574224794
+Step 95, mean loss 42.36782757239991
+Unrolled forward losses 71.23003746628174
+Epoch 20
+Starting epoch 20...
+Training Loss (progress: 0.00): 3.5885327737580583; Norm Grads: 41.49226255640764; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.763548405774263; Norm Grads: 43.048903474216225; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.50666118380292; Norm Grads: 40.19862953065006; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.4914772413067348; Norm Grads: 41.01601507493593; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.509784504025346; Norm Grads: 40.203957581831574; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.49817021796284; Norm Grads: 42.628770824806615; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.600813309490755; Norm Grads: 41.7368049630205; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.617336160904629; Norm Grads: 43.21046873464737; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.642712823579544; Norm Grads: 40.68806339455687; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.433364550059408; Norm Grads: 41.649038761927024; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.2437784745275455
+Step 10, mean loss 3.5108847659696916
+Step 15, mean loss 4.55083699837636
+Step 20, mean loss 6.854571823485374
+Step 25, mean loss 10.86146618530407
+Step 30, mean loss 16.377083677673625
+Step 35, mean loss 23.615638028464723
+Step 40, mean loss 29.648379519876876
+Step 45, mean loss 37.99518004227359
+Step 50, mean loss 41.65781022879865
+Step 55, mean loss 42.26626470068045
+Step 60, mean loss 43.05014291488379
+Step 65, mean loss 42.916481544884135
+Step 70, mean loss 41.14918274206465
+Step 75, mean loss 38.33697888743957
+Step 80, mean loss 37.602666313433204
+Step 85, mean loss 38.297717581795126
+Step 90, mean loss 39.530140405255096
+Step 95, mean loss 41.173799052316866
+Unrolled forward losses 61.89489396999091
+Evaluation on test dataset:
+Step 5, mean loss 3.147641820608586
+Step 10, mean loss 3.2462509494949785
+Step 15, mean loss 5.771816796723153
+Step 20, mean loss 8.575973317392453
+Step 25, mean loss 12.718199242371547
+Step 30, mean loss 19.741515606143714
+Step 35, mean loss 28.299873464125156
+Step 40, mean loss 36.84112444513477
+Step 45, mean loss 43.10408496141426
+Step 50, mean loss 45.242673017391255
+Step 55, mean loss 44.35379161429571
+Step 60, mean loss 42.41816771890013
+Step 65, mean loss 41.710712850348386
+Step 70, mean loss 40.400142689506644
+Step 75, mean loss 38.389239086733824
+Step 80, mean loss 38.44569297863572
+Step 85, mean loss 39.845984824335
+Step 90, mean loss 42.88959950985092
+Step 95, mean loss 46.56380637840253
+Unrolled forward losses 72.03590590575926
+Saved model at models/GNN_FS_resolution32_n2_tw5_unrolling2_time381949_rffsFalse_cayley.pt
+
+Training time:  8:18:42.168531
+Epoch 21
+Starting epoch 21...
+Training Loss (progress: 0.00): 3.6024714563664055; Norm Grads: 41.4519979329812; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.686427558413198; Norm Grads: 41.298756033116135; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.6353228131528073; Norm Grads: 41.94432016686724; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.59100395164454; Norm Grads: 42.833224999933634; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.5703445246716825; Norm Grads: 41.33407539421878; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.632476526926322; Norm Grads: 41.81335404284066; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.645092315463595; Norm Grads: 40.57640773388778; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.453386522581462; Norm Grads: 40.00257082168385; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.461001635391468; Norm Grads: 42.60708032504488; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.5094534171441514; Norm Grads: 41.307878938258895; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.701561096570371
+Step 10, mean loss 3.2814975138033025
+Step 15, mean loss 4.429200895675242
+Step 20, mean loss 6.651887059956202
+Step 25, mean loss 10.981873772164622
+Step 30, mean loss 16.52259123541262
+Step 35, mean loss 24.116495218998345
+Step 40, mean loss 29.957466836176145
+Step 45, mean loss 38.065204506972265
+Step 50, mean loss 41.71751910681486
+Step 55, mean loss 42.14940605754297
+Step 60, mean loss 43.12471627378528
+Step 65, mean loss 43.20249920422775
+Step 70, mean loss 41.52049710918325
+Step 75, mean loss 38.888615288511545
+Step 80, mean loss 38.125180106372454
+Step 85, mean loss 38.932558049944774
+Step 90, mean loss 40.19772135699483
+Step 95, mean loss 41.833219008876796
+Unrolled forward losses 65.46974009136906
+Epoch 22
+Starting epoch 22...
+Training Loss (progress: 0.00): 3.5910530749285945; Norm Grads: 42.076715513461146; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.610613299954406; Norm Grads: 41.01183527123722; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.6054765099809365; Norm Grads: 43.42740413173907; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.512429754583471; Norm Grads: 41.90892369905005; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.6345028337202216; Norm Grads: 41.336826156511975; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.413291878637987; Norm Grads: 40.66069973106831; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.621327733613884; Norm Grads: 42.69728767114004; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.5212957261640088; Norm Grads: 43.2110848738634; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.441597631114747; Norm Grads: 41.77438337667649; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.5326558554799767; Norm Grads: 42.77165252443817; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.534330436786676
+Step 10, mean loss 3.532436451052358
+Step 15, mean loss 4.512776951062944
+Step 20, mean loss 6.7655653360760954
+Step 25, mean loss 11.071149880118714
+Step 30, mean loss 16.54732905437636
+Step 35, mean loss 23.713715980678494
+Step 40, mean loss 29.67123689374821
+Step 45, mean loss 37.80350932197644
+Step 50, mean loss 41.56772084829484
+Step 55, mean loss 41.96872142318869
+Step 60, mean loss 42.891009782784735
+Step 65, mean loss 43.063714543269825
+Step 70, mean loss 41.37568366379428
+Step 75, mean loss 38.77050909127443
+Step 80, mean loss 37.99052674133559
+Step 85, mean loss 38.63121648271688
+Step 90, mean loss 39.945356241736874
+Step 95, mean loss 41.56821619409787
+Unrolled forward losses 68.61398191353693
+Epoch 23
+Starting epoch 23...
+Training Loss (progress: 0.00): 3.4727752185862206; Norm Grads: 41.641925059130436; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.4586762090426775; Norm Grads: 42.750513580029086; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.5096177624156284; Norm Grads: 41.98243754369592; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.491382229328674; Norm Grads: 39.85640828163438; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.6036602978332195; Norm Grads: 43.58226656008165; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.4944455723726655; Norm Grads: 41.92087179300405; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.505031366754413; Norm Grads: 43.589177982910755; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.5306768708583864; Norm Grads: 42.59310024965817; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.6231334132405526; Norm Grads: 43.07237423791606; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.466565105587364; Norm Grads: 43.39427940400557; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.6940899648491343
+Step 10, mean loss 3.3534908539395714
+Step 15, mean loss 4.513700441071836
+Step 20, mean loss 6.613240728695803
+Step 25, mean loss 11.118590308593497
+Step 30, mean loss 16.439165282139285
+Step 35, mean loss 23.906380572114976
+Step 40, mean loss 29.839121000027284
+Step 45, mean loss 37.86105898806447
+Step 50, mean loss 41.58448808931949
+Step 55, mean loss 42.00214788132682
+Step 60, mean loss 42.84777571456845
+Step 65, mean loss 42.840901146390635
+Step 70, mean loss 41.19034055171254
+Step 75, mean loss 38.462382147851656
+Step 80, mean loss 37.656954239863836
+Step 85, mean loss 38.28524771166475
+Step 90, mean loss 39.60186294226094
+Step 95, mean loss 41.37196797185595
+Unrolled forward losses 65.48676548575096
+Epoch 24
+Starting epoch 24...
+Training Loss (progress: 0.00): 3.4405509287950236; Norm Grads: 41.78015217734978; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.10): 3.611713310455396; Norm Grads: 41.460859111426025; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.20): 3.5814248442894714; Norm Grads: 42.03058430413703; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.30): 3.576904230024407; Norm Grads: 43.38266708624128; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.40): 3.598018653775157; Norm Grads: 43.74088441432533; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.50): 3.5179370102346064; Norm Grads: 41.23295763934472; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.60): 3.5533295789811943; Norm Grads: 42.800184509894514; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.70): 3.6320541151248844; Norm Grads: 40.47712644786533; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.80): 3.504923554086881; Norm Grads: 40.1038951455334; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Training Loss (progress: 0.90): 3.533812997549707; Norm Grads: 41.76223865979874; Sigmas: [None, None, None, None, None, None]; Coeffs: [None, None, None, None, None, None]
+Evaluation on validation dataset:
+Step 5, mean loss 3.2869965238882832
+Step 10, mean loss 3.4588333265169253
+Step 15, mean loss 4.48685143821184
+Step 20, mean loss 6.787229287643495
+Step 25, mean loss 10.597413501250955
+Step 30, mean loss 16.056531592990424
+Step 35, mean loss 23.35862959079701
+Step 40, mean loss 29.35508753412776
+Step 45, mean loss 37.68316900415324
+Step 50, mean loss 41.28396435547645
+Step 55, mean loss 41.75724596382901
+Step 60, mean loss 42.6255066660896
+Step 65, mean loss 42.671923286193916
+Step 70, mean loss 40.98857272651571
+Step 75, mean loss 38.44125827177466
+Step 80, mean loss 37.68092689177654
+Step 85, mean loss 38.3083448714186
+Step 90, mean loss 39.457402351806806
+Step 95, mean loss 41.10138112660124
+Unrolled forward losses 72.4300890652539
+Test loss: 72.03590590575926
+Training time (until epoch 20):  {datetime.timedelta(seconds=29922, microseconds=168531)}
