@@ -13,9 +13,9 @@ import time
 nt = 100
 nx = 128
 ny = 128
-inflow_rate = 0.3 #0.2
+inflow_rate = 0.6 #0.2
 inflow_size = 8
-buoyancy_force = 1.5
+buoyancy_force = 0
 
 # nt = 100
 # nx = 32
@@ -73,8 +73,10 @@ class InflowLocation:
 @jit_compile
 def step(v, s, p, dt, inflow):
     s = advect.mac_cormack(s, v, dt) + inflow_rate * resample(inflow, to=s, soft=True)
+    s = diffuse.explicit(s, 0.3, dt)
     buoyancy = resample(s * (0, buoyancy_force), to=v)
-    v = advect.semi_lagrangian(v, v, dt) + buoyancy * dt
+    v = advect.semi_lagrangian(v, v, dt)  + buoyancy * dt
+    v = diffuse.explicit(v, 0.3, dt)
     v, p = fluid.make_incompressible(v, (), Solve(x0=p))
     return v, s, p
 
@@ -110,7 +112,7 @@ def generate_smoke(mode, num_samples, batch_size, inflow_loc):
     all_s_trj = np.concatenate(batched_s_trj, axis=0) 
     print('dtype: ', all_s_trj.dtype) #Should be float64
 
-    output_path = f"data/testing_fs_2d_pde_{nx}_{mode}_dataset.h5"
+    output_path = f"data/no_bouyancy_dif_fs_2d_pde_{nx}_{mode}_dataset.h5"
     with h5py.File(output_path, 'w') as f:
         group = f.create_group(mode)
 
@@ -122,13 +124,13 @@ def generate_smoke(mode, num_samples, batch_size, inflow_loc):
         dset.attrs['dx'] = 1.0 / nx
         dset.attrs['dt'] = 1.0 
         dset.attrs['tmin'] = 0.0 
-        dset.attrs['tmax'] = 200.0
+        dset.attrs['tmax'] = 100.0
 
 def main():
     inflow_loc = InflowLocation(nx, ny, inflow_size)
-    batch_size = 16
+    batch_size = 4
     # modes = {("train", 528) ,("valid", 128), ("test", 128)}
-    modes = {("train", 16)}
+    modes = {("train", 4)}
 
     print("\nGenerating Smoke Inflow Data...")
     for mode, num_samples in modes:

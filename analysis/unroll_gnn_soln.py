@@ -7,12 +7,16 @@ from matplotlib.animation import FuncAnimation
 from experiments.gnn_2d import NPDE_GNN_FS_2D
 
 mode = 'test'
-sample_no = 5
+# sample_no = 13
+sample_no = 0
+
+nt = 100
 
 
-model_path = 'models/GNN_FS_resolution32_n4_tw5_unrolling2_time121734.pt'
+model_path = 'models/GNN_FS_resolution32_n2_tw5_unrolling2_time18822.pt'
+model_path_rffs = 'models/GNN_FS_resolution32_n2_edgeprob0.0_tw5_unrolling2_time1201639_rffsTrue.pt'
 data_path = f'data/fs_2d_pde_128_{mode}_dataset.h5'
-neighbors = 4
+neighbors = 2
 batch_size = 1
 nr_gt_steps = 2
 nx_base_resolution = 32
@@ -77,25 +81,31 @@ def test_unrolled_losses(model: torch.nn.Module,
     losses = torch.stack(losses)
     trajectory = torch.stack(trajectory)
     true_traj = torch.stack(true_traj)
-    trajectory = trajectory.permute(0, 2, 1).reshape(90, 32, 32)
-    true_traj = true_traj.permute(0, 2, 1).reshape(90, 32, 32)
+    trajectory = trajectory.permute(0, 2, 1).reshape(nt-10, 32, 32)
+    true_traj = true_traj.permute(0, 2, 1).reshape(nt-10, 32, 32)
     print(f'Unrolled forward losses {torch.mean(losses)}')
-    return losses, trajectory, true_traj
+    return torch.mean(losses), trajectory, true_traj
 
 
-pde = SimpleNamespace(Lx=32, Ly=32, dt=1.0, grid_size=(100,32,32), tmin=0.0, tmax=100.0)
+pde = SimpleNamespace(Lx=32, Ly=32, dt=1.0, grid_size=(nt,32,32), tmin=0.0, tmax=nt)
 eq_variables={}
 criterion = torch.nn.MSELoss(reduction="sum")
 graph_creator = GraphCreator_FS_2D(pde=pde,
                                  neighbors=neighbors,
                                  time_window=5,
                                  x_resolution=32,
-                                 y_resolution=32).to(device)
+                                 y_resolution=32,
+                                 t_resolution=nt).to(device)
 model = NPDE_GNN_FS_2D(pde=pde,
                         time_window=graph_creator.tw,
                         eq_variables=eq_variables).to(device)
+model_rffs = NPDE_GNN_FS_2D(pde=pde,
+                        time_window=graph_creator.tw,
+                        eq_variables=eq_variables,
+                        random_ff=True).to(device)
 
 model.load_state_dict(torch.load(model_path, map_location=device))
+model_rffs.load_state_dict(torch.load(model_path_rffs, map_location=device))
 
 dataset = HDF5Dataset_FS_2D(data_path, mode=mode, super_resolution=(100,128,128), downsample=True)
 loader = DataLoader(dataset,
@@ -103,7 +113,16 @@ loader = DataLoader(dataset,
                     shuffle=False,
                     num_workers=0)
 
-_, traj, true_traj = test_unrolled_losses(model=model,
+losses, traj, true_traj = test_unrolled_losses(model=model,
+                        steps=[0],
+                        batch_size=batch_size,
+                        nr_gt_steps=nr_gt_steps,
+                        nx_base_resolution=nx_base_resolution,
+                        loader=loader,
+                        graph_creator=graph_creator,
+                        criterion=criterion,
+                        device=device)
+losses_rffs, traj_rffs, true_traj_rffs = test_unrolled_losses(model=model_rffs,
                         steps=[0],
                         batch_size=batch_size,
                         nr_gt_steps=nr_gt_steps,
@@ -113,33 +132,50 @@ _, traj, true_traj = test_unrolled_losses(model=model,
                         criterion=criterion,
                         device=device)
 
-fig, axes = plt.subplots(1, 2, figsize=(8, 4))
+fig, axes = plt.subplots(1, 3, figsize=(8, 4))
 traj = traj.unsqueeze(0)
 true_traj = true_traj.unsqueeze(0)
+traj_rffs = traj_rffs.unsqueeze(0)
+
 gnn_ax = axes[0]
-true_ax = axes[1]
+gnn_rffs_ax = axes[1]
+true_ax = axes[2]
 
 
 print('Largest Value: ', traj.max().item())
 caxs = []
 cax_gnn = gnn_ax.imshow(traj[0][0].numpy(), origin='lower', cmap='viridis', animated=True, vmin=0, vmax=traj.max())
+cax_gnn_rffs = gnn_rffs_ax.imshow(traj_rffs[0][0].numpy(), origin='lower', cmap='viridis', animated=True, vmin=0, vmax=traj.max())
 cax_true = true_ax.imshow(true_traj[0][0].numpy(), origin='lower', cmap='viridis', animated=True, vmin=0, vmax=traj.max())
 caxs.append(cax_gnn)
+caxs.append(cax_gnn_rffs)
 caxs.append(cax_true)
 gnn_ax.set_title('GNN')
+gnn_rffs_ax.set_title('GNN RFFs')
 true_ax.set_title('Solver')
+
+# Add text annotations for the losses
+gnn_ax.text(0.5, -0.2, f'Error: {losses.item():.2f}', size=12, ha="center", transform=gnn_ax.transAxes)
+gnn_rffs_ax.text(0.5, -0.2, f'Error: {losses_rffs.item():.2f}', size=12, ha="center", transform=gnn_rffs_ax.transAxes)
 
 plt.tight_layout(rect=[0, 0, 1, 0.95])
 
 suptitle = fig.suptitle(f"Time Step: 1", fontsize=16)
 def update(frame):
-    suptitle.set_text(f"Time Step: {frame+1}")
+    suptitle.set_text(f"Time Step: {frame+10+1}")
     cax_gnn.set_array(traj[0][frame].numpy())
+    cax_gnn_rffs.set_array(traj_rffs[0][frame].numpy())
     cax_true.set_array(true_traj[0][frame].numpy())
     return caxs
 
 
 anim = FuncAnimation(fig, update, frames=traj.shape[1], interval=100, blit=True)
 
+# anim.save('unrolled_gnn.mp4', writer='ffmpeg', fps=10)
+
 
 plt.show()
+
+# parameters
+# rollout
+# mse loss at the last frame

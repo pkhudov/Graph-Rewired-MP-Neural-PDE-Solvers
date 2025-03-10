@@ -116,7 +116,7 @@ class HDF5Dataset_FS_2D(Dataset):
         return u
 
 
-train_string = "data/fs_2d_pde_128_train_dataset.h5"
+train_string = "data/dif_fs_2d_pde_128_train_dataset.h5"
 # train_string = 'data/test_boyancy_fs_2d_pde_64_train_dataset.h5'
 # train_dataset = HDF5Dataset_FS_2D_Normalised(train_string, mode='train')
 train_dataset = HDF5Dataset_FS_2D(train_string, mode='train')
@@ -163,7 +163,7 @@ def update(frame):
 anim = FuncAnimation(fig, update, frames=batch.shape[1], interval=100, blit=True)
 
 # Save the animation
-anim.save("not_downsampled_smoke_simulation_4_samples_128.mp4", fps=10)
+# anim.save("not_downsampled_diffused_smoke_simulation_4_samples_128.mp4", fps=10)
 
 plt.show()
 

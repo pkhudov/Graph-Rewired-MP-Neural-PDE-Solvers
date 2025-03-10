@@ -79,7 +79,7 @@ class HDF5Dataset_FS_2D(Dataset):
 
 
 res32_string = 'data/fs_2d_pde_32_train_dataset.h5'
-res128_string = 'data/fs_2d_pde_128_train_dataset.h5'
+res128_string = 'data/no_bouyancy_dif_fs_2d_pde_128_train_dataset.h5'
 
 res32_dataset = HDF5Dataset_FS_2D(res32_string, mode='train', resolution=(100, 32, 32))
 res128_dataset = HDF5Dataset_FS_2D(res128_string, mode='train', resolution=(100, 128, 128))
@@ -138,7 +138,7 @@ def update(frame):
 anim = FuncAnimation(fig, update, frames=res32_sample.shape[1], interval=100, blit=True)
 
 # Save the animation
-anim.save("compare_32vs128(ds)vs128.mp4", fps=10)
+# anim.save("compare_32vs128(ds)vs128.mp4", fps=10)
 
 plt.show()
 

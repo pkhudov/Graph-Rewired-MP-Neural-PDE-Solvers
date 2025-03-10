@@ -345,11 +345,11 @@ def generate_data_combined_equation(experiment: str,
             spatial_method = pde[key].WENO_reconstruction
 
             # Solving full trajectories and runtime measurement
-            torch.cuda.synchronize()
+            # torch.cuda.synchronize()
             t1 = time.time()
             solver = Solver(RKSolver(Dopri45(), device=device), spatial_method)
             sol[key] = solver.solve(x0=u0[:, None].to(device), times=t[key][None, :].to(device))
-            torch.cuda.synchronize()
+            # torch.cuda.synchronize()
             t2 = time.time()
             print(f'{key}: {t2 - t1:.4f}s')
 
