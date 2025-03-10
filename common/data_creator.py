@@ -233,7 +233,7 @@ class GraphCreator_FS_2D(nn.Module):
         if self.edge_path is not None:
             self.custom_edge_index = torch.load(self.edge_path)
 
-        if self.custom_edge_index is None and self.edge_mode != 'radiusonly': # to ensure that the random edges are only generated once
+        if self.custom_edge_index is None and self.edge_mode not in ['radiusonly', 'complete']: # to ensure that the random edges are only generated once
             batch_size = int(batch.max()) + 1
             if self.edge_mode == 'cayley-cgp':
                 n_nodes = self.n_cayley_nodes
@@ -260,8 +260,6 @@ class GraphCreator_FS_2D(nn.Module):
                     custom_edges = torch.tensor(list(cayley_graph.edges)).t()
                 elif self.edge_mode == 'cayley-cgp':
                     custom_edges = torch.tensor(list(self.cayley_graph.edges)).t()
-                elif self.edge_mode == 'complete':
-                    custom_edges = radius_graph(x_new, r=100* torch.sqrt(dx**2 + dy**2) + 0.0001, batch=batch.long(), loop=False)
                 else:
                     raise ValueError(f'Unknown edge mode: {self.edge_mode}')
                 
@@ -272,7 +270,10 @@ class GraphCreator_FS_2D(nn.Module):
 
             # Join local and custom edges
             # self.custom_edge_index = coalesce(torch.cat((local_edge_index, self.custom_edge_index), 1))
-    
+
+        if self.edge_mode == 'complete':
+            self.custom_edge_index = radius_graph(x_new, r=100* torch.sqrt(dx**2 + dy**2) + 0.0001, batch=batch.long(), loop=False)
+
         graph = Data(x=u_new, edge_index_local=local_edge_index, edge_index_custom=self.custom_edge_index)
         graph.y = y_new
 
