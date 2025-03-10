@@ -116,7 +116,7 @@ class GraphCreator_FS_2D(nn.Module):
         self.rand_edges_per_node = rand_edges_per_node
 
         if self.edge_mode == 'cayley-cgp':
-            self.cayley_graph = networkx.read_edgelist('full_cayley_edges', nodetype=int)
+            self.cayley_graph = networkx.read_edgelist('full_cayley_edges_deg24', nodetype=int)
             self.n_cayley_nodes = self.cayley_graph.number_of_nodes()
 
         assert isinstance(self.n, int)
