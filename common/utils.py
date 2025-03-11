@@ -250,7 +250,7 @@ class GraphCreator(nn.Module):
                     rnd_reg_graph = networkx.random_regular_graph(self.rand_edges_per_node, n_nodes)
                     custom_edges = torch.tensor(list(rnd_reg_graph.edges)).t()
                 elif self.edge_mode == 'cayley':
-                    cayley_graph = networkx.read_edgelist('cayley_edges_100', nodetype=int)
+                    cayley_graph = networkx.read_edgelist('cayley_edges_100_deg6', nodetype=int)
                     custom_edges = torch.tensor(list(cayley_graph.edges)).t()
                 else:
                     raise ValueError(f'Unknown edge mode: {self.edge_mode}')
