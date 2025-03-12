@@ -172,33 +172,33 @@ def main(args: argparse):
     dateTimeObj = datetime.now()
     timestring = f'{dateTimeObj.date().month}{dateTimeObj.date().day}{dateTimeObj.time().hour}{dateTimeObj.time().minute}'
 
-    if args.edge_mode == 'ErdosRenyi':
-        edge_mode_string = f'_edgeprob{args.edge_prob}'
+    if args.edge_mode == 'RadiusOnly':
+        args.edge_mode = ''
+    elif args.edge_mode == 'ErdosRenyi':
+        edge_mode_string = f'_edgeprob{args.edge_prob}_alternating'
     elif args.edge_mode == 'AugmentNode':
-        edge_mode_string = f'_augment{args.n_random_edges_per_node}'
+        edge_mode_string = f'_augment{args.n_random_edges_per_node}_alternating'
     elif args.edge_mode == 'RandomRegular':
-        edge_mode_string = f'_randomregdeg{args.n_random_edges_per_node}'
-    elif args.edge_mode == 'RadiusOnly':
-        edge_mode_string = ''
-    elif args.edge_mode == 'Cayley':
-        edge_mode_string = '_cayley'
-    elif args.edge_mode == 'Cayley-CGP':
-        edge_mode_string = '_cayley-cgp'
-    elif args.edge_mode == 'Complete':
-        edge_mode_string = '_complete'
+        edge_mode_string = f'_randomregdeg{args.n_random_edges_per_node}_alternating'
+    elif args.edge_mode in ['Cayley4', 'Cayley24', 'Cayley-CGP', 'Complete']:
+        edge_mode_string = f"_{args.edge_mode.lower()}_alternating"
     else:
         raise Exception("Edge mode not implemented")
 
     if args.gaussian_sigma != 0.0:
        edge_mode_string += f'KernelSigma{args.gaussian_sigma}'
 
+    rff_string = ''
+    if args.fourier_features:
+        rff_string = f'_rffs{args.fourier_features}'
+
     if(args.log):
-        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}_alternating.csv'
+        logfile = f'experiments/log/{args.model}_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}{rff_string}{edge_mode_string}.csv'
         print(f'Writing to log file {logfile}')
         sys.stdout = open(logfile, 'w')
 
-    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}_alternating.pt'
-    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}_rffs{args.fourier_features}{edge_mode_string}_alternating.pt'
+    save_path = f'models/GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}{rff_string}{edge_mode_string}.pt'
+    save_edges_path = f'models/edges/Edges_GNN_{args.experiment}_resolution{args.resolution[1]}_n{args.neighbors}_tw{args.time_window}_unrolling{args.unrolling}_time{timestring}{rff_string}{edge_mode_string}.pt'
     print(f'Training on dataset {train_string}')
     print(device)
     print(save_path)
@@ -286,7 +286,7 @@ if __name__ == "__main__":
     parser.add_argument('--edge_prob', type=float,
                         default=0.0, help="Probability with which an edge is added to the graph according to Erdos-Renyi model")
     parser.add_argument('--edge_mode', type=str, default='RadiusOnly',
-                        help='Mode for edge creation: [RadiusOnly, ErdosRenyi, AugmentRnd, RandomRegular, Cayley]')
+                        help='Mode for edge creation: [RadiusOnly, ErdosRenyi, AugmentRnd, RandomRegular, Cayley, Cayley24]')
     parser.add_argument('--n_random_edges_per_node', type=int, default=0,
                         help='Fixed number of random edges per node')
 

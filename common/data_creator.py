@@ -255,7 +255,10 @@ class GraphCreator_FS_2D(nn.Module):
                 elif self.edge_mode == 'randomregular':
                     rnd_reg_graph = networkx.random_regular_graph(self.rand_edges_per_node, n_nodes)
                     custom_edges = torch.tensor(list(rnd_reg_graph.edges)).t()
-                elif self.edge_mode == 'cayley':
+                elif self.edge_mode == 'cayley4':
+                    cayley_graph = networkx.read_edgelist('cayley_edges', nodetype=int)
+                    custom_edges = torch.tensor(list(cayley_graph.edges)).t()
+                elif self.edge_mode == 'cayley24':
                     cayley_graph = networkx.read_edgelist('cayley_edges_deg24', nodetype=int)
                     custom_edges = torch.tensor(list(cayley_graph.edges)).t()
                 elif self.edge_mode == 'cayley-cgp':
