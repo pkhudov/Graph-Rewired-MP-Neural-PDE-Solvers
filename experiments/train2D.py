@@ -173,7 +173,7 @@ def main(args: argparse):
     timestring = f'{dateTimeObj.date().month}{dateTimeObj.date().day}{dateTimeObj.time().hour}{dateTimeObj.time().minute}'
 
     if args.edge_mode == 'RadiusOnly':
-        args.edge_mode = ''
+        edge_mode_string = ''
     elif args.edge_mode == 'ErdosRenyi':
         edge_mode_string = f'_edgeprob{args.edge_prob}_alternating'
     elif args.edge_mode == 'AugmentNode':

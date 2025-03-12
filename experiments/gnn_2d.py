@@ -132,7 +132,7 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             self,
             pde,
             time_window=10,
-            hidden_features=128,
+            hidden_features=164,
             hidden_layer=6,
             eq_variables={},
             random_ff=False,
@@ -186,7 +186,7 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
         self.output_mlp = nn.Sequential(nn.Conv1d(1, 8, 16, stride=5),
                                         # nn.BatchNorm1d(8),
                                         nn.ReLU(),
-                                        nn.Conv1d(8, 1, 14, stride=2)
+                                        nn.Conv1d(8, 1, 22, stride=2)
 
                                         )
     def __repr__(self):
