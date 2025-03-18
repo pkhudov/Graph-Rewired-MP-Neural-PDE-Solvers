@@ -2,7 +2,7 @@
 
 # Grid Engine options (lines prefixed with #$)
 # Runtime limit of 48 hours:
-#$ -l h_rt=11:59:59
+#$ -l h_rt=23:59:59
 #
 # Set working directory to the directory where the job is submitted from:
 #$ -cwd
@@ -39,4 +39,4 @@ source activate graph-mp-pde
 # Maximum unrolling: 2
 # Neighbours: 6
 
-python experiments/train2D.py --device=cuda:0 --neighbors=2 --edge_mode=ErdosRenyi --edge_prob=0.02 --batch_size=4 --lr=1e-4 --unrolling=2 --num_epochs=25 --log=True
+python experiments/train2D.py --device=cuda:0 --neighbors=2 --edge_mode=ErdosRenyi --edge_prob=0.02 --batch_size=4 --lr=1e-4 --unrolling=2 --num_epochs=35 --log=True

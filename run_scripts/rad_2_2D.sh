@@ -2,8 +2,7 @@
 
 # Grid Engine options (lines prefixed with #$)
 # Runtime limit of 48 hours:
-#$ -l h_rt=11:00:00
-#
+#$ -l h_rt=23:59:00
 # Set working directory to the directory where the job is submitted from:
 #$ -cwd
 #$ -e /exports/eddie/scratch/s2242913/Gnn_Pavel/Graph-Rewired-MP-Neural-PDE-Solvers/eddie_outputs/
@@ -39,4 +38,4 @@ source activate graph-mp-pde
 # Maximum unrolling: 2
 # Neighbours: 6
 
-python experiments/train2D.py --device=cuda:0 --neighbors=2 --batch_size=4 --lr=1e-4 --unrolling=2 --num_epochs=25 --log=True
+python experiments/train2D.py --device=cuda:0 --neighbors=2 --batch_size=4 --lr=1e-4 --unrolling=2 --num_epochs=35 --log=True
