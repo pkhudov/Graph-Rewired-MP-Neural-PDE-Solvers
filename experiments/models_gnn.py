@@ -202,10 +202,13 @@ class MP_PDE_Solver(torch.nn.Module):
         h = self.embedding_mlp(node_input)
 
         for i in range(self.hidden_layer):
-            if i % 2 == 0:
-                current_edge_index = data.edge_index_local
+            if self.edge_mode != 'radiusonly':
+                if i % 2 == 0:
+                    current_edge_index = data.edge_index_local
+                else:
+                    current_edge_index = data.edge_index_custom
             else:
-                current_edge_index = data.edge_index_custom
+                current_edge_index = data.edge_index_local
             h = self.gnn_layers[i](h, u, pos_x, variables, current_edge_index, batch)
 
         # Decoder (formula 10 in the paper)
