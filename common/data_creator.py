@@ -144,13 +144,152 @@ class GraphCreator_FS_2D(nn.Module):
         return data, labels
 
 
+    # def create_graph(self, data, labels, steps):
+    #     """
+    #     getting graph structure out of data sample
+    #     previous timesteps are combined in one node
+    #     """
+
+    #     # h = 2
+    #     nt = self.pde.grid_size[0]
+    #     nx = self.pde.grid_size[1]
+    #     ny = self.pde.grid_size[2]
+
+    #     t = torch.linspace(self.pde.tmin, self.pde.tmax, nt)
+    #     dt = t[1] - t[0]
+    #     x = torch.linspace(0, self.pde.Lx, nx)
+    #     dx = x[1]-x[0]
+    #     y = torch.linspace(0, self.pde.Ly, ny)
+    #     dy = y[1]-y[0]
+
+    #     radius = self.n * torch.sqrt(dx**2 + dy**2) + 0.0001
+    #     grid_x, grid_y = torch.meshgrid(x, y, indexing='ij')
+    #     grid = torch.stack((grid_x, grid_y), 2).float()
+    #     grid = grid.view(-1, 2)
+
+    #     n_nodes = self.x_res * self.y_res
+
+    #     u_new = torch.Tensor()
+    #     x_new = torch.Tensor()
+    #     t_new = torch.Tensor()
+    #     y_new = torch.Tensor()
+    #     batch = torch.Tensor()
+
+    #     for b, (data_batch, labels_batch, step) in enumerate(zip(data, labels, steps)):
+
+    #         u_tmp = torch.transpose(torch.cat([d.reshape(-1, nx*ny) for d in data_batch]), 0, 1)
+    #         y_tmp = torch.transpose(torch.cat([l.reshape(-1, nx*ny) for l in labels_batch]), 0, 1)
+
+    #         u_new = torch.cat((u_new, u_tmp), )
+    #         x_new = torch.cat((x_new, grid), )
+    #         y_new = torch.cat((y_new, y_tmp), )
+    #         b_new = torch.ones(nx*ny)*b
+    #         t_tmp = torch.ones(nx*ny)*t[step]
+    #         t_new = torch.cat((t_new, t_tmp), )
+    #         batch = torch.cat((batch, b_new), )
+
+    #     # calculating the edge_index
+    #     local_edge_index = radius_graph(x_new, r=radius, batch=batch.long(), loop=False)
+
+    #     if self.edge_mode == 'cayley-cgp':
+    #         extra_nodes = self.n_cayley_nodes - n_nodes
+
+    #         batch_size = int(batch.max().item()) + 1
+    #         new_u_list = []
+    #         new_x_list = []
+    #         new_t_list = []
+    #         new_batch_list = []
+            
+    #         self_edges = []
+    #         for b in range(batch_size):
+    #             start = b * n_nodes
+    #             end = (b + 1) * n_nodes
+    #             sample_u = u_new[start:end]
+    #             sample_x = x_new[start:end]
+    #             sample_t = t_new[start:end]
+
+    #             virtual_u = torch.zeros(extra_nodes, sample_u.shape[1], device=sample_u.device)
+    #             # virtual_x = torch.zeros(extra_nodes, grid.shape[1], device=grid.device)
+    #             virtual_x = sample_x.mean(dim=0, keepdim=True).repeat(extra_nodes, 1)
+    #             # virtual_t = torch.zeros(extra_nodes, device=sample_t.device)
+    #             virtual_t = sample_t[0:1].repeat(extra_nodes)
+    #             new_u_list.append(torch.cat([sample_u, virtual_u], dim=0))
+    #             new_x_list.append(torch.cat([sample_x, virtual_x], dim=0))
+    #             new_t_list.append(torch.cat([sample_t, virtual_t], dim=0))
+    #             new_batch_list.append(torch.full((self.n_cayley_nodes,), b, device=sample_u.device))
+
+    #             base = b*self.n_cayley_nodes
+    #             for i in range(base + n_nodes, base+self.n_cayley_nodes):
+    #                 self_edges.append([i,i])
+                
+    #         u_new = torch.cat(new_u_list, dim=0)
+    #         x_new = torch.cat(new_x_list, dim=0)
+    #         t_new = torch.cat(new_t_list, dim=0)
+    #         batch = torch.cat(new_batch_list, dim=0)
+
+    #         self_edges = torch.tensor(self_edges, dtype=torch.long, device=x_new.device).t().contiguous()
+    #         local_edge_index = torch.concat([local_edge_index, self_edges], dim=1)
+
+    #     if self.edge_path is not None:
+    #         self.custom_edge_index = torch.load(self.edge_path)
+
+    #     if self.custom_edge_index is None and self.edge_mode not in ['radiusonly', 'complete']: # to ensure that the random edges are only generated once
+    #         batch_size = int(batch.max()) + 1
+    #         if self.edge_mode == 'cayley-cgp':
+    #             n_nodes = self.n_cayley_nodes
+    #         all_custom_edges = []
+    #         for sample in range(batch_size):
+    #             offset = sample * n_nodes
+
+    #             if self.edge_mode == 'erdosrenyi':
+    #                 custom_edges = erdos_renyi_graph(n_nodes, self.edge_prob)
+    #             elif self.edge_mode == 'augmentnode':
+    #                 custom_edges = []
+    #                 for node_i in range(self.x_res * self.y_res):
+    #                     possible_neighbors = list(range(n_nodes))
+    #                     possible_neighbors.remove(node_i)
+    #                     neighbors = random.sample(possible_neighbors, self.rand_edges_per_node)
+    #                     for nb in neighbors:
+    #                         custom_edges.append([node_i, nb])
+    #                 custom_edges = torch.tensor(custom_edges).t()
+    #             elif self.edge_mode == 'randomregular':
+    #                 rnd_reg_graph = networkx.random_regular_graph(self.rand_edges_per_node, n_nodes)
+    #                 custom_edges = torch.tensor(list(rnd_reg_graph.edges)).t()
+    #             elif self.edge_mode == 'cayley4':
+    #                 cayley_graph = networkx.read_edgelist('cayley_edges', nodetype=int)
+    #                 custom_edges = torch.tensor(list(cayley_graph.edges)).t()
+    #             elif self.edge_mode == 'cayley24':
+    #                 cayley_graph = networkx.read_edgelist('cayley_edges_deg24', nodetype=int)
+    #                 custom_edges = torch.tensor(list(cayley_graph.edges)).t()
+    #             elif self.edge_mode == 'cayley-cgp':
+    #                 custom_edges = torch.tensor(list(self.cayley_graph.edges)).t()
+    #             else:
+    #                 raise ValueError(f'Unknown edge mode: {self.edge_mode}')
+                
+    #             custom_edges = to_undirected(custom_edges, num_nodes=n_nodes) + offset
+    #             all_custom_edges.append(custom_edges)
+    #         self.custom_edge_index = coalesce(torch.cat(all_custom_edges, dim=1))
+    #         print(f'Generated {self.edge_mode} edges')
+
+    #         # Join local and custom edges
+    #         # self.custom_edge_index = coalesce(torch.cat((local_edge_index, self.custom_edge_index), 1))
+
+    #     if self.edge_mode == 'complete':
+    #         self.custom_edge_index = radius_graph(x_new, r=100* torch.sqrt(dx**2 + dy**2) + 0.0001, batch=batch.long(), loop=False)
+
+    #     graph = Data(x=u_new, edge_index_local=local_edge_index, edge_index_custom=self.custom_edge_index)
+    #     graph.y = y_new
+
+    #     graph.pos = torch.cat((t_new[:, None], x_new), 1)
+    #     graph.batch = batch.long()
+
+    #     return graph
+
     def create_graph(self, data, labels, steps):
         """
         getting graph structure out of data sample
         previous timesteps are combined in one node
         """
-
-        # h = 2
         nt = self.pde.grid_size[0]
         nx = self.pde.grid_size[1]
         ny = self.pde.grid_size[2]
@@ -188,70 +327,22 @@ class GraphCreator_FS_2D(nn.Module):
             t_new = torch.cat((t_new, t_tmp), )
             batch = torch.cat((batch, b_new), )
 
-        # calculating the edge_index
         local_edge_index = radius_graph(x_new, r=radius, batch=batch.long(), loop=False)
-
-        if self.edge_mode == 'cayley-cgp':
-            extra_nodes = self.n_cayley_nodes - n_nodes
-
-            batch_size = int(batch.max().item()) + 1
-            new_u_list = []
-            new_x_list = []
-            new_t_list = []
-            new_batch_list = []
-            
-            self_edges = []
-            for b in range(batch_size):
-                start = b * n_nodes
-                end = (b + 1) * n_nodes
-                sample_u = u_new[start:end]
-                sample_x = x_new[start:end]
-                sample_t = t_new[start:end]
-
-                virtual_u = torch.zeros(extra_nodes, sample_u.shape[1], device=sample_u.device)
-                # virtual_x = torch.zeros(extra_nodes, grid.shape[1], device=grid.device)
-                virtual_x = sample_x.mean(dim=0, keepdim=True).repeat(extra_nodes, 1)
-                # virtual_t = torch.zeros(extra_nodes, device=sample_t.device)
-                virtual_t = sample_t[0:1].repeat(extra_nodes)
-                new_u_list.append(torch.cat([sample_u, virtual_u], dim=0))
-                new_x_list.append(torch.cat([sample_x, virtual_x], dim=0))
-                new_t_list.append(torch.cat([sample_t, virtual_t], dim=0))
-                new_batch_list.append(torch.full((self.n_cayley_nodes,), b, device=sample_u.device))
-
-                base = b*self.n_cayley_nodes
-                for i in range(base + n_nodes, base+self.n_cayley_nodes):
-                    self_edges.append([i,i])
-                
-            u_new = torch.cat(new_u_list, dim=0)
-            x_new = torch.cat(new_x_list, dim=0)
-            t_new = torch.cat(new_t_list, dim=0)
-            batch = torch.cat(new_batch_list, dim=0)
-
-            self_edges = torch.tensor(self_edges, dtype=torch.long, device=x_new.device).t().contiguous()
-            local_edge_index = torch.concat([local_edge_index, self_edges], dim=1)
+        local_edge_attr = torch.zeros((local_edge_index.shape[1], 1), device=local_edge_index.device)
 
         if self.edge_path is not None:
             self.custom_edge_index = torch.load(self.edge_path)
 
         if self.custom_edge_index is None and self.edge_mode not in ['radiusonly', 'complete']: # to ensure that the random edges are only generated once
             batch_size = int(batch.max()) + 1
-            if self.edge_mode == 'cayley-cgp':
-                n_nodes = self.n_cayley_nodes
             all_custom_edges = []
+            all_custom_edge_attrs = []
+            existing_edges = set(zip(local_edge_index[0].tolist(), local_edge_index[1].tolist()))
             for sample in range(batch_size):
                 offset = sample * n_nodes
 
                 if self.edge_mode == 'erdosrenyi':
                     custom_edges = erdos_renyi_graph(n_nodes, self.edge_prob)
-                elif self.edge_mode == 'augmentnode':
-                    custom_edges = []
-                    for node_i in range(self.x_res * self.y_res):
-                        possible_neighbors = list(range(n_nodes))
-                        possible_neighbors.remove(node_i)
-                        neighbors = random.sample(possible_neighbors, self.rand_edges_per_node)
-                        for nb in neighbors:
-                            custom_edges.append([node_i, nb])
-                    custom_edges = torch.tensor(custom_edges).t()
                 elif self.edge_mode == 'randomregular':
                     rnd_reg_graph = networkx.random_regular_graph(self.rand_edges_per_node, n_nodes)
                     custom_edges = torch.tensor(list(rnd_reg_graph.edges)).t()
@@ -265,19 +356,47 @@ class GraphCreator_FS_2D(nn.Module):
                     custom_edges = torch.tensor(list(self.cayley_graph.edges)).t()
                 else:
                     raise ValueError(f'Unknown edge mode: {self.edge_mode}')
-                
+
+                # Filter out custom edges that are already in the local graph.
+                mask = []
+                for i, j in zip(custom_edges[0].tolist(), custom_edges[1].tolist()):
+                    if ((i + offset, j + offset) in existing_edges or
+                        (j + offset, i + offset) in existing_edges):
+                        mask.append(False)
+                    else:
+                        mask.append(True)
+                if len(mask) > 0:
+                    mask = torch.tensor(mask, dtype=torch.bool, device=custom_edges.device)
+                    custom_edges = custom_edges[:, mask]
                 custom_edges = to_undirected(custom_edges, num_nodes=n_nodes) + offset
+                # Mark custom edges with flag 1.
+                custom_edge_attr = torch.ones((custom_edges.shape[1], 1), device=custom_edges.device)
                 all_custom_edges.append(custom_edges)
-            self.custom_edge_index = coalesce(torch.cat(all_custom_edges, dim=1))
+                all_custom_edge_attrs.append(custom_edge_attr)
+            custom_edge_index = coalesce(torch.cat(all_custom_edges, dim=1))
+            custom_edge_attr = torch.cat(all_custom_edge_attrs, dim=0)
             print(f'Generated {self.edge_mode} edges')
 
-            # Join local and custom edges
-            # self.custom_edge_index = coalesce(torch.cat((local_edge_index, self.custom_edge_index), 1))
+            final_edge_index = coalesce(torch.cat((local_edge_index, custom_edge_index), dim=1))
+            final_edge_attr = torch.cat((local_edge_attr, custom_edge_attr), dim=0)
+            self.custom_edge_index = final_edge_index
+            self.custom_edge_attr = final_edge_attr
 
         if self.edge_mode == 'complete':
-            self.custom_edge_index = radius_graph(x_new, r=100* torch.sqrt(dx**2 + dy**2) + 0.0001, batch=batch.long(), loop=False)
+            complete_edge_index = radius_graph(x_new, r=100 * torch.sqrt(dx**2 + dy**2) + 0.0001,
+                                            batch=batch.long(), loop=False)
+            complete_edge_attr = torch.zeros((complete_edge_index.shape[1], 1),
+                                            device=complete_edge_index.device)
+            self.custom_edge_index = complete_edge_index
+            self.custom_edge_attr = complete_edge_attr
 
-        graph = Data(x=u_new, edge_index_local=local_edge_index, edge_index_custom=self.custom_edge_index)
+        graph = Data(
+            x=u_new,
+            edge_index_local=local_edge_index,
+            edge_attr_local=local_edge_attr,
+            edge_index_custom=self.custom_edge_index,
+            edge_attr_custom=self.custom_edge_attr
+        )
         graph.y = y_new
 
         graph.pos = torch.cat((t_new[:, None], x_new), 1)

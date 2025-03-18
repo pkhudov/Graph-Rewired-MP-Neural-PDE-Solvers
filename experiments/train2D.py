@@ -175,13 +175,13 @@ def main(args: argparse):
     if args.edge_mode == 'RadiusOnly':
         edge_mode_string = ''
     elif args.edge_mode == 'ErdosRenyi':
-        edge_mode_string = f'_edgeprob{args.edge_prob}_alternating'
+        edge_mode_string = f'_edgeprob{args.edge_prob}_augmented'
     elif args.edge_mode == 'AugmentNode':
-        edge_mode_string = f'_augment{args.n_random_edges_per_node}_alternating'
+        edge_mode_string = f'_augment{args.n_random_edges_per_node}_augmented'
     elif args.edge_mode == 'RandomRegular':
-        edge_mode_string = f'_randomregdeg{args.n_random_edges_per_node}_alternating'
+        edge_mode_string = f'_randomregdeg{args.n_random_edges_per_node}_augmented'
     elif args.edge_mode in ['Cayley4', 'Cayley24', 'Cayley-CGP', 'Complete']:
-        edge_mode_string = f"_{args.edge_mode.lower()}_alternating"
+        edge_mode_string = f"_{args.edge_mode.lower()}_augmented"
     else:
         raise Exception("Edge mode not implemented")
 

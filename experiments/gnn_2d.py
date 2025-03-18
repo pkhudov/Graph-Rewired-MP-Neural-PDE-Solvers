@@ -55,12 +55,14 @@ class GNN_Layer_FS_2D(MessagePassing):
                  hidden_features,
                  time_window,
                  n_variables,
+                 edge_attr_dim=0,  # 1 if using augmented edges, else 0.
                  rff_message=None,
                  gaussian_sigma=0.0):
 
         super(GNN_Layer_FS_2D, self).__init__(node_dim=-2, aggr='mean')
         self.rff_message = rff_message
         self.rff_dim = 0 if rff_message is None else rff_message.out_features
+        self.edge_attr_dim = edge_attr_dim
 
         if gaussian_sigma != 0.0:
             self.gaussian_sigma = nn.Parameter(torch.tensor(gaussian_sigma), requires_grad=True)
@@ -69,47 +71,44 @@ class GNN_Layer_FS_2D(MessagePassing):
             self.gaussian_sigma = None
             self.gaussian_coeff = None
 
-        mn1_input_dim = 2 * in_features + time_window + 2 + self.rff_dim + n_variables
-        self.message_net_1 = nn.Sequential(nn.Linear(mn1_input_dim, hidden_features),
-                                           nn.ReLU()
-                                           )
-
-        self.message_net_2 = nn.Sequential(nn.Linear(hidden_features, out_features),
-                                           nn.ReLU()
-                                           )
-
-        self.update_net_1 = nn.Sequential(nn.Linear(in_features + out_features + n_variables, hidden_features),
-                                          nn.ReLU()
-                                          )
-
-        self.update_net_2 = nn.Sequential(nn.Linear(hidden_features, out_features),
-                                          nn.ReLU()
-                                          )
-
+        # Increase input dimension to include the extra edge attribute.
+        mn1_input_dim = 2 * in_features + time_window + 2 + self.rff_dim + n_variables + self.edge_attr_dim
+        self.message_net_1 = nn.Sequential(
+            nn.Linear(mn1_input_dim, hidden_features),
+            nn.ReLU()
+        )
+        self.message_net_2 = nn.Sequential(
+            nn.Linear(hidden_features, out_features),
+            nn.ReLU()
+        )
+        self.update_net_1 = nn.Sequential(
+            nn.Linear(in_features + out_features + n_variables, hidden_features),
+            nn.ReLU()
+        )
+        self.update_net_2 = nn.Sequential(
+            nn.Linear(hidden_features, out_features),
+            nn.ReLU()
+        )
         self.norm = BatchNorm(hidden_features)
 
-    def forward(self, x, u, pos_x, pos_y, variables, edge_index, batch):
+    def forward(self, x, u, pos_x, pos_y, variables, edge_index, batch, edge_attr=None):
         """ Propagate messages along edges """
-
         x = self.propagate(edge_index, x=x, u=u, pos_x=pos_x,
-                           pos_y=pos_y, variables=variables)
+                           pos_y=pos_y, variables=variables, edge_attr=edge_attr)
         x = self.norm(x)
-
         return x
 
-    def message(self, x_i, x_j, u_i, u_j, pos_x_i, pos_x_j, pos_y_i, pos_y_j, variables_i):
-
-        """ Message update """
+    def message(self, x_i, x_j, u_i, u_j, pos_x_i, pos_x_j, pos_y_i, pos_y_j, variables_i, edge_attr):
         dx = pos_x_i - pos_x_j
         dy = pos_y_i - pos_y_j
         rel_pos = torch.cat([dx, dy], dim=-1)
-
         if self.rff_message is not None:
             rel_pos_rff = self.rff_message(rel_pos)
-            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, dx, dy, rel_pos_rff, variables_i), dim=-1))
+            message_input = torch.cat((x_i, x_j, u_i - u_j, dx, dy, rel_pos_rff, variables_i, edge_attr), dim=-1)
         else:
-            message = self.message_net_1(torch.cat((x_i, x_j, u_i - u_j, dx, dy, variables_i), dim=-1))
+            message_input = torch.cat((x_i, x_j, u_i - u_j, dx, dy, variables_i, edge_attr), dim=-1)
 
+        message = self.message_net_1(message_input)
         message = self.message_net_2(message)
 
         if self.gaussian_sigma is not None:
@@ -118,31 +117,167 @@ class GNN_Layer_FS_2D(MessagePassing):
         return message
 
     def update(self, message, x, variables):
-        """ Node update """
-
         update = self.update_net_1(torch.cat((x, message, variables), dim=-1))
         update = self.update_net_2(update)
-
         return x + update
 
 
+
+# class NPDE_GNN_FS_2D(torch.nn.Module):
+
+#     def __init__(
+#             self,
+#             pde,
+#             time_window=10,
+#             hidden_features=128,
+#             hidden_layer=6,
+#             eq_variables={},
+#             random_ff=False,
+#             rff_number_features=8,
+#             rff_sigma=1.0,
+#             gaussian_sigma=0.0,
+#             edge_mode='RadiusOnly'
+#     ):
+#         super(NPDE_GNN_FS_2D, self).__init__()
+
+#         self.pde = pde
+#         self.out_features = time_window
+#         self.hidden_features = hidden_features
+#         self.hidden_layer = hidden_layer
+#         self.time_window = time_window
+#         self.eq_variables = eq_variables
+#         if random_ff:
+#             self.rff_number_features = rff_number_features
+#             self.rff_node = FourierFeatures(3, rff_number_features, sigma=rff_sigma, trainable=True)
+#             self.rff_message = FourierFeatures(2, rff_number_features, sigma=rff_sigma, trainable=True)
+#         else:
+#             self.rff_number_features = 0
+#             self.rff_node = None
+#             self.rff_message = None
+#         self.edge_mode = edge_mode.lower()
+
+
+#         # in_features have to be of the same size as out_features for the time being
+
+#         self.gnn_layers = torch.nn.ModuleList(modules=(GNN_Layer_FS_2D(
+#             in_features=self.hidden_features,
+#             hidden_features=self.hidden_features,
+#             out_features=self.hidden_features,
+#             time_window=self.time_window,
+#             # variables = eq_variables + time
+#             n_variables=len(self.eq_variables) + 1,
+#             rff_message=self.rff_message,
+#             gaussian_sigma=gaussian_sigma
+#         ) for _ in range(self.hidden_layer)))
+
+#         embedding_input_dim = self.time_window + 3 + (2 * self.rff_number_features) + len(self.eq_variables)
+#         self.embedding_mlp = nn.Sequential(
+#             nn.Linear(embedding_input_dim, self.hidden_features),
+#             nn.BatchNorm1d(self.hidden_features),
+#             nn.ReLU(),
+#             nn.Linear(self.hidden_features, self.hidden_features),
+#             nn.BatchNorm1d(self.hidden_features)
+#             # Swish()
+#         )
+
+#         self.output_mlp = nn.Sequential(nn.Conv1d(1, 8, 16, stride=5),
+#                                         # nn.BatchNorm1d(8),
+#                                         nn.ReLU(),
+#                                         nn.Conv1d(8, 1, 14, stride=2)
+
+#                                         )
+        
+#     def __repr__(self):
+#         return f'GNN'
+
+#     def forward(self, data):
+
+#         u = data.x
+#         pos = data.pos
+#         pos_x = pos[:, 1][:, None]/self.pde.Lx
+#         pos_y = pos[:, 2][:, None]/self.pde.Ly
+#         pos_t = pos[:, 0][:, None]/self.pde.tmax
+#         edge_index = data.edge_index
+
+#         batch = data.batch
+#         variables = pos_t    # we put the time as equation variable
+
+#         if self.rff_node:
+#             coord_rff = self.rff_node(torch.cat([pos_x, pos_y, pos_t], dim=-1))
+#             node_input = torch.cat((u, pos_x, pos_y, coord_rff, variables), -1)
+#         else:
+#             node_input = torch.cat((u, pos_x, pos_y, variables), -1)
+
+#         h = self.embedding_mlp(node_input)
+
+#         for i in range(self.hidden_layer):
+#             if self.edge_mode != 'radiusonly':
+#                 if i % 2 == 0:
+#                     current_edge_index = data.edge_index_local
+#                 else:
+#                     current_edge_index = data.edge_index_custom
+#             else:
+#                 current_edge_index = data.edge_index_local
+
+#             # current_edge_index = data.edge_index_custom
+
+#             h = self.gnn_layers[i](
+#                 h, u, pos_x, pos_y, variables, current_edge_index, batch)
+
+#         diff = self.output_mlp(h[:, None]).squeeze(1)
+#         dt = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
+#         dt = torch.cumsum(dt, dim=1)
+#         out = u[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt * diff
+
+#         out_virtual = torch.zeros_like(out)
+#         if self.edge_mode == 'cayley-cgp':
+#             out_real_list = []
+#             out_virtual_list = []
+#             for b in torch.unique(batch):
+#                 idx = (batch == b).nonzero(as_tuple=True)[0]
+#                 out_real_list.append(out[idx][:self.pde.Lx*self.pde.Ly])
+#                 out_virtual_list.append(out[idx][self.pde.Lx*self.pde.Ly:])
+#             out = torch.cat(out_real_list, dim=0)
+#             out_virtual = torch.cat(out_virtual_list, dim=0)
+
+#         return out, out_virtual
+    
+#             # out_virtual = None
+#         # if self.edge_mode == 'cayley-cgp':
+#         #     h_list = []
+#         #     u_list = []
+#         #     h_virtual_list = []
+#         #     u_virtual_list = []
+
+#         #     for b in torch.unique(batch):
+#         #         idx = (batch == b).nonzero(as_tuple=True)[0]
+#         #         h_list.append(h[idx][:self.pde.Lx*self.pde.Ly])
+#         #         u_list.append(u[idx][:self.pde.Lx * self.pde.Ly])
+#         #         h_virtual_list.append(h[idx][self.pde.Lx*self.pde.Ly:])
+#         #         u_virtual_list.append(u[idx][self.pde.Lx*self.pde.Ly:])
+#         #     h_virtual = torch.cat(h_virtual_list, dim=0)
+#         #     u_virtual = torch.cat(u_virtual_list, dim=0)
+#         #     h = torch.cat(h_list, dim=0)
+#         #     u = torch.cat(u_list, dim=0)
+
+#         #     diff_virtual = self.output_mlp(h_virtual[:, None]).squeeze(1)
+#         #     dt_virtual = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
+#         #     dt_virtual = torch.cumsum(dt_virtual, dim=1)
+#         #     out_virtual = u_virtual[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt_virtual * diff_virtual
+
 class NPDE_GNN_FS_2D(torch.nn.Module):
-
-    def __init__(
-            self,
-            pde,
-            time_window=10,
-            hidden_features=128,
-            hidden_layer=6,
-            eq_variables={},
-            random_ff=False,
-            rff_number_features=8,
-            rff_sigma=1.0,
-            gaussian_sigma=0.0,
-            edge_mode='RadiusOnly'
-    ):
+    def __init__(self,
+                 pde,
+                 time_window=10,
+                 hidden_features=128,
+                 hidden_layer=6,
+                 eq_variables={},
+                 random_ff=False,
+                 rff_number_features=8,
+                 rff_sigma=1.0,
+                 gaussian_sigma=0.0,
+                 edge_mode='RadiusOnly'):
         super(NPDE_GNN_FS_2D, self).__init__()
-
         self.pde = pde
         self.out_features = time_window
         self.hidden_features = hidden_features
@@ -157,21 +292,23 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             self.rff_number_features = 0
             self.rff_node = None
             self.rff_message = None
+
         self.edge_mode = edge_mode.lower()
+        # Set extra dimension for edge attributes (1 if using augmented edges)
+        edge_attr_dim = 1 if self.edge_mode != 'radiusonly' else 0
 
-
-        # in_features have to be of the same size as out_features for the time being
-
-        self.gnn_layers = torch.nn.ModuleList(modules=(GNN_Layer_FS_2D(
-            in_features=self.hidden_features,
-            hidden_features=self.hidden_features,
-            out_features=self.hidden_features,
-            time_window=self.time_window,
-            # variables = eq_variables + time
-            n_variables=len(self.eq_variables) + 1,
-            rff_message=self.rff_message,
-            gaussian_sigma=gaussian_sigma
-        ) for _ in range(self.hidden_layer)))
+        self.gnn_layers = torch.nn.ModuleList([
+            GNN_Layer_FS_2D(
+                in_features=self.hidden_features,
+                hidden_features=self.hidden_features,
+                out_features=self.hidden_features,
+                time_window=self.time_window,
+                n_variables=len(self.eq_variables) + 1,
+                edge_attr_dim=edge_attr_dim,
+                rff_message=self.rff_message,
+                gaussian_sigma=gaussian_sigma
+            ) for _ in range(self.hidden_layer)
+        ])
 
         embedding_input_dim = self.time_window + 3 + (2 * self.rff_number_features) + len(self.eq_variables)
         self.embedding_mlp = nn.Sequential(
@@ -180,21 +317,18 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             nn.ReLU(),
             nn.Linear(self.hidden_features, self.hidden_features),
             nn.BatchNorm1d(self.hidden_features)
-            # Swish()
         )
 
-        self.output_mlp = nn.Sequential(nn.Conv1d(1, 8, 16, stride=5),
-                                        # nn.BatchNorm1d(8),
-                                        nn.ReLU(),
-                                        nn.Conv1d(8, 1, 14, stride=2)
+        self.output_mlp = nn.Sequential(
+            nn.Conv1d(1, 8, 16, stride=5),
+            nn.ReLU(),
+            nn.Conv1d(8, 1, 14, stride=2)
+        )
 
-                                        )
-        
     def __repr__(self):
         return f'GNN'
 
     def forward(self, data):
-
         u = data.x
         pos = data.pos
         pos_x = pos[:, 1][:, None]/self.pde.Lx
@@ -213,19 +347,18 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
 
         h = self.embedding_mlp(node_input)
 
+        if self.edge_mode != 'radiusonly':
+            current_edge_index = data.edge_index_custom
+            current_edge_attr = data.edge_attr_custom
+        else:
+            current_edge_index = data.edge_index_local
+            current_edge_attr = data.edge_attr_local  # should be zeros
+
         for i in range(self.hidden_layer):
-            if self.edge_mode != 'radiusonly':
-                if i % 2 == 0:
-                    current_edge_index = data.edge_index_local
-                else:
-                    current_edge_index = data.edge_index_custom
-            else:
-                current_edge_index = data.edge_index_local
-
-            # current_edge_index = data.edge_index_custom
-
             h = self.gnn_layers[i](
-                h, u, pos_x, pos_y, variables, current_edge_index, batch)
+                h, u, pos_x, pos_y, variables, current_edge_index, batch,
+                edge_attr=current_edge_attr
+            )
 
         diff = self.output_mlp(h[:, None]).squeeze(1)
         dt = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
@@ -244,26 +377,3 @@ class NPDE_GNN_FS_2D(torch.nn.Module):
             out_virtual = torch.cat(out_virtual_list, dim=0)
 
         return out, out_virtual
-    
-            # out_virtual = None
-        # if self.edge_mode == 'cayley-cgp':
-        #     h_list = []
-        #     u_list = []
-        #     h_virtual_list = []
-        #     u_virtual_list = []
-
-        #     for b in torch.unique(batch):
-        #         idx = (batch == b).nonzero(as_tuple=True)[0]
-        #         h_list.append(h[idx][:self.pde.Lx*self.pde.Ly])
-        #         u_list.append(u[idx][:self.pde.Lx * self.pde.Ly])
-        #         h_virtual_list.append(h[idx][self.pde.Lx*self.pde.Ly:])
-        #         u_virtual_list.append(u[idx][self.pde.Lx*self.pde.Ly:])
-        #     h_virtual = torch.cat(h_virtual_list, dim=0)
-        #     u_virtual = torch.cat(u_virtual_list, dim=0)
-        #     h = torch.cat(h_list, dim=0)
-        #     u = torch.cat(u_list, dim=0)
-
-        #     diff_virtual = self.output_mlp(h_virtual[:, None]).squeeze(1)
-        #     dt_virtual = (torch.ones(1, self.time_window) * self.pde.dt * 0.1).to(h.device)
-        #     dt_virtual = torch.cumsum(dt_virtual, dim=1)
-        #     out_virtual = u_virtual[:, -1].repeat(self.time_window, 1).transpose(0, 1) + dt_virtual * diff_virtual
