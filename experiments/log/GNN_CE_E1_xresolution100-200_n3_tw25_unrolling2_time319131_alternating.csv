@@ -1,0 +1,7 @@
+Training on dataset data/CE_train_E1.h5
+cuda:0
+models/GNN_CE_E1_xresolution100-200_n3_tw25_unrolling2_time319131_alternating.pt
+Number of parameters: 1031645
+Training started at: 2025-03-19 01:31:06
+Epoch 0
+Starting epoch 0...
