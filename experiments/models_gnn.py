@@ -93,7 +93,8 @@ class MP_PDE_Solver(torch.nn.Module):
                  time_window: int = 25,
                  hidden_features: int = 164,
                  hidden_layer: int = 6,
-                 eq_variables: dict = {}
+                 eq_variables: dict = {},
+                 edge_mode: str = 'RadiusOnly',
     ):
         """
         Initialize MP-PDE solver class.
@@ -116,6 +117,7 @@ class MP_PDE_Solver(torch.nn.Module):
         self.hidden_layer = hidden_layer
         self.time_window = time_window
         self.eq_variables = eq_variables
+        self.edge_mode = edge_mode.lower()
 
         self.gnn_layers = torch.nn.ModuleList(modules=(GNN_Layer(
             in_features=self.hidden_features,
@@ -202,10 +204,13 @@ class MP_PDE_Solver(torch.nn.Module):
         h = self.embedding_mlp(node_input)
 
         for i in range(self.hidden_layer):
-            if i % 2 == 0:
-                current_edge_index = data.edge_index_local
+            if self.edge_mode != 'radiusonly':
+                if i % 2 == 0:
+                    current_edge_index = data.edge_index_local
+                else:
+                    current_edge_index = data.edge_index_custom
             else:
-                current_edge_index = data.edge_index_custom
+                current_edge_index = data.edge_index_local
             h = self.gnn_layers[i](h, u, pos_x, variables, current_edge_index, batch)
 
         # Decoder (formula 10 in the paper)
