@@ -2,8 +2,7 @@
 
 # Grid Engine options (lines prefixed with #$)
 # Runtime limit of 48 hours:
-#$ -l h_rt=47:59:59
-#
+#$ -l h_rt=15:59:00
 # Set working directory to the directory where the job is submitted from:
 #$ -cwd
 #$ -e /exports/eddie/scratch/s2242913/Gnn_Pavel/Graph-Rewired-MP-Neural-PDE-Solvers/eddie_outputs/
@@ -11,7 +10,8 @@
 #
 # Request one GPU in the gpu queue:
 #$ -q gpu
-#$ -pe gpu-a100 1
+#$ -l gpu=1
+#$ -pe sharedmem 4
 #
 # Request 32 GB system RAM
 # the total system RAM available to the job is the value specified here multiplied by 
